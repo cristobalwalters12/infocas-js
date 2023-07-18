@@ -22,10 +22,16 @@ ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale
 export default {
   name: 'Line',
   components: { LineChart },
-  setup() {
+  props: {
+    data: {
+      type: Object,
+      required: true
+    }
+  },
+  setup(props) {
     const store = useStore()
     const chartRef = ref(null)
-    const chartData = computed(() => store.state.chartData)
+    const chartData = computed(() => store.state.chartData || props.data)
     const bgColor = {
       id: 'bgColor',
       beforeDraw: (chart, options) => {

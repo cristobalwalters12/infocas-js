@@ -4,7 +4,7 @@
     <v-row class="d-flex justify-center align-center">
       <v-col cols="10">
         <v-card>
-          <v-card-title primary-title class="large-title bg-grey-lighten-3">
+          <v-card-title primary-title class="large-title bg-grey-lighten-4 p">
             Gráficos de Temperatura y Humedad
           </v-card-title>
           <v-card>
@@ -33,7 +33,7 @@
             </v-row>
             <v-row class="d-flex justify-center">
               <v-col cols="3" class="pb-10">
-                <v-btn color="blue" block rounded="lg" size="x-large" @click="logData"
+                <v-btn color="blue" block rounded="lg" size="x-large" @click="generateGraphs"
                   >Generar Graficos</v-btn
                 >
               </v-col>
@@ -41,7 +41,37 @@
 
             <v-divider></v-divider>
             <v-card-item>
+              <v-card class="bg-grey-lighten-4">
+                <v-card-title primary-title class="large-title pa-3">
+                  <h6>{{ selectedSensorName }}</h6>
+                </v-card-title>
+                <v-card-text>
+                  <v-row>
+                    <v-col cols="3"
+                      ><h3>Temperatura mínima = {{ minTemp }}ºC</h3></v-col
+                    >
+                    <v-col cols="3"
+                      ><h3>Temperatura máxima = {{ maxTemp }}ºC</h3></v-col
+                    >
+                    <v-col cols="3"
+                      ><h3>Humedad mínima = {{ minHum }}%HR</h3></v-col
+                    >
+                    <v-col cols="3"
+                      ><h3>Humedad máxima = {{ maxHum }}%HR</h3></v-col
+                    >
+                  </v-row>
+                </v-card-text>
+              </v-card>
               <chart-infocas />
+            </v-card-item>
+            <v-card-item>
+              <!-- Gráfico de temperatura -->
+              <chart-infocas :data="temperatureData" />
+            </v-card-item>
+
+            <v-card-item>
+              <!-- Gráfico de humedad -->
+              <chart-infocas :data="humidityData" />
             </v-card-item>
           </v-card>
         </v-card>
@@ -49,7 +79,6 @@
     </v-row>
   </v-container>
 </template>
-
 <script>
 import axios from 'axios'
 import ChartInfocas from '../components/ChartInfocas.vue'
@@ -69,12 +98,22 @@ export default {
       startTime: '',
       endTime: '',
       startDateTime: '',
-      endDateTime: ''
+      endDateTime: '',
+      selectedSensorName: '',
+      minTemp: null,
+      maxTemp: null,
+      minHum: null,
+      maxHum: null
     }
   },
   methods: {
+    generateGraphs() {
+      this.selectedSensorName = this.sensorId
+      this.logData()
+      this.getExtremes()
+    },
     logData() {
-      // Crear un objeto de datos a partir de las propiedades reactivas
+      // Código que nos diste para agregar
       const data = {
         sensorId: this.sensorId,
         startDateTime: this.startDateTime,
@@ -94,7 +133,6 @@ export default {
               {
                 label: 'Temperatura',
                 data: temperatureData,
-                // Color y estilo de línea para los datos de temperatura
                 backgroundColor: 'rgba(0, 128, 0, 0.2)',
                 borderColor: 'rgba(0, 128, 0, 1)',
                 borderWidth: 1,
@@ -103,7 +141,6 @@ export default {
               {
                 label: 'Humedad',
                 data: humidityData,
-                // Color y estilo de línea para los datos de humedad
                 backgroundColor: 'rgba(0, 0, 205, 0.2)',
                 borderColor: 'rgba(0, 0, 205, 1)',
                 borderWidth: 1,
@@ -115,6 +152,21 @@ export default {
         .catch((error) => {
           console.error(error)
         })
+    },
+    getExtremes() {
+      axios
+        .post('http://localhost:3000/api/extremes', {
+          sensorId: this.sensorId,
+          startDateTime: this.startDateTime,
+          endDateTime: this.endDateTime
+        })
+        .then((response) => {
+          this.minTemp = response.data.minima_temperatura
+          this.maxTemp = response.data.maxima_temperatura
+          this.minHum = response.data.minima_humedad
+          this.maxHum = response.data.maxima_humedad
+        })
+        .catch((error) => console.error(error))
     }
   },
   watch: {
@@ -138,6 +190,7 @@ export default {
   }
 }
 </script>
+
 <style scoped>
 .large-title {
   font-size: 2em;

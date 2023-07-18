@@ -68,6 +68,27 @@ app.post("/api/query", (req, res) => {
     res.json(results);
   });
 });
+app.post("/api/extremes", (req, res) => {
+  const { sensorId, startDateTime, endDateTime } = req.body;
+
+  const sql = `
+    SELECT ROUND(MIN(temperatura),2) as minima_temperatura,
+           ROUND(MAX(temperatura),2) as maxima_temperatura,
+           ROUND(MIN(humedad),2) as minima_humedad,
+           ROUND(MAX(humedad),2) as maxima_humedad
+    FROM sensores INNER JOIN nombres_sensores ON nombres_sensores.id_sensor = sensores.id_sensor 
+    WHERE nombres_sensores.nombre_sensor = ? 
+      AND CONCAT(fecha, ' ', hora) BETWEEN ? AND ?
+    ORDER BY fecha, hora ASC
+  `;
+
+  const data = [sensorId, startDateTime, endDateTime];
+
+  db.query(sql, data, (err, results) => {
+    if (err) throw err;
+    res.json(results[0]); // Devuelve solo el primer elemento, ya que esperamos una sola fila de resultado.
+  });
+});
 
 app.post("/api/user", (req, res) => {
   const user = req.body;
