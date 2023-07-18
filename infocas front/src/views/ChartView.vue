@@ -53,6 +53,7 @@
 <script>
 import axios from 'axios'
 import ChartInfocas from '../components/ChartInfocas.vue'
+import moment from 'moment'
 
 export default {
   name: 'ChartView',
@@ -73,17 +74,47 @@ export default {
   },
   methods: {
     logData() {
+      // Crear un objeto de datos a partir de las propiedades reactivas
       const data = {
         sensorId: this.sensorId,
         startDateTime: this.startDateTime,
         endDateTime: this.endDateTime
       }
-
-      console.log(JSON.stringify(data))
-
-      axios.post('http://localhost:3000/api/query', data).then((response) => {
-        console.log(response.data)
-      })
+      axios
+        .post('http://localhost:3000/api/query', data)
+        .then((response) => {
+          const labels = response.data.map(
+            (item) => moment(item.fecha).format('YYYY-MM-DD') + ' ' + item.hora
+          )
+          const temperatureData = response.data.map((item) => item.temperatura)
+          const humidityData = response.data.map((item) => item.humedad)
+          this.$store.commit('UPDATE_CHART_DATA', {
+            labels,
+            datasets: [
+              {
+                label: 'Temperatura',
+                data: temperatureData,
+                // Color y estilo de línea para los datos de temperatura
+                backgroundColor: 'rgba(0, 128, 0, 0.2)',
+                borderColor: 'rgba(0, 128, 0, 1)',
+                borderWidth: 1,
+                yAxisID: 'y'
+              },
+              {
+                label: 'Humedad',
+                data: humidityData,
+                // Color y estilo de línea para los datos de humedad
+                backgroundColor: 'rgba(0, 0, 205, 0.2)',
+                borderColor: 'rgba(0, 0, 205, 1)',
+                borderWidth: 1,
+                yAxisID: 'y2'
+              }
+            ]
+          })
+        })
+        .catch((error) => {
+          console.error(error)
+        })
     }
   },
   watch: {
