@@ -89,10 +89,10 @@
                 <v-card-text>
                   <v-row>
                     <v-col cols="3"
-                      ><h3>Temperatura mínima = {{ minTemp }}ºC</h3></v-col
+                      ><h3>Humedad mínima = {{ minHum }}%HR</h3></v-col
                     >
                     <v-col cols="3"
-                      ><h3>Temperatura máxima = {{ maxTemp }}ºC</h3></v-col
+                      ><h3>Humedad máxima = {{ maxHum }}%HR</h3></v-col
                     >
                   </v-row>
                 </v-card-text>
