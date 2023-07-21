@@ -62,16 +62,42 @@
                   </v-row>
                 </v-card-text>
               </v-card>
-              <chart-infocas />
-            </v-card-item>
-            <v-card-item>
-              <!-- Gráfico de temperatura -->
-              <chart-infocas :data="temperatureData" />
-            </v-card-item>
+              <chart-infocas class="mb-8" />
+              <v-divider></v-divider>
+              <v-card class="bg-grey-lighten-4 pt">
+                <v-card-title primary-title class="large-title pa-3">
+                  <h6>{{ selectedSensorName }}</h6>
+                </v-card-title>
+                <v-card-text>
+                  <v-row>
+                    <v-col cols="3"
+                      ><h3>Temperatura mínima = {{ minTemp }}ºC</h3></v-col
+                    >
+                    <v-col cols="3"
+                      ><h3>Temperatura máxima = {{ maxTemp }}ºC</h3></v-col
+                    >
+                  </v-row>
+                </v-card-text>
+              </v-card>
+              <TemperatureChart class="mb-8" />
 
-            <v-card-item>
-              <!-- Gráfico de humedad -->
-              <chart-infocas :data="humidityData" />
+              <v-divider></v-divider>
+              <v-card class="bg-grey-lighten-4 pt">
+                <v-card-title primary-title class="large-title pa-3">
+                  <h6>{{ selectedSensorName }}</h6>
+                </v-card-title>
+                <v-card-text>
+                  <v-row>
+                    <v-col cols="3"
+                      ><h3>Temperatura mínima = {{ minTemp }}ºC</h3></v-col
+                    >
+                    <v-col cols="3"
+                      ><h3>Temperatura máxima = {{ maxTemp }}ºC</h3></v-col
+                    >
+                  </v-row>
+                </v-card-text>
+              </v-card>
+              <HumidityChart class="mb-8" />
             </v-card-item>
           </v-card>
         </v-card>
@@ -82,12 +108,21 @@
 <script>
 import axios from 'axios'
 import ChartInfocas from '../components/ChartInfocas.vue'
+import TemperatureChart from '../components/TemperatureChart.vue'
+import HumidityChart from '../components/HumidityChart.vue'
 import moment from 'moment'
 
 export default {
   name: 'ChartView',
   components: {
-    ChartInfocas
+    ChartInfocas,
+    TemperatureChart,
+    HumidityChart
+  },
+  computed: {
+    chartData() {
+      return this.$store.state.chartData
+    }
   },
   data() {
     return {
@@ -145,6 +180,32 @@ export default {
                 borderColor: 'rgba(0, 0, 205, 1)',
                 borderWidth: 1,
                 yAxisID: 'y2'
+              }
+            ]
+          })
+          this.$store.commit('UPDATE_TEMPERATURE_DATA', {
+            labels,
+            datasets: [
+              {
+                label: 'Temperatura',
+                data: temperatureData,
+                backgroundColor: 'rgba(0, 128, 0, 0.2)',
+                borderColor: 'rgba(0, 128, 0, 1)',
+                borderWidth: 1,
+                yAxisID: 'y'
+              }
+            ]
+          })
+          this.$store.commit('UPDATE_HUMIDITY_DATA', {
+            labels,
+            datasets: [
+              {
+                label: 'Humedad',
+                data: humidityData,
+                backgroundColor: 'rgba(0, 0, 205, 0.2)',
+                borderColor: 'rgba(0, 0, 205, 1)',
+                borderWidth: 1,
+                yAxisID: 'y'
               }
             ]
           })

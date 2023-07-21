@@ -22,25 +22,11 @@ ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale
 export default {
   name: 'Line',
   components: { LineChart },
-  props: {
-    data: {
-      type: Object,
-      required: true
-    }
-  },
+
   setup(props) {
     const store = useStore()
     const chartRef = ref(null)
-    const chartData = computed(() => store.state.chartData || props.data)
-    const bgColor = {
-      id: 'bgColor',
-      beforeDraw: (chart, options) => {
-        const { ctx, width, height } = chart
-        ctx.fillStyle = 'white'
-        ctx.fillRect(0, 0, width, height)
-        ctx.restore()
-      }
-    }
+    const chartData = computed(() => store.state.chartData)
     const chartOptions = {
       responsive: true,
       scales: {
@@ -54,7 +40,7 @@ export default {
           type: 'linear',
           position: 'right',
           grid: {
-            drawOnChartArea: false // Solo se quieren las líneas de cuadrícula para un eje
+            drawOnChartArea: false
           }
         }
       }
