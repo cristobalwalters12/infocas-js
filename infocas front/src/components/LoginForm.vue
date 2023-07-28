@@ -20,6 +20,9 @@
                 label="Usuario"
                 required
                 v-fade-in="0.6"
+                :error-messages="correoError"
+                :modelValue="correo"
+                @update:modelValue="(newVal) => (correo = newVal)"
               ></v-text-field>
               <v-text-field
                 v-model="password"
@@ -31,11 +34,14 @@
                 counter
                 @click:append="show = !show"
                 v-fade-in="0.7"
+                :error-messages="passwordError"
+                :modelValue="password"
+                @update:modelValue="(newVal) => (password = newVal)"
               ></v-text-field>
             </v-form>
           </v-card-text>
           <v-card-actions class="justify-center">
-            <v-btn large class="custom-button" v-fade-in="0.8">Entrar</v-btn>
+            <v-btn large class="custom-button fadeInDown.fourth" @click="submit">Entrar</v-btn>
           </v-card-actions>
         </v-card>
       </v-container>
@@ -44,14 +50,12 @@
 </template>
 
 <script>
+import { ref } from 'vue'
+import axios from 'axios'
 import { useRouter } from 'vue-router'
+axios.defaults.withCredentials = true
 
 export default {
-  data: () => ({
-    correo: '',
-    password: '',
-    show: false
-  }),
   directives: {
     fadeIn(el, binding) {
       let delay = binding.value ? binding.value : 0
@@ -60,23 +64,49 @@ export default {
       setTimeout(() => (el.style.opacity = 1), delay * 1000)
     }
   },
-  methods: {
-    submit() {
-      // Si la validación es exitosa, puedes enviar los datos de inicio de sesión a tu servidor aquí
-      // Tu lógica de inicio de sesión irá aquí
+  setup() {
+    const correo = ref('')
+    const password = ref('')
+    const correoError = ref('')
+    const passwordError = ref('')
+    const show = ref(false)
+    const router = useRouter()
 
-      const router = useRouter()
-
-      // Comprobamos si el correo y la contraseña no están vacíos
-      if (this.correo && this.password) {
-        // Si no están vacíos, redirigimos al usuario a /chart
-        router.push('/chart')
+    const submit = async () => {
+      if (correo.value && password.value) {
+        try {
+          const response = await axios.post('http://localhost:3000/api/login', {
+            correo: correo.value,
+            contraseña: password.value
+          })
+          // Guardar el token en localStorage
+          localStorage.setItem('user-token', response.data.token)
+          // Redireccionar al usuario a la página principal
+          await router.push('/chart')
+        } catch (error) {
+          // Manejo de errores
+          if (error.response) {
+            console.error('Error', error.response.data)
+          } else if (error.request) {
+            console.error('Error', error.request)
+          } else {
+            console.error('Error', error.message)
+          }
+        }
       }
+    }
+
+    return {
+      correo,
+      password,
+      correoError,
+      passwordError,
+      show,
+      submit
     }
   }
 }
 </script>
-
 <style scoped>
 .wrapper {
   display: flex;
