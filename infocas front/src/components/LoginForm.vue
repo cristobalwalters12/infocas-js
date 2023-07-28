@@ -43,6 +43,7 @@
           <v-card-actions class="justify-center">
             <v-btn large class="custom-button fadeInDown.fourth" @click="submit">Entrar</v-btn>
           </v-card-actions>
+          <v-alert v-if="alert.show" :type="alert.type">{{ alert.message }}</v-alert>
         </v-card>
       </v-container>
     </v-main>
@@ -71,28 +72,44 @@ export default {
     const passwordError = ref('')
     const show = ref(false)
     const router = useRouter()
+    const alert = ref({ show: false, message: '', type: 'error' })
 
     const submit = async () => {
+      // resetear los mensajes de error antes de cada intento de inicio de sesión
+      correoError.value = ''
+      passwordError.value = ''
+      alert.value.show = false
+
       if (correo.value && password.value) {
         try {
           const response = await axios.post('http://localhost:3000/api/login', {
             correo: correo.value,
             contraseña: password.value
           })
-          // Guardar el token en localStorage
+          // Si el inicio de sesión es exitoso, guardar el token en localStorage
           localStorage.setItem('user-token', response.data.token)
           // Redireccionar al usuario a la página principal
           await router.push('/chart')
         } catch (error) {
           // Manejo de errores
-          if (error.response) {
-            console.error('Error', error.response.data)
-          } else if (error.request) {
-            console.error('Error', error.request)
+          if (error.response && error.response.status === 401) {
+            // Si el error es un 401 (no autorizado), mostrar un error de inicio de sesión
+            alert.value.show = true
+            alert.value.message = 'Correo o contraseña incorrectos'
+            alert.value.type = 'error'
           } else {
+            // Si el error es distinto de 401, manejarlo de manera genérica
             console.error('Error', error.message)
+            alert.value.show = true
+            alert.value.message = 'Error desconocido. Por favor, intente nuevamente.'
+            alert.value.type = 'error'
           }
         }
+      } else {
+        // Si el usuario no llena todos los campos, mostrar un error
+        alert.value.show = true
+        alert.value.message = 'Por favor rellene todos los campos'
+        alert.value.type = 'error'
       }
     }
 
@@ -102,7 +119,8 @@ export default {
       correoError,
       passwordError,
       show,
-      submit
+      submit,
+      alert
     }
   }
 }
