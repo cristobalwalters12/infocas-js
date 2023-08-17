@@ -16,9 +16,23 @@ const limiter = rateLimit({
 
 app.use(limiter);
 
+const allowedOrigins = ["http://localhost:5173", "http://192.168.100.21:5173"];
+
 app.use(
   cors({
-    origin: "http://localhost:5173",
+    origin: function (origin, callback) {
+      // Si origin es undefined (por ejemplo, en caso de solicitudes desde Postman o CURL), simplemente permitir
+      if (!origin) return callback(null, true);
+
+      // Comprobar si la dirección de origen está en la lista de direcciones permitidas
+      if (allowedOrigins.indexOf(origin) === -1) {
+        const errMsg =
+          "La política de CORS para este sitio no permite el acceso desde el origen específico.";
+        return callback(new Error(errMsg), false);
+      }
+
+      return callback(null, true);
+    },
     credentials: true,
   })
 );
@@ -200,6 +214,6 @@ app.post("/api/login", (req, res) => {
   });
 });
 
-app.listen(port, () => {
+app.listen(port, "0.0.0.0", () => {
   console.log(`Server listening at http://localhost:${port}`);
 });
