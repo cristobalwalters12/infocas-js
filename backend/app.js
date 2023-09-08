@@ -21,16 +21,12 @@ const allowedOrigins = ["http://localhost:5173", "http://192.168.100.21:5173"];
 app.use(
   cors({
     origin: function (origin, callback) {
-      // Si origin es undefined (por ejemplo, en caso de solicitudes desde Postman o CURL), simplemente permitir
       if (!origin) return callback(null, true);
-
-      // Comprobar si la dirección de origen está en la lista de direcciones permitidas
       if (allowedOrigins.indexOf(origin) === -1) {
         const errMsg =
           "La política de CORS para este sitio no permite el acceso desde el origen específico.";
         return callback(new Error(errMsg), false);
       }
-
       return callback(null, true);
     },
     credentials: true,
@@ -44,17 +40,14 @@ app.use((err, req, res, next) => {
 
 app.use(express.json());
 
-const db = mysql.createConnection({
+// Creación del pool de conexiones
+const pool = mysql.createPool({
   host: "mysql-60148-0.cloudclusters.net",
   port: 18705,
   user: "root",
   password: "12345678",
   database: "respaldo",
-});
-
-db.connect((err) => {
-  if (err) throw err;
-  console.log("Connected to database");
+  connectionLimit: 10,
 });
 
 app.get("/", (req, res) => {
@@ -81,8 +74,7 @@ const verifyToken = (req, res, next) => {
 
 app.get("/api/data", verifyToken, (req, res) => {
   const sql = "SELECT * FROM usuario";
-
-  db.query(sql, (err, results) => {
+  pool.query(sql, (err, results) => {
     if (err) {
       console.error(err);
       res.status(500).json({ message: "Internal server error" });
@@ -91,12 +83,11 @@ app.get("/api/data", verifyToken, (req, res) => {
     res.json(results);
   });
 });
-
 app.get("/api/nombre", (req, res) => {
   const sql =
     "SELECT * FROM nombres_sensores ORDER BY RIGHT(nombre_sensor ,4)ASC";
 
-  db.query(sql, (err, results) => {
+  pool.query(sql, (err, results) => {
     if (err) {
       console.error(err);
       res.status(500).json({ message: "Internal server error" });
@@ -109,7 +100,7 @@ app.get("/api/nombre", (req, res) => {
 app.get("/api/sensores", (req, res) => {
   const sql = "SELECT * FROM sensores ";
 
-  db.query(sql, (err, results) => {
+  pool.query(sql, (err, results) => {
     if (err) {
       console.error(err);
       res.status(500).json({ message: "Internal server error" });
@@ -131,7 +122,7 @@ app.post("/api/query", verifyToken, (req, res) => {
 
   const data = [sensorId, startDateTime, endDateTime];
 
-  db.query(sql, data, (err, results) => {
+  pool.query(sql, data, (err, results) => {
     if (err) {
       console.error(err);
       res.status(500).json({ message: "Internal server error" });
@@ -157,7 +148,7 @@ app.post("/api/extremes", verifyToken, (req, res) => {
 
   const data = [sensorId, startDateTime, endDateTime];
 
-  db.query(sql, data, (err, results) => {
+  pool.query(sql, data, (err, results) => {
     if (err) {
       console.error(err);
       res.status(500).json({ message: "Internal server error" });
@@ -172,7 +163,7 @@ app.post("/api/user", (req, res) => {
 
   const sql = "INSERT INTO usuario SET ?";
 
-  db.query(sql, user, (err, result) => {
+  pool.query(sql, user, (err, result) => {
     if (err) {
       console.error(err);
       res.status(500).json({ message: "Internal server error" });
@@ -187,7 +178,7 @@ app.post("/api/login", (req, res) => {
 
   const sql = "SELECT * FROM usuario WHERE correo = ? AND contraseña = ?";
 
-  db.query(sql, [correo, contraseña], (err, results) => {
+  pool.query(sql, [correo, contraseña], (err, results) => {
     if (err) {
       console.error(err);
       res.status(500).json({ message: "Internal server error" });
