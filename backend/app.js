@@ -6,6 +6,7 @@ const port = 3000;
 const jwt = require("jsonwebtoken");
 const helmet = require("helmet");
 const rateLimit = require("express-rate-limit");
+require("dotenv").config();
 
 app.use(helmet());
 
@@ -42,11 +43,11 @@ app.use(express.json());
 
 // Creación del pool de conexiones
 const pool = mysql.createPool({
-  host: "mysql-60148-0.cloudclusters.net",
-  port: 18705,
-  user: "root",
-  password: "12345678",
-  database: "respaldo",
+  host: process.env.DB_HOST,
+  port: process.env.DB_PORT,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
   connectionLimit: 10,
 });
 

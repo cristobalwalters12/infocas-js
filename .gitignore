@@ -9,6 +9,7 @@ lerna-debug.log*
 
 # Carpeta node_modules dentro de "backend"
 backend/node_modules/
+backend/.env
 
 # Carpeta node_modules en la raíz del proyecto
 node_modules
