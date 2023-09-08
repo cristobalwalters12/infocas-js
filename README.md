@@ -36,5 +36,7 @@ El frontend, construido con Vue.js y Vuetify, ofrece una experiencia interactiva
 - **Axios**: Librería para realizar peticiones HTTP.
 - **Moment.js**: Herramienta para el manejo y formateo de fechas.
 - **Vuex**: Sistema de gestión de estado para Vue.js.
+-  **Chart.js**: para visualizacion de graficos
+-  **Vue Router**: navegacion entre rutas en Vue
 
 ---
