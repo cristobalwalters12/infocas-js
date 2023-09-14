@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { ref, watchEffect, computed } from 'vue'
+import { computed } from 'vue'
 import { useStore } from 'vuex'
 import Chart from 'chart.js/auto'
 import { Line as LineChart } from 'vue-chartjs'

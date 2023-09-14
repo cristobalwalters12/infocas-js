@@ -161,7 +161,7 @@ export default {
           )
           const temperatureData = response.data.map((item) => item.temperatura)
           const humidityData = response.data.map((item) => item.humedad)
-          this.$store.commit('UPDATE_CHART_DATA', {
+          this.$store.dispatch('updateChartData', {
             labels,
             datasets: [
               {
@@ -182,7 +182,7 @@ export default {
               }
             ]
           })
-          this.$store.commit('UPDATE_TEMPERATURE_DATA', {
+          this.$store.dispatch('updateTemperatureData', {
             labels,
             datasets: [
               {
@@ -195,7 +195,7 @@ export default {
               }
             ]
           })
-          this.$store.commit('UPDATE_HUMIDITY_DATA', {
+          this.$store.dispatch('updateHumidityData', {
             labels,
             datasets: [
               {
