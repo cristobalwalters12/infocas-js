@@ -5,17 +5,10 @@ const app = express();
 const port = 3000;
 const jwt = require("jsonwebtoken");
 const helmet = require("helmet");
-const rateLimit = require("express-rate-limit");
+
 require("dotenv").config();
 
 app.use(helmet());
-
-const limiter = rateLimit({
-  windowMs: 15 * 60 * 1000, // 15 minutes
-  max: 100, // limit each IP to 100 requests per windowMs
-});
-
-app.use(limiter);
 
 const allowedOrigins = ["http://localhost:5173", "http://192.168.100.21:5173"];
 

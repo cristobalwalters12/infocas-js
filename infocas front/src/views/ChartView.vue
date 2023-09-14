@@ -1,5 +1,5 @@
 <template>
-  <v-container class="text-start">hola qui va la foto</v-container>
+  <v-container class="text-start"></v-container>
   <v-container fluid>
     <v-row class="d-flex justify-center align-center">
       <v-col cols="10">
