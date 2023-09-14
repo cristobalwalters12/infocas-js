@@ -82,7 +82,7 @@ export default {
 
       if (correo.value && password.value) {
         try {
-          const response = await axios.post('http://192.168.100.21:3000/api/login', {
+          const response = await axios.post('http://localhost:3000/api/login', {
             correo: correo.value,
             contraseña: password.value
           })

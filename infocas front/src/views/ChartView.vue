@@ -155,7 +155,7 @@ export default {
         endDateTime: this.endDateTime
       }
       axios
-        .post('http://192.168.100.21:3000/api/query', data)
+        .post('http://localhost:3000/api/query', data)
         .then((response) => {
           const labels = response.data.map(
             (item) => moment(item.fecha).format('YYYY-MM-DD') + ' ' + item.hora
@@ -216,7 +216,7 @@ export default {
     },
     getExtremes() {
       axios
-        .post('http://192.168.100.21:3000/api/extremes', {
+        .post('http://localhost:3000/api/extremes', {
           sensorId: this.sensorId,
           startDateTime: this.startDateTime,
           endDateTime: this.endDateTime
@@ -245,7 +245,7 @@ export default {
     }
   },
   mounted() {
-    axios.get('http://192.168.100.21:3000/api/nombre').then((response) => {
+    axios.get('http://localhost:3000/api/nombre').then((response) => {
       this.sensorNames = response.data.map((item) => item.nombre_sensor)
     })
   }

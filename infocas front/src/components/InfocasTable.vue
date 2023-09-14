@@ -38,7 +38,7 @@ export default {
       endDateTime: this.endDateTime
     }
     axios
-      .post('http://192.168.100.21:3000/api/query', data)
+      .post('http://localhost:3000/api/query', data)
       .then((response) => {
         this.items = response.data
       })
