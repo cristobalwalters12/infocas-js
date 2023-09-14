@@ -3,7 +3,7 @@
 </template>
 
 <script>
-import { ref, watchEffect, computed } from 'vue'
+import { computed } from 'vue'
 import { useStore } from 'vuex'
 import Chart from 'chart.js/auto'
 import { Line as LineChart } from 'vue-chartjs'
@@ -21,7 +21,7 @@ import annotationPlugin from 'chartjs-plugin-annotation'
 ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, annotationPlugin)
 
 export default {
-  name: 'AnotherChart',
+  name: 'TemperatureChart',
   components: { LineChart },
 
   setup() {

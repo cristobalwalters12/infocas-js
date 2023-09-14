@@ -20,7 +20,7 @@ import {
 ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale)
 
 export default {
-  name: 'Line',
+  name: 'ChartInfocas',
   components: { LineChart },
 
   setup(props) {

@@ -148,7 +148,6 @@ export default {
       this.getExtremes()
     },
     logData() {
-      // Código que nos diste para agregar
       const data = {
         sensorId: this.sensorId,
         startDateTime: this.startDateTime,
