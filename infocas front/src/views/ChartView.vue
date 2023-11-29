@@ -149,12 +149,13 @@ export default {
     },
     logData() {
       const data = {
-        sensorId: this.sensorId,
-        startDateTime: this.startDateTime,
-        endDateTime: this.endDateTime
+        nombreSensor: this.sensorId,
+      startDateTime: this.startDateTime,
+      endDateTime: this.endDateTime
       }
+      console.log(data)
       axios
-        .post('http://localhost:3000/api/query', data)
+        .post('http://localhost:3000/sensores/find', data)
         .then((response) => {
           const labels = response.data.map(
             (item) => moment(item.fecha).format('YYYY-MM-DD') + ' ' + item.hora
@@ -214,20 +215,20 @@ export default {
         })
     },
     getExtremes() {
-      axios
-        .post('http://localhost:3000/api/extremes', {
-          sensorId: this.sensorId,
-          startDateTime: this.startDateTime,
-          endDateTime: this.endDateTime
-        })
-        .then((response) => {
-          this.minTemp = response.data.minima_temperatura
-          this.maxTemp = response.data.maxima_temperatura
-          this.minHum = response.data.minima_humedad
-          this.maxHum = response.data.maxima_humedad
-        })
-        .catch((error) => console.error(error))
-    }
+  axios
+    .post('http://localhost:3000/sensores/findMinMax', {
+      nombreSensor: this.sensorId,
+      startDateTime: this.startDateTime,
+      endDateTime: this.endDateTime
+    })
+    .then((response) => {
+      this.minTemp = response.data.minima_temperatura
+      this.maxTemp = response.data.maxima_temperatura
+      this.minHum = response.data.minima_humedad
+      this.maxHum = response.data.maxima_humedad
+    })
+    .catch((error) => console.error(error))
+}
   },
   watch: {
     startDate: function (newVal, oldVal) {
@@ -244,7 +245,7 @@ export default {
     }
   },
   mounted() {
-    axios.get('http://localhost:3000/api/nombre').then((response) => {
+    axios.get('http://localhost:3000/nombre_sensores').then((response) => {
       this.sensorNames = response.data.map((item) => item.nombre_sensor)
     })
   }
