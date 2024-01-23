@@ -82,9 +82,9 @@ export default {
 
       if (correo.value && password.value) {
         try {
-          const response = await axios.post('http://127.0.0.1:8000/api/firebase-login', {
+          const response = await axios.post('http://127.0.0.1:3000/usuario/login', {
             correo: correo.value,
-            password: password.value
+            contraseña: password.value
           })
           // Si el inicio de sesión es exitoso, guardar el token en localStorage
           localStorage.setItem('user-token', response.data.token)

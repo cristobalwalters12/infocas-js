@@ -2,7 +2,7 @@ const express = require("express");
 const mysql = require("mysql");
 const cors = require("cors");
 const app = express();
-const port = 3000;
+const port = 4000;
 const jwt = require("jsonwebtoken");
 const helmet = require("helmet");
 
@@ -126,7 +126,7 @@ app.post("/api/query", verifyToken, (req, res) => {
   });
 });
 
-app.post("/api/extremes", verifyToken, (req, res) => {
+app.post("/api/extremes", (req, res) => {
   const { sensorId, startDateTime, endDateTime } = req.body;
 
   const sql = `

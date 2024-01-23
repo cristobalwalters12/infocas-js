@@ -11,7 +11,7 @@
             <v-row class="pt-7">
               <v-col cols="12" xs="12" md="4" lg="4" class="pl-7 pr-7">
                 <h3>Sensor</h3>
-                <v-select v-model="sensorId" label="Seleccione" :items="sensorNames"></v-select>
+                <v-select v-model="sensorName" label="Seleccione" :items="sensorNames"></v-select>
               </v-col>
               <v-col cols="12" xs="12" md="4" lg="2" class="pl-7 pr-7">
                 <h3>Desde</h3>
@@ -127,7 +127,7 @@ export default {
   data() {
     return {
       sensorNames: [],
-      sensorId: null,
+      sensorName: '',
       startDate: '',
       endDate: '',
       startTime: '',
@@ -143,19 +143,19 @@ export default {
   },
   methods: {
     generateGraphs() {
-      this.selectedSensorName = this.sensorId
+      this.selectedSensorName = this.sensorName
       this.logData()
       this.getExtremes()
     },
     logData() {
       const data = {
-        nombreSensor: this.sensorId,
-      startDateTime: this.startDateTime,
-      endDateTime: this.endDateTime
+        nombreSensor: this.sensorName,
+        startDateTime: this.startDateTime,
+        endDateTime: this.endDateTime
       }
       console.log(data)
       axios
-        .post('http://localhost:3000/sensores/find', data)
+        .post('http://localhost:3000/sensores/range-information', data)
         .then((response) => {
           const labels = response.data.map(
             (item) => moment(item.fecha).format('YYYY-MM-DD') + ' ' + item.hora
@@ -215,21 +215,22 @@ export default {
         })
     },
     getExtremes() {
-  axios
-    .post('http://localhost:3000/sensores/findMinMax', {
-      nombreSensor: this.sensorId,
-      startDateTime: this.startDateTime,
-      endDateTime: this.endDateTime
-    })
-    .then((response) => {
-      this.minTemp = response.data.minima_temperatura
-      this.maxTemp = response.data.maxima_temperatura
-      this.minHum = response.data.minima_humedad
-      this.maxHum = response.data.maxima_humedad
-    })
-    .catch((error) => console.error(error))
-}
-  },
+      axios
+        .post('http://localhost:3000/sensores/temperature-information', {
+          nombreSensor: this.sensorName,
+          startDateTime: this.startDateTime,
+          endDateTime: this.endDateTime
+        })
+        
+        .then((response) => {
+          this.minTemp = response.data[0].minima_temperatura;
+          this.maxTemp = response.data[0].maxima_temperatura;
+          this.minHum = response.data[0].minima_humedad;
+          this.maxHum = response.data[0].maxima_humedad;
+        })
+        .catch((error) => console.error(error))
+    }
+},
   watch: {
     startDate: function (newVal, oldVal) {
       this.startDateTime = this.startDate + ' ' + this.startTime
@@ -245,7 +246,7 @@ export default {
     }
   },
   mounted() {
-    axios.get('http://localhost:3000/nombre_sensores').then((response) => {
+    axios.get('http://127.0.0.1:3000/nombres-sensores').then((response) => {
       this.sensorNames = response.data.map((item) => item.nombre_sensor)
     })
   }
