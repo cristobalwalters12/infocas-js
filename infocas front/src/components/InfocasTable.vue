@@ -1,5 +1,5 @@
 <template>
-  <v-expansion-panels>
+  <v-expansion-panels v-model="panel">
     <v-expansion-panel>
     <v-expansion-panel-title>
       <h3 v-if="nombreSensor">Tabla de datos de {{ nombreSensor }}</h3>
@@ -41,6 +41,7 @@ export default {
   props: ['nombreSensor', 'startDateTime', 'endDateTime'],
   data() {
     return {
+      panel: [0],
       items: []
     }
   },

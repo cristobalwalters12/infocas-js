@@ -62,7 +62,7 @@
                   </v-row>
                 </v-card-text>
               </v-card>
-              <chart-infocas class="mb-8" />
+              <chart-infocas v-if="isChartDataAvailable" class="mb-8" />
               <v-divider></v-divider>
               <v-card class="bg-grey-lighten-4 pt">
                 <v-card-title primary-title class="large-title pa-3">
@@ -79,7 +79,7 @@
                   </v-row>
                 </v-card-text>
               </v-card>
-              <TemperatureChart class="mb-8" />
+              <TemperatureChart v-if="isTemperatureDataAvailable" class="mb-8" />
 
               <v-divider></v-divider>
               <v-card class="bg-grey-lighten-4 pt">
@@ -97,7 +97,7 @@
                   </v-row>
                 </v-card-text>
               </v-card>
-              <HumidityChart class="mb-8" />
+              <HumidityChart v-if="isHumidityDataAvailable" class="mb-8" />
               <v-divider></v-divider>
               <v-card>
                 <InfocasTable
@@ -132,7 +132,14 @@ export default {
   computed: {
     chartData() {
       return this.$store.state.chartData
+    },
+    temperatureData() {
+      return this.$store.state.temperatureData
+    },
+    humidityData(){
+      return this.$store.state.humidityData
     }
+
   },
   data() {
     return {
@@ -148,7 +155,10 @@ export default {
       minTemp: null,
       maxTemp: null,
       minHum: null,
-      maxHum: null
+      maxHum: null,
+      isChartDataAvailable: false,
+      isTemperatureDataAvailable: false,
+      isHumidityDataAvailable: false,
     }
   },
   methods: {
@@ -156,6 +166,15 @@ export default {
       this.selectedSensorName = this.sensorName
       this.logData()
       this.getExtremes()
+      if(this.chartData) {
+        this.isChartDataAvailable = true
+      }
+      if(this.temperatureData) {
+        this.isTemperatureDataAvailable = true
+      }
+      if(this.humidityData) {
+        this.isHumidityDataAvailable = true
+      }
     },
     logData() {
       const data = {
