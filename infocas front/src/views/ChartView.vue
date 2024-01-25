@@ -105,7 +105,6 @@
                   :startDateTime="startDateTime"
                   :endDateTime="endDateTime"  />
               </v-card>
-
             </v-card-item>
           </v-card>
         </v-card>
