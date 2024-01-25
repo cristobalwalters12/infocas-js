@@ -98,6 +98,14 @@
                 </v-card-text>
               </v-card>
               <HumidityChart class="mb-8" />
+              <v-divider></v-divider>
+              <v-card>
+                <InfocasTable
+                  :nombreSensor="sensorName"
+                  :startDateTime="startDateTime"
+                  :endDateTime="endDateTime"  />
+              </v-card>
+
             </v-card-item>
           </v-card>
         </v-card>
@@ -110,6 +118,7 @@ import axios from 'axios'
 import ChartInfocas from '../components/ChartInfocas.vue'
 import TemperatureChart from '../components/TemperatureChart.vue'
 import HumidityChart from '../components/HumidityChart.vue'
+import InfocasTable from '../components/InfocasTable.vue'
 import moment from 'moment'
 
 export default {
@@ -117,7 +126,8 @@ export default {
   components: {
     ChartInfocas,
     TemperatureChart,
-    HumidityChart
+    HumidityChart,
+    InfocasTable
   },
   computed: {
     chartData() {

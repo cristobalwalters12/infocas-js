@@ -43,8 +43,8 @@ export default {
           annotations: [
             {
               type: 'line',
-              yMin: 60,
-              yMax: 60,
+              yMin: 65,
+              yMax: 65,
               borderColor: 'rgb(255, 0, 0)',
               borderWidth: 2
             }
