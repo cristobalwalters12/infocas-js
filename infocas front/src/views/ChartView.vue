@@ -3,6 +3,7 @@
   <v-container fluid>
     <v-row class="d-flex justify-center align-center">
       <v-col cols="10">
+        <img :src="imagenEnterprice" alt="Bago" class="ml-5" style="width: 200px; height: 100px;">
         <v-card>
           <v-card-title primary-title class="large-title bg-grey-lighten-4 pa-6">
             Gráficos de Temperatura y Humedad
@@ -36,6 +37,11 @@
                 <v-btn color="pink-darken-4" block rounded="lg" size="x-large" @click="generateGraphs"
                   >Generar Graficos</v-btn
                 >
+              </v-col>
+            </v-row>
+            <v-row class="d-flex justify-center" v-if="info">
+              <v-col cols="6" class="pb-5">
+                <v-alert type="info"  text="Para mostrar los gráficos y la tabla de datos del sensor, se deben rellenar los campos." variant="tonal" color="pink-darken-4"></v-alert>
               </v-col>
             </v-row>
 
@@ -119,6 +125,7 @@ import ChartInfocas from '../components/ChartInfocas.vue'
 import TemperatureChart from '../components/TemperatureChart.vue'
 import HumidityChart from '../components/HumidityChart.vue'
 import InfocasTable from '../components/InfocasTable.vue'
+import imagenEnterprice from  '../assets/etica-copia (1).png'
 import moment from 'moment'
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
@@ -131,6 +138,7 @@ export default {
     HumidityChart,
     InfocasTable
   },
+
   computed: {
     chartData() {
       return this.$store.state.chartData
@@ -164,7 +172,9 @@ export default {
       isChartDataAvailable: false,
       isTemperatureDataAvailable: false,
       isHumidityDataAvailable: false,
-      information: false
+      information: false,
+      info:true,
+      imagenEnterprice: imagenEnterprice
     }
   },
   methods: {
@@ -182,6 +192,7 @@ export default {
         this.isHumidityDataAvailable = true
       }
       this.information = true
+      this.info = false
     },
     logData() {
       const data = {
