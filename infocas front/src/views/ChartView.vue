@@ -105,7 +105,7 @@
                   :startDateTime="startDateTime"
                   :endDateTime="endDateTime"  />
               </v-card>
-              <v-btn color="pink-darken-4" class="mt-5 ml-4 mb-2">Descargar</v-btn>
+              <v-btn color="pink-darken-4" class="mt-5 ml-4 mb-2" @click="descargarPdf">Descargar</v-btn>
             </v-card-item>
           </v-card>
         </v-card>
@@ -265,7 +265,25 @@ export default {
           this.maxHum = response.data[0].maxima_humedad;
         })
         .catch((error) => console.error(error))
-    }
+    },
+    descargarPdf(){
+  const doc = new jsPDF('p', 'pt', 'a4', true);
+  doc.setProperties({
+    title: 'Reporte',
+    subject: 'Información del sensor',
+
+  });
+  doc.text(`Sensor: ${this.sensorName}`, 10, 10);
+  doc.text(`Fecha Inicial: ${this.startDate}`, 10, 20);
+  doc.text(`Fecha Final: ${this.endDate}`, 10, 30);
+  doc.text(`Hora Inicial: ${this.startTime}`, 10, 40);
+  doc.text(`Hora Final: ${this.endTime}`, 10, 50);
+  doc.text(`Temperatura mínima: ${this.minTemp}`, 10, 60);
+  doc.text(`Temperatura máxima: ${this.maxTemp}`, 10, 70);
+  doc.text(`Humedad mínima: ${this.minHum}`, 10, 80);
+  doc.text(`Humedad máxima: ${this.maxHum}`, 10, 90);
+  doc.save("reporte.pdf");
+}
 },
   watch: {
     startDate: function (newVal, oldVal) {
