@@ -13,7 +13,8 @@ export default createStore({
     humidityData: {
       labels: [],
       datasets: []
-    }
+    },
+    items:[]
   },
   mutations: {
     UPDATE_CHART_DATA(state, payload) {
@@ -24,6 +25,9 @@ export default createStore({
     },
     UPDATE_HUMIDITY_DATA(state, payload) {
       state.humidityData = payload
+    },
+    SET_ITEMS(state, payload) {
+      state.items = payload
     }
   },
   actions: {
@@ -35,6 +39,9 @@ export default createStore({
     },
     updateHumidityData({ commit }, data) {
       commit('UPDATE_HUMIDITY_DATA', data)
+    },
+    setItems({ commit }, data) {
+      commit('SET_ITEMS', data)
     }
   }
 })

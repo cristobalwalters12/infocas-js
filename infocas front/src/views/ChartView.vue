@@ -4,7 +4,7 @@
     <v-row class="d-flex justify-center align-center">
       <v-col cols="10">
         <v-card>
-          <v-card-title primary-title class="large-title bg-grey-lighten-4 p">
+          <v-card-title primary-title class="large-title bg-grey-lighten-4 pa-6">
             Gráficos de Temperatura y Humedad
           </v-card-title>
           <v-card>
@@ -33,15 +33,15 @@
             </v-row>
             <v-row class="d-flex justify-center">
               <v-col cols="3" class="pb-10">
-                <v-btn color="blue" block rounded="lg" size="x-large" @click="generateGraphs"
+                <v-btn color="pink-darken-4" block rounded="lg" size="x-large" @click="generateGraphs"
                   >Generar Graficos</v-btn
                 >
               </v-col>
             </v-row>
 
             <v-divider></v-divider>
-            <v-card-item>
-              <v-card class="bg-grey-lighten-4">
+            <v-card-item >
+              <v-card class="bg-grey-lighten-4" v-if="information">
                 <v-card-title primary-title class="large-title pa-3">
                   <h6>{{ selectedSensorName }}</h6>
                 </v-card-title>
@@ -64,7 +64,7 @@
               </v-card>
               <chart-infocas v-if="isChartDataAvailable" class="mb-8" />
               <v-divider></v-divider>
-              <v-card class="bg-grey-lighten-4 pt">
+              <v-card class="bg-grey-lighten-4 pt" v-if="information">
                 <v-card-title primary-title class="large-title pa-3">
                   <h6>{{ selectedSensorName }}</h6>
                 </v-card-title>
@@ -82,7 +82,7 @@
               <TemperatureChart v-if="isTemperatureDataAvailable" class="mb-8" />
 
               <v-divider></v-divider>
-              <v-card class="bg-grey-lighten-4 pt">
+              <v-card class="bg-grey-lighten-4 pt" v-if="information">
                 <v-card-title primary-title class="large-title pa-3">
                   <h6>{{ selectedSensorName }}</h6>
                 </v-card-title>
@@ -105,6 +105,7 @@
                   :startDateTime="startDateTime"
                   :endDateTime="endDateTime"  />
               </v-card>
+              <v-btn color="pink-darken-4" class="mt-5 ml-4 mb-2">Descargar</v-btn>
             </v-card-item>
           </v-card>
         </v-card>
@@ -119,6 +120,8 @@ import TemperatureChart from '../components/TemperatureChart.vue'
 import HumidityChart from '../components/HumidityChart.vue'
 import InfocasTable from '../components/InfocasTable.vue'
 import moment from 'moment'
+import { jsPDF } from "jspdf";
+import "jspdf-autotable";
 
 export default {
   name: 'ChartView',
@@ -137,27 +140,31 @@ export default {
     },
     humidityData(){
       return this.$store.state.humidityData
+    },
+    items() {
+      return this.$store.state.items
     }
 
   },
   data() {
     return {
       sensorNames: [],
-      sensorName: '',
-      startDate: '',
-      endDate: '',
-      startTime: '',
-      endTime: '',
+      sensorName: '', // es para el pdf
+      startDate: '', // es para el pdf
+      endDate: '', // es para el pdf|
+      startTime: '', // es para el pdf
+      endTime: '', // es para el pdf|
       startDateTime: '',
       endDateTime: '',
       selectedSensorName: '',
-      minTemp: null,
-      maxTemp: null,
-      minHum: null,
-      maxHum: null,
+      minTemp: null, // es para el pdf
+      maxTemp: null, // es para el pdf
+      minHum: null, // es para el pdf
+      maxHum: null, // es para el pdf
       isChartDataAvailable: false,
       isTemperatureDataAvailable: false,
       isHumidityDataAvailable: false,
+      information: false
     }
   },
   methods: {
@@ -174,6 +181,7 @@ export default {
       if(this.humidityData) {
         this.isHumidityDataAvailable = true
       }
+      this.information = true
     },
     logData() {
       const data = {

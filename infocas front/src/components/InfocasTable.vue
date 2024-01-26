@@ -1,7 +1,7 @@
 <template>
-  <v-expansion-panels v-model="panel">
+  <v-expansion-panels>
     <v-expansion-panel>
-    <v-expansion-panel-title>
+    <v-expansion-panel-title color="pink-darken-4">
       <h3 v-if="nombreSensor">Tabla de datos de {{ nombreSensor }}</h3>
     </v-expansion-panel-title>
     <v-expansion-panel-text>
@@ -19,10 +19,17 @@
     <tbody>
       <tr v-for="item in items" :key="item.id">
         <td>{{ item.nombre_sensor }}</td>
-        <td>{{ item.fecha }}</td>
+        <td>{{ item.fecha.split('T')[0] }}</td>
         <td>{{ item.hora }}</td>
-        <td>{{ item.temperatura }}</td>
-        <td>{{ item.humedad }}</td>
+        <td :style="getTemperatureStyle(item.temperatura)">
+         {{ item.temperatura }}°C
+        <span v-if="item.temperatura < 18">¡Alerta! Temperatura Baja</span>
+        <span v-if="item.temperatura > 25">¡Alerta! Temperatura Alta</span>
+        </td>
+        <td :style="getHumidityStyle(item.humedad)">
+          {{ item.humedad }}%HR
+          <span v-if="item.humedad > 65">¡Alerta! Humedad Alta</span>
+        </td>
       </tr>
     </tbody>
   </v-table>
@@ -35,13 +42,11 @@
 
 <script>
 import axios from 'axios'
-
 export default {
   name: 'DataTable',
   props: ['nombreSensor', 'startDateTime', 'endDateTime'],
   data() {
     return {
-      panel: [0],
       items: []
     }
   },
@@ -65,6 +70,22 @@ export default {
         .catch((error) => {
           console.error(error)
         })
+    },
+    getTemperatureStyle(temperature) {
+      if (temperature < 18) {
+        return { backgroundColor: 'indigo' };
+      } else if (temperature > 25) {
+        return { backgroundColor: 'red' };
+      } else {
+        return {};
+      }
+    },
+    getHumidityStyle(humidity) {
+      if (humidity > 65) {
+        return { backgroundColor: 'red' };
+      } else {
+        return {};
+      }
     }
   }
 }
