@@ -117,6 +117,10 @@
         </v-card>
       </v-col>
     </v-row>
+    <v-card class="d-flex justify-center mt-8" flat >
+      <footerComponent />
+    </v-card>
+
   </v-container>
 </template>
 <script>
@@ -126,6 +130,7 @@ import TemperatureChart from '../components/TemperatureChart.vue'
 import HumidityChart from '../components/HumidityChart.vue'
 import InfocasTable from '../components/InfocasTable.vue'
 import imagenEnterprice from  '../assets/etica-copia (1).png'
+import footerComponent from '../components/footer.vue'
 import moment from 'moment'
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
@@ -136,7 +141,8 @@ export default {
     ChartInfocas,
     TemperatureChart,
     HumidityChart,
-    InfocasTable
+    InfocasTable,
+    footerComponent
   },
 
   computed: {

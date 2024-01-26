@@ -16,7 +16,7 @@
             <v-form ref="form" lazy-validation>
               <v-text-field
                 v-model="correo"
-                :counter="10"
+                :counter="30"
                 label="Usuario"
                 required
                 v-fade-in="0.6"
@@ -30,7 +30,7 @@
                 :type="show ? 'text' : 'password'"
                 name="login"
                 label="Contraseña"
-                hint="Al menos 8 caracteres"
+                hint="Al menos 5 caracteres"
                 counter
                 @click:append="show = !show"
                 v-fade-in="0.7"
