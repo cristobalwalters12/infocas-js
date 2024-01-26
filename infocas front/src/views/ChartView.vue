@@ -5,8 +5,9 @@
       <v-col cols="10">
         <img :src="imagenEnterprice" alt="Bago" class="ml-5" style="width: 200px; height: 100px;">
         <v-card>
-          <v-card-title primary-title class="large-title bg-grey-lighten-4 pa-6">
-            Gráficos de Temperatura y Humedad
+          <v-card-title primary-title class="large-title bg-grey-lighten-4 pa-6 d-flex justify-space-between">
+              Gráficos de Temperatura y Humedad
+            <v-btn color="pink-darken-4" @click="cerrarSesion">Cerrar Sesion</v-btn>
           </v-card-title>
           <v-card>
             <v-row class="pt-7">
@@ -44,7 +45,6 @@
                 <v-alert type="info"  text="Para mostrar los gráficos y la tabla de datos del sensor, se deben rellenar los campos." variant="tonal" color="pink-darken-4"></v-alert>
               </v-col>
             </v-row>
-
             <v-divider></v-divider>
             <v-card-item >
               <v-card class="bg-grey-lighten-4" v-if="information">
@@ -278,23 +278,27 @@ export default {
         .catch((error) => console.error(error))
     },
     descargarPdf(){
-  const doc = new jsPDF('p', 'pt', 'a4', true);
-  doc.setProperties({
-    title: 'Reporte',
-    subject: 'Información del sensor',
+      const doc = new jsPDF('p', 'pt', 'a4', true);
+      doc.setProperties({
+        title: 'Reporte',
+        subject: 'Información del sensor',
 
-  });
-  doc.text(`Sensor: ${this.sensorName}`, 10, 10);
-  doc.text(`Fecha Inicial: ${this.startDate}`, 10, 20);
-  doc.text(`Fecha Final: ${this.endDate}`, 10, 30);
-  doc.text(`Hora Inicial: ${this.startTime}`, 10, 40);
-  doc.text(`Hora Final: ${this.endTime}`, 10, 50);
-  doc.text(`Temperatura mínima: ${this.minTemp}`, 10, 60);
-  doc.text(`Temperatura máxima: ${this.maxTemp}`, 10, 70);
-  doc.text(`Humedad mínima: ${this.minHum}`, 10, 80);
-  doc.text(`Humedad máxima: ${this.maxHum}`, 10, 90);
-  doc.save("reporte.pdf");
-}
+      });
+      doc.text(`Sensor: ${this.sensorName}`, 10, 10);
+      doc.text(`Fecha Inicial: ${this.startDate}`, 10, 20);
+      doc.text(`Fecha Final: ${this.endDate}`, 10, 30);
+      doc.text(`Hora Inicial: ${this.startTime}`, 10, 40);
+      doc.text(`Hora Final: ${this.endTime}`, 10, 50);
+      doc.text(`Temperatura mínima: ${this.minTemp}`, 10, 60);
+      doc.text(`Temperatura máxima: ${this.maxTemp}`, 10, 70);
+      doc.text(`Humedad mínima: ${this.minHum}`, 10, 80);
+      doc.text(`Humedad máxima: ${this.maxHum}`, 10, 90);
+      doc.save("reporte.pdf");
+    },
+    cerrarSesion(){
+      this.$router.push('/')
+      localStorage.removeItem('user-token')
+    }
 },
   watch: {
     startDate: function (newVal, oldVal) {
