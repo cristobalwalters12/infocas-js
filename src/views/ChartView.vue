@@ -211,7 +211,7 @@ export default {
         .post(`${import.meta.env.VITE_HOST}/sensores/range-information`, data)
         .then((response) => {
           const labels = response.data.map(
-            (item) => moment(item.fecha).format('YYYY-MM-DD') + ' ' + item.hora
+            (item) => moment.utc(item.fecha).format('YYYY-MM-DD') + ' ' + item.hora
           )
           const temperatureData = response.data.map((item) => item.temperatura)
           const humidityData = response.data.map((item) => item.humedad)
