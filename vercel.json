@@ -1,7 +1,6 @@
 {
-    "routes": [
-      { "src": "/chart", "dest": "/index.html" },
-      { "src": "/(.*)", "dest": "/index.html" }
-    ]
-  }
-  
+  "routes": [
+    { "src": "https://infocas-js.vercel.app/chart", "dest": "/chart" },
+    { "src": "/(.*)", "dest": "/" }
+  ]
+}
