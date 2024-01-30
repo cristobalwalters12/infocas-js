@@ -63,7 +63,7 @@ export default {
         endDateTime: this.endDateTime
       }
       axios
-        .post('http://localhost:3000/sensores/range-information', data)
+        .post(`${import.meta.env.VITE_HOST}/sensores/range-information`, data)
         .then((response) => {
           this.items = response.data
         })

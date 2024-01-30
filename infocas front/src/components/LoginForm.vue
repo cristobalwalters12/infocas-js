@@ -81,7 +81,7 @@ export default {
 
       if (correo.value && password.value) {
         try {
-          const response = await axios.post('http://127.0.0.1:3000/usuario/login', {
+          const response = await axios.post(`${import.meta.env.VITE_HOST}/usuario/login`, {
             correo: correo.value,
             contraseña: password.value
           })

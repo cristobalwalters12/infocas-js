@@ -208,7 +208,7 @@ export default {
       }
       console.log(data)
       axios
-        .post('http://localhost:3000/sensores/range-information', data)
+        .post(`${import.meta.env.VITE_HOST}/sensores/range-information`, data)
         .then((response) => {
           const labels = response.data.map(
             (item) => moment(item.fecha).format('YYYY-MM-DD') + ' ' + item.hora
@@ -269,7 +269,7 @@ export default {
     },
     getExtremes() {
       axios
-        .post('http://localhost:3000/sensores/temperature-information', {
+        .post(`${import.meta.env.VITE_HOST}/sensores/temperature-information`, {
           nombreSensor: this.sensorName,
           startDateTime: this.startDateTime,
           endDateTime: this.endDateTime
@@ -321,7 +321,7 @@ export default {
     }
   },
   mounted() {
-    axios.get('http://127.0.0.1:3000/nombres-sensores').then((response) => {
+    axios.get(`${import.meta.env.VITE_HOST}/nombres-sensores`).then((response) => {
       this.sensorNames = response.data.map((item) => item.nombre_sensor)
     })
   }

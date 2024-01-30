@@ -6,7 +6,7 @@ yarn-debug.log*
 yarn-error.log*
 pnpm-debug.log*
 lerna-debug.log*
-
+.env
 # Carpeta node_modules dentro de "backend"
 backend/node_modules/
 backend/.env
