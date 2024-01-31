@@ -127,14 +127,13 @@
 import axios from 'axios'
 import ChartInfocas from '../components/ChartInfocas.vue'
 import TemperatureChart from '../components/TemperatureChart.vue'
-import HumidityChart from '../components/humiditychart.vue'
 import InfocasTable from '../components/InfocasTable.vue'
 import imagenEnterprice from  '../assets/etica-copia (1).png'
 import footerComponent from '../components/footer.vue'
+import HumidityChart from '../components/HumidityChart.vue'
 import moment from 'moment'
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
-import html2canvas from 'html2canvas';
 import domtoimage from 'dom-to-image';
 
 export default {
