@@ -21,7 +21,7 @@ import annotationPlugin from 'chartjs-plugin-annotation'
 ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, annotationPlugin)
 
 export default {
-  name: 'HumidityChart',
+  name: 'humidityChart',
   components: { LineChart },
 
   setup() {

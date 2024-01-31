@@ -13,8 +13,6 @@ export default defineConfig({
   },
   server: {
     host: true,
-    proxy: {
-      '/': process.env.VITE_API_URL
-    }
+   
   }
 })

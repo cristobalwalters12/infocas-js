@@ -68,7 +68,7 @@
                   </v-row>
                 </v-card-text>
               </v-card>
-              <chart-infocas v-if="isChartDataAvailable" class="mb-8" />
+              <chart-infocas v-if="isChartDataAvailable" class="mb-8" ref="chartComponent1"/>
               <v-divider></v-divider>
               <v-card class="bg-grey-lighten-4 pt" v-if="information">
                 <v-card-title primary-title class="large-title pa-3">
@@ -85,7 +85,7 @@
                   </v-row>
                 </v-card-text>
               </v-card>
-              <TemperatureChart v-if="isTemperatureDataAvailable" class="mb-8" />
+              <TemperatureChart v-if="isTemperatureDataAvailable" class="mb-8" ref="chartComponent2"/>
 
               <v-divider></v-divider>
               <v-card class="bg-grey-lighten-4 pt" v-if="information">
@@ -103,7 +103,7 @@
                   </v-row>
                 </v-card-text>
               </v-card>
-              <HumidityChart v-if="isHumidityDataAvailable" class="mb-8" />
+              <HumidityChart v-if="isHumidityDataAvailable" class="mb-8" ref="chartComponent3" />
               <v-divider></v-divider>
               <v-card>
                 <InfocasTable
@@ -127,13 +127,15 @@
 import axios from 'axios'
 import ChartInfocas from '../components/ChartInfocas.vue'
 import TemperatureChart from '../components/TemperatureChart.vue'
-import HumidityChart from '../components/HumidityChart.vue'
+import HumidityChart from '../components/humiditychart.vue'
 import InfocasTable from '../components/InfocasTable.vue'
 import imagenEnterprice from  '../assets/etica-copia (1).png'
 import footerComponent from '../components/footer.vue'
 import moment from 'moment'
 import { jsPDF } from "jspdf";
 import "jspdf-autotable";
+import html2canvas from 'html2canvas';
+import domtoimage from 'dom-to-image';
 
 export default {
   name: 'ChartView',
@@ -284,24 +286,75 @@ export default {
         .catch((error) => console.error(error))
     },
     descargarPdf(){
-      const doc = new jsPDF('p', 'pt', 'a4', true);
-      doc.setProperties({
-        title: 'Reporte',
-        subject: 'Información del sensor',
+  const doc = new jsPDF('l', 'pt', 'a4');
+  doc.setProperties({
+    title: 'Reporte',
+    subject: 'Información del sensor',
+  });
+  const text = "Gráficos de Temperatura y Humedad";
+  doc.setFontSize(20);
+  const pageSize = doc.internal.pageSize;
+  const pageWidth = pageSize.width ? pageSize.width : pageSize.getWidth();
+  const textOffset = (pageWidth - doc.getStringUnitWidth(text) * doc.internal.getFontSize()) / 2;
+  doc.text(text, textOffset, 45);
+  doc.setFontSize(12);
+  doc.text(60,120, "Temperatura mínima= " + this.minTemp + "ºC");
+  doc.text(240,120, "Temperatura máxima= " + this.maxTemp + "ºC");
+  doc.text(480,120, "Humedad mínima= " + this.minHum + "%HR");
+  doc.text(660,120, "Humedad máxima= " + this.maxHum + "%HR");
 
-      });
-      doc.text(`Sensor: ${this.sensorName}`, 10, 10);
-      doc.text(`Fecha Inicial: ${this.startDate}`, 10, 20);
-      doc.text(`Fecha Final: ${this.endDate}`, 10, 30);
-      doc.text(`Hora Inicial: ${this.startTime}`, 10, 40);
-      doc.text(`Hora Final: ${this.endTime}`, 10, 50);
-      doc.text(`Temperatura mínima: ${this.minTemp}`, 10, 60);
-      doc.text(`Temperatura máxima: ${this.maxTemp}`, 10, 70);
-      doc.text(`Humedad mínima: ${this.minHum}`, 10, 80);
-      doc.text(`Humedad máxima: ${this.maxHum}`, 10, 90);
+
+
+  domtoimage.toPng(this.$refs.chartComponent1.$el)
+    .then(dataUrl => {
+      const imgData = dataUrl;
+      const imgWidth = 750;
+      const x = (pageWidth - imgWidth) / 2;
+      doc.addImage(imgData, 'PNG', x, 130, imgWidth,450);
+      doc.addPage();
+      doc.text(60,120, "Temperatura mínima= " + this.minTemp + "ºC");
+      doc.text(240,120, "Temperatura máxima= " + this.maxTemp + "ºC");
+      return domtoimage.toPng(this.$refs.chartComponent2.$el);
+    })
+    .then(dataUrl => {
+      const imgData = dataUrl;
+      const imgWidth = 750;
+      const x = (pageWidth - imgWidth) / 2;
+      doc.addImage(imgData, 'PNG', x, 130, imgWidth, 450);
+      doc.addPage();
+      doc.text(60,120, "Humedad mínima= " + this.minHum + "%HR");
+      doc.text(240,120, "Humedad máxima= " + this.maxHum + "%HR");
+      return domtoimage.toPng(this.$refs.chartComponent3.$el);
+    })
+    .then(dataUrl => {
+      const imgData = dataUrl;
+      const imgWidth = 750;
+      const x = (pageWidth - imgWidth) / 2;
+      doc.addImage(imgData, 'PNG', x, 130, imgWidth, 450);
+      this.addWaterMark(doc, this.imagenEnterprice)
       doc.save("reporte.pdf");
-    },
-    cerrarSesion(){
+    })
+    .catch(error => {
+      console.error('Error al convertir el componente en imagen:', error);
+    });
+},
+    addWaterMark(pdf, waterMarkImage){
+      let totalPage=pdf.internal.getNumberOfPages();
+      let fechaHoy = new Date();
+      let fecha = fechaHoy.getDate() + '-' + (fechaHoy.getMonth() + 1) + '-' + fechaHoy.getFullYear();
+      const hora1 = this.startTime;
+      const hora2 = this.endTime;
+      for(let i=1; i<=totalPage; i++){
+        pdf.setPage(i);
+        pdf.addImage(waterMarkImage, 'PNG', 680, 15, 113, 80);
+        pdf.setFontSize(12);
+        pdf.text(60,45, fecha)
+        pdf.text(60,80, "Gráfica de temperatura y humedad relacionadas al sensor " + this.sensorName );
+        pdf.text(60,95, "con fecha de " + this.startDate + " a " + this.endDate + " desde las " + hora1 + " hasta las " + hora2+ " horas");
+      }
+      return pdf;
+    }
+    ,cerrarSesion(){
       this.$router.push('/')
       localStorage.removeItem('user-token')
     }
