@@ -325,8 +325,9 @@ export default {
     },
     generarPdf() {
       const doc = new jsPDF('l', 'pt', 'a4')
+      const getDate = new Date()
       doc.setProperties({
-        title: 'Reporte',
+        title: new Date(getDate).toLocaleString('es-ES', { hour12: false }) + ' ' + this.sensorName,
         subject: 'Información del sensor'
       })
       const text = 'Gráficos de Temperatura y Humedad'
@@ -449,7 +450,9 @@ export default {
           }
 
           this.addWaterMark(doc, this.imagenEnterprice)
-          doc.save('reporte.pdf')
+          doc.save(
+            new Date(getDate).toLocaleString('es-ES', { hour12: false }) + ' ' + this.sensorName
+          )
         })
         .catch((error) => {
           console.error('Error al convertir el componente en imagen:', error)
@@ -494,7 +497,7 @@ export default {
     },
     dialog(val) {
       if (!val) return
-      setTimeout(() => (this.dialog = false), 2000)
+      setTimeout(() => (this.dialog = false), 3500)
     }
   },
   mounted() {
