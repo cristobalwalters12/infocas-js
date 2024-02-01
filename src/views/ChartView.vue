@@ -3,10 +3,13 @@
   <v-container fluid>
     <v-row class="d-flex justify-center align-center">
       <v-col cols="10">
-        <img :src="imagenEnterprice" alt="Bago" class="ml-5" style="width: 200px; height: 100px;">
+        <img :src="imagenEnterprice" alt="Bago" class="ml-5" style="width: 200px; height: 100px" />
         <v-card>
-          <v-card-title primary-title class="large-title bg-grey-lighten-4 pa-6 d-flex justify-space-between">
-              Gráficos de Temperatura y Humedad
+          <v-card-title
+            primary-title
+            class="large-title bg-grey-lighten-4 pa-6 d-flex justify-space-between"
+          >
+            Gráficos de Temperatura y Humedad
             <v-btn color="pink-darken-4" @click="cerrarSesion">Cerrar Sesion</v-btn>
           </v-card-title>
           <v-card>
@@ -35,18 +38,28 @@
             </v-row>
             <v-row class="d-flex justify-center">
               <v-col cols="3" class="pb-10">
-                <v-btn color="pink-darken-4" block rounded="lg" size="x-large" @click="generateGraphs"
+                <v-btn
+                  color="pink-darken-4"
+                  block
+                  rounded="lg"
+                  size="x-large"
+                  @click="generateGraphs"
                   >Generar Graficos</v-btn
                 >
               </v-col>
             </v-row>
             <v-row class="d-flex justify-center" v-if="info">
               <v-col cols="6" class="pb-5">
-                <v-alert type="info"  text="Para mostrar los gráficos y la tabla de datos del sensor, se deben rellenar los campos." variant="tonal" color="pink-darken-4"></v-alert>
+                <v-alert
+                  type="info"
+                  text="Para mostrar los gráficos y la tabla de datos del sensor, se deben rellenar los campos."
+                  variant="tonal"
+                  color="pink-darken-4"
+                ></v-alert>
               </v-col>
             </v-row>
             <v-divider></v-divider>
-            <v-card-item >
+            <v-card-item>
               <v-card class="bg-grey-lighten-4" v-if="information">
                 <v-card-title primary-title class="large-title pa-3">
                   <h6>{{ selectedSensorName }}</h6>
@@ -68,7 +81,7 @@
                   </v-row>
                 </v-card-text>
               </v-card>
-              <chart-infocas v-if="isChartDataAvailable" class="mb-8" ref="chartComponent1"/>
+              <chart-infocas v-if="isChartDataAvailable" class="mb-8" ref="chartComponent1" />
               <v-divider></v-divider>
               <v-card class="bg-grey-lighten-4 pt" v-if="information">
                 <v-card-title primary-title class="large-title pa-3">
@@ -85,7 +98,11 @@
                   </v-row>
                 </v-card-text>
               </v-card>
-              <TemperatureChart v-if="isTemperatureDataAvailable" class="mb-8" ref="chartComponent2"/>
+              <TemperatureChart
+                v-if="isTemperatureDataAvailable"
+                class="mb-8"
+                ref="chartComponent2"
+              />
 
               <v-divider></v-divider>
               <v-card class="bg-grey-lighten-4 pt" v-if="information">
@@ -109,32 +126,54 @@
                 <InfocasTable
                   :nombreSensor="sensorName"
                   :startDateTime="startDateTime"
-                  :endDateTime="endDateTime"  />
+                  :endDateTime="endDateTime"
+                  ref="infocasTable"
+                />
               </v-card>
-              <v-btn color="pink-darken-4" class="mt-5 ml-4 mb-2" @click="descargarPdf">Descargar</v-btn>
+              <v-btn
+                color="pink-darken-4"
+                class="mt-5 ml-4 mb-2"
+                :disabled="dialog"
+                :loading="dialog"
+                @click="descargarPdf()"
+                >Descargar PDF</v-btn
+              >
+              <div class="text-center">
+                <v-dialog v-model="dialog" :scrim="false" persistent width="auto">
+                  <v-card color="pink-darken-4">
+                    <v-card-text>
+                      Se esta descargando el archivo, por favor espere...
+                      <v-progress-linear
+                        indeterminate
+                        color="white"
+                        class="mb-0"
+                      ></v-progress-linear>
+                    </v-card-text>
+                  </v-card>
+                </v-dialog>
+              </div>
             </v-card-item>
           </v-card>
         </v-card>
       </v-col>
     </v-row>
-    <v-card class="d-flex justify-center mt-8" flat >
+    <v-card class="d-flex justify-center mt-8" flat>
       <footerComponent />
     </v-card>
-
   </v-container>
 </template>
 <script>
 import axios from 'axios'
 import ChartInfocas from '../components/ChartInfocas.vue'
-import TemperatureChart from '../components/TemperatureChart.vue'
-import InfocasTable from '../components/InfocasTable.vue'
-import imagenEnterprice from  '../assets/etica-copia (1).png'
+import imagenEnterprice from '../assets/etica-copia (1).png'
 import footerComponent from '../components/footer.vue'
 import HumidityChart from '../components/HumidityChart.vue'
+import TemperatureChart from '../components/TemperatureChart.vue'
+import InfocasTable from '../components/InfocasTable.vue'
 import moment from 'moment'
-import { jsPDF } from "jspdf";
-import "jspdf-autotable";
-import domtoimage from 'dom-to-image';
+import { jsPDF } from 'jspdf'
+import 'jspdf-autotable'
+import domtoimage from 'dom-to-image'
 
 export default {
   name: 'ChartView',
@@ -153,13 +192,12 @@ export default {
     temperatureData() {
       return this.$store.state.temperatureData
     },
-    humidityData(){
+    humidityData() {
       return this.$store.state.humidityData
     },
     items() {
       return this.$store.state.items
     }
-
   },
   data() {
     return {
@@ -180,8 +218,9 @@ export default {
       isTemperatureDataAvailable: false,
       isHumidityDataAvailable: false,
       information: false,
-      info:true,
-      imagenEnterprice: imagenEnterprice
+      info: true,
+      imagenEnterprice: imagenEnterprice,
+      dialog: false
     }
   },
   methods: {
@@ -189,13 +228,13 @@ export default {
       this.selectedSensorName = this.sensorName
       this.logData()
       this.getExtremes()
-      if(this.chartData) {
+      if (this.chartData) {
         this.isChartDataAvailable = true
       }
-      if(this.temperatureData) {
+      if (this.temperatureData) {
         this.isTemperatureDataAvailable = true
       }
-      if(this.humidityData) {
+      if (this.humidityData) {
         this.isHumidityDataAvailable = true
       }
       this.information = true
@@ -275,89 +314,171 @@ export default {
           startDateTime: this.startDateTime,
           endDateTime: this.endDateTime
         })
-        
+
         .then((response) => {
-          this.minTemp = response.data[0].minima_temperatura;
-          this.maxTemp = response.data[0].maxima_temperatura;
-          this.minHum = response.data[0].minima_humedad;
-          this.maxHum = response.data[0].maxima_humedad;
+          this.minTemp = response.data[0].minima_temperatura
+          this.maxTemp = response.data[0].maxima_temperatura
+          this.minHum = response.data[0].minima_humedad
+          this.maxHum = response.data[0].maxima_humedad
         })
         .catch((error) => console.error(error))
     },
-    descargarPdf(){
-  const doc = new jsPDF('l', 'pt', 'a4');
-  doc.setProperties({
-    title: 'Reporte',
-    subject: 'Información del sensor',
-  });
-  const text = "Gráficos de Temperatura y Humedad";
-  doc.setFontSize(20);
-  const pageSize = doc.internal.pageSize;
-  const pageWidth = pageSize.width ? pageSize.width : pageSize.getWidth();
-  const textOffset = (pageWidth - doc.getStringUnitWidth(text) * doc.internal.getFontSize()) / 2;
-  doc.text(text, textOffset, 45);
-  doc.setFontSize(12);
-  doc.text(60,120, "Temperatura mínima= " + this.minTemp + "ºC");
-  doc.text(240,120, "Temperatura máxima= " + this.maxTemp + "ºC");
-  doc.text(480,120, "Humedad mínima= " + this.minHum + "%HR");
-  doc.text(660,120, "Humedad máxima= " + this.maxHum + "%HR");
+    generarPdf() {
+      const doc = new jsPDF('l', 'pt', 'a4')
+      doc.setProperties({
+        title: 'Reporte',
+        subject: 'Información del sensor'
+      })
+      const text = 'Gráficos de Temperatura y Humedad'
+      doc.setFontSize(20)
+      const pageSize = doc.internal.pageSize
+      const pageWidth = pageSize.width ? pageSize.width : pageSize.getWidth()
+      const textOffset = (pageWidth - doc.getStringUnitWidth(text) * doc.internal.getFontSize()) / 2
+      doc.text(text, textOffset, 45)
+      doc.setFontSize(12)
+      doc.text(60, 80, 'Gráfica de temperatura y humedad relacionadas al sensor ' + this.sensorName)
+      doc.text(
+        60,
+        95,
+        'con fecha de ' +
+          this.startDate +
+          ' a ' +
+          this.endDate +
+          ' desde las ' +
+          this.startTime +
+          ' hasta las ' +
+          this.endTime +
+          ' horas'
+      )
+      doc.text(60, 120, 'Temperatura mínima= ' + this.minTemp + 'ºC')
+      doc.text(240, 120, 'Temperatura máxima= ' + this.maxTemp + 'ºC')
+      doc.text(480, 120, 'Humedad mínima= ' + this.minHum + '%HR')
+      doc.text(660, 120, 'Humedad máxima= ' + this.maxHum + '%HR')
 
+      domtoimage
+        .toPng(this.$refs.chartComponent1.$el)
+        .then((dataUrl) => {
+          const imgData = dataUrl
+          const imgWidth = 750
+          const x = (pageWidth - imgWidth) / 2
+          doc.addImage(imgData, 'PNG', x, 130, imgWidth, 450)
+          doc.addPage()
+          doc.text(60, 80, 'Gráfica de temperatura relacionadas al sensor ' + this.sensorName)
+          doc.text(
+            60,
+            95,
+            'con fecha de ' +
+              this.startDate +
+              ' a ' +
+              this.endDate +
+              ' desde las ' +
+              this.startTime +
+              ' hasta las ' +
+              this.endTime +
+              ' horas'
+          )
+          doc.text(60, 120, 'Temperatura mínima= ' + this.minTemp + 'ºC')
+          doc.text(240, 120, 'Temperatura máxima= ' + this.maxTemp + 'ºC')
+          return domtoimage.toPng(this.$refs.chartComponent2.$el)
+        })
+        .then((dataUrl) => {
+          const imgData = dataUrl
+          const imgWidth = 750
+          const x = (pageWidth - imgWidth) / 2
+          doc.addImage(imgData, 'PNG', x, 130, imgWidth, 450)
+          doc.addPage()
+          doc.text(60, 80, 'Gráfica de humedad relacionadas al sensor ' + this.sensorName)
+          doc.text(
+            60,
+            95,
+            'con fecha de ' +
+              this.startDate +
+              ' a ' +
+              this.endDate +
+              ' desde las ' +
+              this.startTime +
+              ' hasta las ' +
+              this.endTime +
+              ' horas'
+          )
+          doc.text(60, 120, 'Humedad mínima= ' + this.minHum + '%HR')
+          doc.text(240, 120, 'Humedad máxima= ' + this.maxHum + '%HR')
+          return domtoimage.toPng(this.$refs.chartComponent3.$el)
+        })
+        .then((dataUrl) => {
+          const imgData = dataUrl
+          const imgWidth = 750
+          const x = (pageWidth - imgWidth) / 2
+          doc.addImage(imgData, 'PNG', x, 130, imgWidth, 450)
+          doc.addPage()
+          if (this.$refs.infocasTable.items) {
+            const headers = ['Sensor', 'Fecha', 'Hora', 'Temperatura', 'Humedad']
+            const data = this.$refs.infocasTable.items.map((item) => [
+              item.nombre_sensor,
+              item.fecha.split('T')[0],
+              item.hora,
+              item.temperatura + '°C',
+              item.humedad + '%HR'
+            ])
+            doc.autoTable({
+              margin: { top: 120 },
+              head: [headers],
+              body: data,
+              didDrawPage: (data) => {
+                doc.text(
+                  'Tabla de datos de las temperatura y humedad relacionadas al sensor ' +
+                    this.sensorName,
+                  60,
+                  80
+                )
+                doc.text(
+                  'con fecha de ' +
+                    this.startDate +
+                    ' a ' +
+                    this.endDate +
+                    ' desde las ' +
+                    this.startTime +
+                    ' hasta las ' +
+                    this.endTime +
+                    ' horas',
+                  60,
+                  95
+                )
+              }
+            })
+          }
 
-
-  domtoimage.toPng(this.$refs.chartComponent1.$el)
-    .then(dataUrl => {
-      const imgData = dataUrl;
-      const imgWidth = 750;
-      const x = (pageWidth - imgWidth) / 2;
-      doc.addImage(imgData, 'PNG', x, 130, imgWidth,450);
-      doc.addPage();
-      doc.text(60,120, "Temperatura mínima= " + this.minTemp + "ºC");
-      doc.text(240,120, "Temperatura máxima= " + this.maxTemp + "ºC");
-      return domtoimage.toPng(this.$refs.chartComponent2.$el);
-    })
-    .then(dataUrl => {
-      const imgData = dataUrl;
-      const imgWidth = 750;
-      const x = (pageWidth - imgWidth) / 2;
-      doc.addImage(imgData, 'PNG', x, 130, imgWidth, 450);
-      doc.addPage();
-      doc.text(60,120, "Humedad mínima= " + this.minHum + "%HR");
-      doc.text(240,120, "Humedad máxima= " + this.maxHum + "%HR");
-      return domtoimage.toPng(this.$refs.chartComponent3.$el);
-    })
-    .then(dataUrl => {
-      const imgData = dataUrl;
-      const imgWidth = 750;
-      const x = (pageWidth - imgWidth) / 2;
-      doc.addImage(imgData, 'PNG', x, 130, imgWidth, 450);
-      this.addWaterMark(doc, this.imagenEnterprice)
-      doc.save("reporte.pdf");
-    })
-    .catch(error => {
-      console.error('Error al convertir el componente en imagen:', error);
-    });
-},
-    addWaterMark(pdf, waterMarkImage){
-      let totalPage=pdf.internal.getNumberOfPages();
-      let fechaHoy = new Date();
-      let fecha = fechaHoy.getDate() + '-' + (fechaHoy.getMonth() + 1) + '-' + fechaHoy.getFullYear();
-      const hora1 = this.startTime;
-      const hora2 = this.endTime;
-      for(let i=1; i<=totalPage; i++){
-        pdf.setPage(i);
-        pdf.addImage(waterMarkImage, 'PNG', 680, 15, 113, 80);
-        pdf.setFontSize(12);
-        pdf.text(60,45, fecha)
-        pdf.text(60,80, "Gráfica de temperatura y humedad relacionadas al sensor " + this.sensorName );
-        pdf.text(60,95, "con fecha de " + this.startDate + " a " + this.endDate + " desde las " + hora1 + " hasta las " + hora2+ " horas");
+          this.addWaterMark(doc, this.imagenEnterprice)
+          doc.save('reporte.pdf')
+        })
+        .catch((error) => {
+          console.error('Error al convertir el componente en imagen:', error)
+        })
+    },
+    addWaterMark(pdf, waterMarkImage) {
+      let totalPage = pdf.internal.getNumberOfPages()
+      let fechaHoy = new Date()
+      let fecha =
+        fechaHoy.getDate() + '-' + (fechaHoy.getMonth() + 1) + '-' + fechaHoy.getFullYear()
+      const hora1 = this.startTime
+      const hora2 = this.endTime
+      for (let i = 1; i <= totalPage; i++) {
+        pdf.setPage(i)
+        pdf.addImage(waterMarkImage, 'PNG', 680, 15, 113, 80)
+        pdf.setFontSize(12)
+        pdf.text(60, 45, fecha)
       }
-      return pdf;
-    }
-    ,cerrarSesion(){
+      return pdf
+    },
+    cerrarSesion() {
       this.$router.push('/')
       localStorage.removeItem('user-token')
+    },
+    descargarPdf() {
+      this.dialog = true
+      this.generarPdf()
     }
-},
+  },
   watch: {
     startDate: function (newVal, oldVal) {
       this.startDateTime = this.startDate + ' ' + this.startTime
@@ -370,6 +491,10 @@ export default {
     },
     endTime: function (newVal, oldVal) {
       this.endDateTime = this.endDate + ' ' + this.endTime
+    },
+    dialog(val) {
+      if (!val) return
+      setTimeout(() => (this.dialog = false), 4000)
     }
   },
   mounted() {

@@ -21,7 +21,7 @@ import annotationPlugin from 'chartjs-plugin-annotation'
 ChartJS.register(Title, Tooltip, Legend, LineElement, CategoryScale, LinearScale, annotationPlugin)
 
 export default {
-  name: 'TemperatureChart',
+  name: 'temperatureChart',
   components: { LineChart },
 
   setup() {
