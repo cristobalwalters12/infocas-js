@@ -523,7 +523,7 @@ export default {
     },
     dialog(val) {
       if (!val) return
-      setTimeout(() => (this.dialog = false), 3500)
+      setTimeout(() => (this.dialog = false), 2500)
     }
   },
   mounted() {
