@@ -142,7 +142,7 @@
                 <v-dialog v-model="dialog" :scrim="false" persistent width="auto">
                   <v-card color="pink-darken-4">
                     <v-card-text>
-                      Se esta descargando el archivo, por favor espere...
+                      Se esta generando y descargando el archivo, por favor espere...
                       <v-progress-linear
                         indeterminate
                         color="white"
