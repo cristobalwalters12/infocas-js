@@ -246,7 +246,6 @@ export default {
         startDateTime: this.startDateTime,
         endDateTime: this.endDateTime
       }
-      console.log(data)
       axios
         .post(`${import.meta.env.VITE_HOST}/sensores/range-information`, data)
         .then((response) => {
@@ -362,7 +361,7 @@ export default {
           const imgData = dataUrl
           const imgWidth = 750
           const x = (pageWidth - imgWidth) / 2
-          doc.addImage(imgData, 'PNG', x, 130, imgWidth, 450)
+          doc.addImage(imgData, 'JPG', x, 130, imgWidth, 450, undefined, 'FAST') // 'FAST' es un factor de calidad más bajo
           doc.addPage()
           doc.text(60, 80, 'Gráfica de temperatura relacionadas al sensor ' + this.sensorName)
           doc.text(
@@ -386,7 +385,7 @@ export default {
           const imgData = dataUrl
           const imgWidth = 750
           const x = (pageWidth - imgWidth) / 2
-          doc.addImage(imgData, 'PNG', x, 130, imgWidth, 450)
+          doc.addImage(imgData, 'JPG', x, 130, imgWidth, 450, undefined, 'FAST') // 'FAST' es un factor de calidad más bajo
           doc.addPage()
           doc.text(60, 80, 'Gráfica de humedad relacionadas al sensor ' + this.sensorName)
           doc.text(
@@ -410,17 +409,32 @@ export default {
           const imgData = dataUrl
           const imgWidth = 750
           const x = (pageWidth - imgWidth) / 2
-          doc.addImage(imgData, 'PNG', x, 130, imgWidth, 450)
+          doc.addImage(imgData, 'JPG', x, 130, imgWidth, 450, undefined, 'FAST') // 'FAST' es un factor de calidad más bajo
           doc.addPage()
           if (this.$refs.infocasTable.items) {
             const headers = ['Sensor', 'Fecha', 'Hora', 'Temperatura', 'Humedad']
-            const data = this.$refs.infocasTable.items.map((item) => [
-              item.nombre_sensor,
-              item.fecha.split('T')[0],
-              item.hora,
-              item.temperatura + '°C',
-              item.humedad + '%HR'
-            ])
+            const data = this.$refs.infocasTable.items.map((item) => {
+              let temperatura = item.temperatura + '°C'
+              if (item.temperatura < 18) {
+                temperatura += ' ¡Alerta! Temperatura Baja'
+              } else if (item.temperatura > 25) {
+                temperatura += ' ¡Alerta! Temperatura Alta'
+              }
+
+              let humedad = item.humedad + '%HR'
+              if (item.humedad > 65) {
+                humedad += ' ¡Alerta! Humedad Alta'
+              }
+
+              return [
+                item.nombre_sensor,
+                item.fecha.split('T')[0],
+                item.hora,
+                temperatura, // Aquí usamos la variable temperatura
+                humedad // Aquí usamos la variable humedad
+              ]
+            })
+
             doc.autoTable({
               margin: { top: 120 },
               head: [headers],
@@ -445,6 +459,18 @@ export default {
                   60,
                   95
                 )
+              },
+              didParseCell: (data) => {
+                if (data.cell.text[0].includes('¡Alerta! Temperatura Baja')) {
+                  data.cell.styles.fillColor = [0, 0, 255] // Azul
+                  data.cell.styles.textColor = [255, 255, 255] // Blanco
+                } else if (data.cell.text[0].includes('¡Alerta! Temperatura Alta')) {
+                  data.cell.styles.fillColor = [255, 0, 0] // Rojo
+                  data.cell.styles.textColor = [255, 255, 255] // Blanco
+                } else if (data.cell.text[0].includes('¡Alerta! Humedad Alta')) {
+                  data.cell.styles.fillColor = [255, 0, 0] // Verde
+                  data.cell.styles.textColor = [255, 255, 255] // Blanco
+                }
               }
             })
           }
