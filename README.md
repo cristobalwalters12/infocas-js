@@ -1,4 +1,4 @@
-# Proyecto FullStack con Vue.js y Express: Sistema de Monitoreo de Sensores
+# Proyecto FullStack con Vue.js y NestJS: Sistema de Monitoreo de Sensores
 
 Este proyecto ofrece una solución completa de monitoreo de sensores, con un backend construido en Express y MySQL y un frontend que permite visualizar gráficos basados en los datos recopilados.
 
