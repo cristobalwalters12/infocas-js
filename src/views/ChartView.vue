@@ -173,7 +173,7 @@ import InfocasTable from '../components/InfocasTable.vue'
 import moment from 'moment'
 import { jsPDF } from 'jspdf'
 import 'jspdf-autotable'
-import domtoimage from 'dom-to-image'
+
 import html2canvas from 'html2canvas'
 export default {
   name: 'ChartView',
