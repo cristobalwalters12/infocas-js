@@ -355,12 +355,16 @@ export default {
       doc.text(480, 120, 'Humedad mínima= ' + this.minHum + '%HR')
       doc.text(660, 120, 'Humedad máxima= ' + this.maxHum + '%HR')
 
-      html2canvas(this.$refs.chartComponent1.$el)
-        .then((canvas) => {
-          const imgData = canvas.toDataURL('image/png')
+      Promise.all([
+        html2canvas(this.$refs.chartComponent1.$el),
+        html2canvas(this.$refs.chartComponent2.$el),
+        html2canvas(this.$refs.chartComponent3.$el)
+      ])
+        .then(([canvas1, canvas2, canvas3]) => {
           const imgWidth = 750
           const x = (pageWidth - imgWidth) / 2
-          doc.addImage(imgData, 'PNG', x, 130, imgWidth, 450, undefined, 'FAST') // 'FAST' es un factor de calidad más bajo
+          let imgData = canvas1.toDataURL('image/jpeg', 0.5)
+          doc.addImage(imgData, 'JPEG', x, 130, imgWidth, 450, undefined, 'FAST') // 'FAST' es un factor de calidad más bajo
           doc.addPage()
           doc.text(60, 80, 'Gráfica de temperatura relacionadas al sensor ' + this.sensorName)
           doc.text(
@@ -378,13 +382,9 @@ export default {
           )
           doc.text(60, 120, 'Temperatura mínima= ' + this.minTemp + 'ºC')
           doc.text(240, 120, 'Temperatura máxima= ' + this.maxTemp + 'ºC')
-          return html2canvas(this.$refs.chartComponent2.$el)
-        })
-        .then((canvas) => {
-          const imgData = canvas.toDataURL('image/png')
-          const imgWidth = 750
-          const x = (pageWidth - imgWidth) / 2
-          doc.addImage(imgData, 'PNG', x, 130, imgWidth, 450, undefined, 'FAST') // 'FAST' es un factor de calidad más bajo
+
+          imgData = canvas2.toDataURL('image/jpeg', 0.5)
+          doc.addImage(imgData, 'JPEG', x, 130, imgWidth, 450, undefined, 'FAST') // 'FAST' es un factor de calidad más bajo
           doc.addPage()
           doc.text(60, 80, 'Gráfica de humedad relacionadas al sensor ' + this.sensorName)
           doc.text(
@@ -402,13 +402,10 @@ export default {
           )
           doc.text(60, 120, 'Humedad mínima= ' + this.minHum + '%HR')
           doc.text(240, 120, 'Humedad máxima= ' + this.maxHum + '%HR')
-          return html2canvas(this.$refs.chartComponent3.$el)
-        })
-        .then((canvas) => {
-          const imgData = canvas.toDataURL('image/png')
-          const imgWidth = 750
-          const x = (pageWidth - imgWidth) / 2
-          doc.addImage(imgData, 'PNG', x, 130, imgWidth, 450, undefined, 'FAST') // 'FAST' es un factor de calidad más bajo
+
+          imgData = canvas3.toDataURL('image/jpeg', 0.5)
+
+          doc.addImage(imgData, 'JPEG', x, 130, imgWidth, 450, undefined, 'FAST') // 'FAST' es un factor de calidad más bajo
           doc.addPage()
           if (this.$refs.infocasTable.items) {
             const headers = ['Sensor', 'Fecha', 'Hora', 'Temperatura', 'Humedad']
