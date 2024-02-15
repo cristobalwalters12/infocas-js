@@ -9,7 +9,7 @@
     "dev": "vite",
     "format": "prettier --write src/",
     "preview": "vite preview",
-    "start": "serve dist -S -n -L -p "
+    "start": "serve dist -S -n -L "
   },
   "dependencies": {
     "@mdi/font": "5.9.55",
