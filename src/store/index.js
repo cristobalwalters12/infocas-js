@@ -14,7 +14,8 @@ export default createStore({
       labels: [],
       datasets: []
     },
-    items:[]
+    items: [],
+    personaName: ''
   },
   mutations: {
     UPDATE_CHART_DATA(state, payload) {
@@ -28,6 +29,9 @@ export default createStore({
     },
     SET_ITEMS(state, payload) {
       state.items = payload
+    },
+    SET_NOMBRE_PERSONA(state, payload) {
+      state.personaName = payload
     }
   },
   actions: {
@@ -42,6 +46,9 @@ export default createStore({
     },
     setItems({ commit }, data) {
       commit('SET_ITEMS', data)
+    },
+    setNombrePersona({ commit }, data) {
+      commit('SET_NOMBRE_PERSONA', data)
     }
   }
 })

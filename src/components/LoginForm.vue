@@ -54,6 +54,7 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
+import { useStore } from 'vuex'
 axios.defaults.withCredentials = true
 
 export default {
@@ -86,6 +87,8 @@ export default {
             contraseña: password.value
           })
           localStorage.setItem('user-token', response.data.token)
+          localStorage.setItem('user-id', response.data.nombre)
+
           await router.push('/chart')
         } catch (error) {
           if (error.response && error.response.status === 401) {

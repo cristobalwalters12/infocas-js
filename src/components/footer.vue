@@ -1,9 +1,12 @@
 <template>
-    <h3>© Solución técnica desarrollada por <a href="http://www.controlas.cl" target="_blank">www.controlas.cl</a>.</h3>
+  <h6 class="text-h6">
+    © Solución técnica desarrollada por
+    <a href="http://www.controlas.cl" target="_blank">www.controlas.cl</a>.
+  </h6>
 </template>
 
 <script>
 export default {
-    name: 'Footer'
+  name: 'Footer'
 }
 </script>
