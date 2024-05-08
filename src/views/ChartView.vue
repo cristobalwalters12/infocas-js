@@ -18,7 +18,7 @@
         <v-card>
           <v-card-title
             primary-title
-            class="large-title bg-grey-lighten-4 pa-6 d-flex justify-space-between"
+            class="text-h4 bg-grey-lighten-4 pa-6 d-flex justify-space-between"
           >
             Gráficos de Temperatura y Humedad
             <v-btn color="pink-darken-4" @click="cerrarSesion">Cerrar Sesion</v-btn>
@@ -148,6 +148,12 @@
                 :loading="dialog"
                 @click="descargarPdf()"
                 >Descargar PDF</v-btn
+              >
+              <v-btn
+                color="pink-darken-4"
+                class="mt-5 ml-4 mb-2"
+                @click="$router.push('/historial')"
+                >Ir a historial</v-btn
               >
               <div class="text-center">
                 <v-dialog v-model="dialog" :scrim="false" persistent width="auto">
@@ -540,6 +546,14 @@ export default {
     descargarPdf() {
       this.dialog = true
       this.generarPdf()
+      this.insertarResponsable()
+    },
+    insertarResponsable() {
+      axios.post(`${import.meta.env.VITE_HOST}/historial`, {
+        responsable: this.nombrePersonas,
+        fecha: new Date().toISOString().split('T')[0],
+        nombre_archivo: this.selectedSensorName
+      })
     }
   },
   watch: {
