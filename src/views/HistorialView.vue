@@ -15,7 +15,7 @@
 </template>
 
 <script>
-import HistorialTable from '../components/historialTable.vue'
+import HistorialTable from '../components/HistorialTable.vue'
 import Footer from '../components/footer.vue'
 export default {
   name: 'HistorialView',
