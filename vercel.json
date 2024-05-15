@@ -1,6 +1,7 @@
 {
-    "routes": [
-      { "src": "/", "dest": "/" },
-      { "src": "/chart", "dest": "/" }
-    ]
-  }
+  "routes": [
+    { "src": "/", "dest": "/" },
+    { "src": "/chart", "dest": "/" },
+    { "src": "/historial", "dest": "/" }
+  ]
+}
