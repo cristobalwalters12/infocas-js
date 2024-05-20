@@ -88,6 +88,7 @@ export default {
           })
           localStorage.setItem('user-token', response.data.token)
           localStorage.setItem('user-id', response.data.nombre)
+          localStorage.setItem('user-role', response.data.rol)
 
           await router.push('/chart')
         } catch (error) {
