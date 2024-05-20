@@ -2,6 +2,7 @@
   "routes": [
     { "src": "/", "dest": "/" },
     { "src": "/chart", "dest": "/" },
-    { "src": "/historial", "dest": "/" }
+    { "src": "/historial", "dest": "/" },
+    { "src": "/options", "dest": "/" }
   ]
 }
