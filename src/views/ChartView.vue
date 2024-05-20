@@ -150,6 +150,7 @@
                 >Descargar PDF</v-btn
               >
               <v-btn
+                v-if="isAdmin"
                 color="pink-darken-4"
                 class="mt-5 ml-4 mb-2"
                 @click="$router.push('/historial')"
@@ -215,6 +216,9 @@ export default {
     },
     items() {
       return this.$store.state.items
+    },
+    isAdmin() {
+      return localStorage.getItem('user-role') === 'Administrador'
     }
   },
   data() {
