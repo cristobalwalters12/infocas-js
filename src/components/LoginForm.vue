@@ -90,7 +90,7 @@ export default {
           localStorage.setItem('user-id', response.data.nombre)
           localStorage.setItem('user-role', response.data.rol)
 
-          await router.push('/chart')
+          await router.push('/options')
         } catch (error) {
           if (error.response && error.response.status === 401) {
             alert.value.show = true

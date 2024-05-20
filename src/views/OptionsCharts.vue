@@ -2,9 +2,11 @@
   <v-container class="text-start"></v-container>
   <div>
     <v-container fluid>
-      <v-row class="justify-center align-center">
-        <v-col cols="10"> </v-col>
-        <v-card class="d-flex justify-center mt-8" flat>
+      <v-row class="d-flex flex-column justify-center align-center">
+        <v-col cols="12">
+          <options-buttons />
+        </v-col>
+        <v-card class="d-flex flex justify-center mt-8" flat>
           <Footer />
         </v-card>
       </v-row>
@@ -13,9 +15,11 @@
 </template>
 
 <script>
+import Footer from '../components/footer.vue'
+import OptionsButtons from '../components/OptionsButtons.vue'
 export default {
   name: 'OptionsCharts',
-  components: {},
+  components: { OptionsButtons, Footer },
   data() {
     return {}
   },
