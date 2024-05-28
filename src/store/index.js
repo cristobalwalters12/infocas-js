@@ -14,6 +14,10 @@ export default createStore({
       labels: [],
       datasets: []
     },
+    diferentialPressureData: {
+      labels: [],
+      datasets: []
+    },
     items: [],
     personaName: ''
   },
@@ -26,6 +30,9 @@ export default createStore({
     },
     UPDATE_HUMIDITY_DATA(state, payload) {
       state.humidityData = payload
+    },
+    UPDATE_CHARTPRESSURE_DATA(state, payload) {
+      state.diferentialPressureData = payload
     },
     SET_ITEMS(state, payload) {
       state.items = payload
@@ -43,6 +50,9 @@ export default createStore({
     },
     updateHumidityData({ commit }, data) {
       commit('UPDATE_HUMIDITY_DATA', data)
+    },
+    updateChartPressureData({ commit }, data) {
+      commit('UPDATE_CHARTPRESSURE_DATA', data)
     },
     setItems({ commit }, data) {
       commit('SET_ITEMS', data)
