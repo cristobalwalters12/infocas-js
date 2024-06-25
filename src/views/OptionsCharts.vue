@@ -11,15 +11,19 @@
         </v-card>
       </v-row>
     </v-container>
+    <v-card class="d-flex justify-end mt-14 s" flat>
+      <VersionFooter />
+    </v-card>
   </div>
 </template>
 
 <script>
 import Footer from '../components/footer.vue'
 import OptionsButtons from '../components/OptionsButtons.vue'
+import VersionFooter from '../components/VersionFooter.vue'
 export default {
   name: 'OptionsCharts',
-  components: { OptionsButtons, Footer },
+  components: { OptionsButtons, Footer, VersionFooter},
   data() {
     return {}
   },
