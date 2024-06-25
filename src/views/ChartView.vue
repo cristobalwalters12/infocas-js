@@ -1,5 +1,4 @@
 <template>
-  <v-container class="text-start"></v-container>
   <v-container fluid>
     <v-row class="d-flex justify-center align-center">
       <v-col cols="10">
@@ -178,6 +177,9 @@
     <v-card class="d-flex justify-center mt-8" flat>
       <footerComponent />
     </v-card>
+    <v-card class="d-flex justify-end mt-14 ml-10" flat>
+      <VersionFooter />
+    </v-card>
   </v-container>
 </template>
 <script>
@@ -188,6 +190,7 @@ import footerComponent from '../components/footer.vue'
 import HumidityChart from '../components/HumidityChart.vue'
 import TemperatureChart from '../components/TemperatureChart.vue'
 import InfocasTable from '../components/InfocasTable.vue'
+import VersionFooter from '../components/VersionFooter.vue'
 import moment from 'moment'
 import { jsPDF } from 'jspdf'
 import 'jspdf-autotable'
@@ -201,7 +204,8 @@ export default {
     TemperatureChart,
     HumidityChart,
     InfocasTable,
-    footerComponent
+    footerComponent,
+    VersionFooter
   },
 
   computed: {
@@ -590,4 +594,6 @@ export default {
 .large-title {
   font-size: 2em;
 }
+
+
 </style>
