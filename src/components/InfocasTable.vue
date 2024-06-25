@@ -72,16 +72,16 @@ export default {
     },
     getTemperatureStyle(temperature) {
       if (temperature < 18) {
-        return { backgroundColor: 'indigo' }
+        return { backgroundColor: 'blue', color: 'white'}
       } else if (temperature > 25) {
-        return { backgroundColor: 'red' }
+        return { backgroundColor: 'red',color:'white' }
       } else {
         return {}
       }
     },
     getHumidityStyle(humidity) {
       if (humidity > 65) {
-        return { backgroundColor: 'red' }
+        return { backgroundColor: 'red', color: 'white'}
       } else {
         return {}
       }
