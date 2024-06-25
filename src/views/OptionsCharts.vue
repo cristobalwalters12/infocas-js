@@ -11,7 +11,7 @@
         </v-card>
       </v-row>
     </v-container>
-    <v-card class="d-flex justify-end mt-14 s" flat>
+    <v-card class="d-flex justify-end mt-15 mr-2" flat>
       <VersionFooter />
     </v-card>
   </div>
