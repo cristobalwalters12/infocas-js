@@ -536,7 +536,7 @@ export default {
       const hora2 = this.endTime
       for (let i = 1; i <= totalPage; i++) {
         pdf.setPage(i)
-        pdf.addImage(waterMarkImage, 'JPEG', 680, 15, 113, 80)
+        pdf.addImage(waterMarkImage, 'JPEG', 685, 8, 106, 77)
         pdf.setFontSize(12)
         pdf.text(60, 45, fecha)
       }
