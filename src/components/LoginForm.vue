@@ -83,8 +83,8 @@ export default {
       if (correo.value && password.value) {
         try {
           const response = await axios.post(`${import.meta.env.VITE_HOST}/usuario/login`, {
-            correo: correo.value,
-            contraseña: password.value
+            correo: btoa(correo.value),
+            contraseña: btoa(password.value)
           })
           localStorage.setItem('user-token', response.data.token)
           localStorage.setItem('user-id', response.data.nombre)
