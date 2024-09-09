@@ -149,11 +149,18 @@
                 >Descargar PDF</v-btn
               >
               <v-btn
-                v-if="isAdmin"
+                v-if="isAdmin || isSuperAdmin"
                 color="pink-darken-4"
                 class="mt-5 ml-4 mb-2"
                 @click="$router.push('/historial')"
                 >Ir a historial</v-btn
+              >
+              <v-btn
+                v-if="isSuperAdmin"
+                color="pink-darken-4"
+                class="mt-5 ml-4 mb-2"
+                @click="$router.push('/usuario')"
+                >Ir a Usuarios</v-btn
               >
               <div class="text-center">
                 <v-dialog v-model="dialog" :scrim="false" persistent width="auto">
@@ -223,6 +230,9 @@ export default {
     },
     isAdmin() {
       return localStorage.getItem('user-role') === 'Administrador'
+    },
+    isSuperAdmin() {
+      return localStorage.getItem('user-role') === 'Superadmin'
     }
   },
   data() {
@@ -594,6 +604,4 @@ export default {
 .large-title {
   font-size: 2em;
 }
-
-
 </style>

@@ -3,6 +3,7 @@ import HomeView from '../views/HomeView.vue'
 import ChartView from '../views/ChartView.vue'
 import HistorialView from '../views/HistorialView.vue'
 import OptionsChartView from '../views/OptionsCharts.vue'
+import UsersDashboardView from '../views/UsersDashboardView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -26,6 +27,11 @@ const router = createRouter({
       path: '/historial',
       name: 'historial',
       component: HistorialView
+    },
+    {
+      path: '/usuario',
+      name: 'usuario',
+      component: UsersDashboardView
     }
   ]
 })
