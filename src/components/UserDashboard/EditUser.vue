@@ -42,7 +42,6 @@ export default {
       this.dialog = false
     },
     saveEdit() {
-      console.log(this.editedItem)
       this.$emit('save', this.editedItem)
       this.dialog = false
     }
