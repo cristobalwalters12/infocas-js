@@ -3,7 +3,7 @@
     <v-btn color="yellow" @click="openDialog">Editar</v-btn>
     <v-dialog v-model="dialog" max-width="500px">
       <v-card>
-        <v-card-title class="headline">Editar Item</v-card-title>
+        <v-card-title class="headline">Editar Usuario</v-card-title>
         <v-card-text>
           <v-text-field v-model="editedItem.nombre" label="Nombre"></v-text-field>
           <v-text-field v-model="editedItem.correo" label="Correo"></v-text-field>

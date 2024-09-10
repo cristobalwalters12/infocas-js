@@ -41,7 +41,7 @@
                   <EditUser :item="item" @save="handleSave" />
                 </div>
                 <div>
-                  <v-btn color="red" @click="deleteUser(item.id)">Eliminar</v-btn>
+                  <DeleteUser :item="item" @delete="Delete" />
                 </div>
               </div>
             </td>
@@ -56,11 +56,12 @@
 import axios from 'axios'
 import imagenEnterprice from '../../assets/etica-copia (1).png'
 import EditUser from './EditUser.vue'
-
+import DeleteUser from './DeleteUser.vue'
 export default {
   name: 'TableUser',
   components: {
-    EditUser
+    EditUser,
+    DeleteUser
   },
   data() {
     return {
@@ -72,6 +73,11 @@ export default {
     handleSave(editeditem) {
       axios.patch(`${import.meta.env.VITE_HOST}/usuario/${editeditem.id}`, editeditem).then(() => {
         this.data = this.data.map((item) => (item.id === editeditem.id ? editeditem : item))
+      })
+    },
+    Delete(editeditem) {
+      axios.delete(`${import.meta.env.VITE_HOST}/usuario/${editeditem.id}`).then(() => {
+        this.data = this.data.filter((item) => item.id !== editeditem.id)
       })
     }
   },
