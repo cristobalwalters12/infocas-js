@@ -1,7 +1,7 @@
 <template>
   <v-container fluid>
     <v-row class="d-flex justify-center align-center">
-      <v-col cols="10">
+      <v-col cols="12">
         <v-row>
           <v-col cols="4" class="d-flex justify-start">
             <img
