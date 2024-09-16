@@ -37,11 +37,11 @@
                 <v-text-field v-model="endDate" type="date" label="Fecha Final"></v-text-field>
               </v-col>
 
-              <v-col cols="12" xs="12" md="4" lg="2" class="pl-7 pr-7">
+              <v-col cols="12" xs="12" md="4" lg="2" class="pr-7">
                 <h3>Desde</h3>
                 <v-text-field v-model="startTime" type="time" label="Hora Inicial"></v-text-field>
               </v-col>
-              <v-col cols="12" sm="12" md="4" lg="2" class="pl-7 pr-7">
+              <v-col cols="12" sm="12" md="4" lg="2" class="pr-7">
                 <h3>Hasta</h3>
                 <v-text-field v-model="endTime" type="time" label="Hora Final"></v-text-field>
               </v-col>
