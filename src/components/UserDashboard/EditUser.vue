@@ -7,6 +7,7 @@
         <v-card-text>
           <v-text-field v-model="editedItem.nombre" label="Nombre"></v-text-field>
           <v-text-field v-model="editedItem.correo" label="Correo"></v-text-field>
+          <v-text-field v-model="editedItem.contraseña" label="Contraseña"></v-text-field>
           <v-text-field v-model="editedItem.rol" label="Rol"></v-text-field>
         </v-card-text>
         <v-card-actions>
