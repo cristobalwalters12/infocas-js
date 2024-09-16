@@ -8,13 +8,13 @@
         primary-title
         class="text-h4 bg-grey-lighten-4 pa-6 d-flex justify-space-between"
       >
-        Historial descarga de archivos de los sensores
+        Mantenedor de Usuarios
         <div class="d-flex">
           <div class="pr-4">
             <AddUser @save="handleSaveUser" />
           </div>
           <div>
-            <v-btn color="pink-darken-4" @click="$router.push('/chart')"
+            <v-btn  color="pink-darken-4" @click="$router.push('/chart')"
               >Volver a los graficos</v-btn
             >
           </div>
