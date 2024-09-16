@@ -1,6 +1,6 @@
 <template>
   <div>
-    <v-btn @click="openDialog">Agregar Usuario</v-btn>
+    <v-btn color="blue" @click="openDialog">Agregar Usuario</v-btn>
     <v-dialog v-model="dialog" max-width="500px">
       <v-card>
         <v-card-title class="headline">Agregar Usuario</v-card-title>
