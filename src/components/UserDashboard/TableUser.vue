@@ -11,7 +11,7 @@
         Historial descarga de archivos de los sensores
         <div class="d-flex">
           <div class="pr-4">
-            <v-btn color="blue">Agregar Usuario</v-btn>
+            <AddUser @save="handleSaveUser" />
           </div>
           <div>
             <v-btn color="pink-darken-4" @click="$router.push('/chart')"
@@ -55,11 +55,13 @@
 <script>
 import axios from 'axios'
 import imagenEnterprice from '../../assets/etica-copia (1).png'
+import AddUser from './AddUser.vue'
 import EditUser from './EditUser.vue'
 import DeleteUser from './DeleteUser.vue'
 export default {
   name: 'TableUser',
   components: {
+    AddUser,
     EditUser,
     DeleteUser
   },
@@ -70,6 +72,12 @@ export default {
     }
   },
   methods: {
+    handleSaveUser(User){
+      axios.post(`${import.meta.env.VITE_HOST}/usuario`, User).then((response) => {
+        this.data.push(response.data)
+      })
+
+    },
     handleSave(editeditem) {
       axios.patch(`${import.meta.env.VITE_HOST}/usuario/${editeditem.id}`, editeditem).then(() => {
         this.data = this.data.map((item) => (item.id === editeditem.id ? editeditem : item))
