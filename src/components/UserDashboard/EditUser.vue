@@ -50,7 +50,7 @@ export default {
   watch: {
     item: {
       handler(newVal) {
-        this.editedItem = { ...newVal }
+        this.editedItem = JSON.parse(JSON.stringify(newVal))
       },
       deep: true
     }

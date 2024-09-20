@@ -29,7 +29,7 @@ export default {
   data() {
     return {
       dialog: false,
-      editedItem: { ...this.item }
+      deletedItem: { ...this.item }
     }
   },
   methods: {
@@ -40,14 +40,14 @@ export default {
       this.dialog = false
     },
     Delete() {
-      this.$emit('delete', this.editedItem)
+      this.$emit('delete', this.deletedItem)
       this.dialog = false
     }
   },
   watch: {
     item: {
       handler(newVal) {
-        this.editedItem = { ...newVal }
+        this.deletedItem = JSON.parse(JSON.stringify(newVal))
       },
       deep: true
     }

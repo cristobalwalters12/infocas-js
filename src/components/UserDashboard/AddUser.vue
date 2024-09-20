@@ -22,10 +22,11 @@
 </template>
 
 <script>
-export default{
+//TODO hacer las validaciones de los campos del formulario con vee-validate
+export default {
   name: 'AddUser',
-  data(){
-    return{
+  data() {
+    return {
       dialog: false,
       id: null,
       nombre: '',
@@ -52,8 +53,6 @@ export default{
       this.$emit('save', usuario)
       this.dialog = false
     }
-  },
-
+  }
 }
-
 </script>

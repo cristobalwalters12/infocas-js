@@ -14,7 +14,7 @@
             <AddUser @save="handleSaveUser" />
           </div>
           <div>
-            <v-btn  color="pink-darken-4" @click="$router.push('/chart')"
+            <v-btn color="pink-darken-4" @click="$router.push('/chart')"
               >Volver a los graficos</v-btn
             >
           </div>
@@ -27,6 +27,7 @@
             <th class="text-left">nombre</th>
             <th class="text-left">correo</th>
             <th class="text-left">rol</th>
+            <th class="text-left">Acciones</th>
           </tr>
         </thead>
         <tbody>
@@ -72,11 +73,10 @@ export default {
     }
   },
   methods: {
-    handleSaveUser(User){
+    handleSaveUser(User) {
       axios.post(`${import.meta.env.VITE_HOST}/usuario`, User).then((response) => {
         this.data.push(response.data)
       })
-
     },
     handleSave(editeditem) {
       axios.patch(`${import.meta.env.VITE_HOST}/usuario/${editeditem.id}`, editeditem).then(() => {
