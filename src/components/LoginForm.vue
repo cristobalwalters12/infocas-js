@@ -55,6 +55,7 @@ import { ref } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { useStore } from 'vuex'
+import { UserLogin } from '../api/services/usersService'
 axios.defaults.withCredentials = true
 
 export default {
@@ -74,7 +75,6 @@ export default {
     const show = ref(false)
     const router = useRouter()
     const alert = ref({ show: false, message: '', type: 'error' })
-
     const submit = async () => {
       correoError.value = ''
       passwordError.value = ''
@@ -82,14 +82,13 @@ export default {
 
       if (correo.value && password.value) {
         try {
-          const response = await axios.post(`${import.meta.env.VITE_HOST}/usuario/login`, {
+          const response = await UserLogin({
             correo: btoa(correo.value),
             contraseña: btoa(password.value)
           })
-          localStorage.setItem('user-token', response.data.token)
-          localStorage.setItem('user-id', response.data.nombre)
-          localStorage.setItem('user-role', response.data.rol)
-
+          localStorage.setItem('user-token', response.token)
+          localStorage.setItem('user-id', response.nombre)
+          localStorage.setItem('user-role', response.rol)
           await router.push('/options')
         } catch (error) {
           if (error.response && error.response.status === 401) {

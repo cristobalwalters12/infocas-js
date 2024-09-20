@@ -202,6 +202,7 @@ import moment from 'moment'
 import { jsPDF } from 'jspdf'
 import 'jspdf-autotable'
 import { logoBase64 } from '../base64images/logo'
+import { getNombreSensores } from '../api/services/sensoresServices'
 
 import html2canvas from 'html2canvas'
 export default {
@@ -571,6 +572,14 @@ export default {
         fecha: new Date().toISOString().split('T')[0],
         nombre_archivo: this.selectedSensorName
       })
+    },
+    async fetchSensorNames() {
+      try {
+        const data = await getNombreSensores()
+        this.sensorNames = data.map((item) => item.nombre_sensor)
+      } catch (error) {
+        console.error('Error fetching sensor names:', error)
+      }
     }
   },
   watch: {
@@ -592,10 +601,7 @@ export default {
     }
   },
   mounted() {
-    axios.get(`${import.meta.env.VITE_HOST}/nombres-sensores`).then((response) => {
-      this.sensorNames = response.data.map((item) => item.nombre_sensor)
-    }),
-      (this.nombrePersonas = localStorage.getItem('user-id'))
+    this.fetchSensorNames(), (this.nombrePersonas = localStorage.getItem('user-id'))
   }
 }
 </script>

@@ -36,6 +36,7 @@
 <script>
 import axios from 'axios'
 import imagenEnterprice from '../assets/etica-copia (1).png'
+import { getHistorial } from '../api/services/historialService'
 export default {
   name: 'HistorialTable',
   data() {
@@ -44,11 +45,18 @@ export default {
       imagenEnterprice: imagenEnterprice
     }
   },
-  methods: {},
+  methods: {
+    async fetchHistorialData() {
+      try {
+        const data = await getHistorial()
+        this.data = data
+      } catch (error) {
+        console.error('Error fetching historial data:', error)
+      }
+    }
+  },
   mounted() {
-    axios.get(`${import.meta.env.VITE_HOST}/historial`).then((response) => {
-      this.data = response.data
-    })
+    this.fetchHistorialData()
   }
 }
 </script>
