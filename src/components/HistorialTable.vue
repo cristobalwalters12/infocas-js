@@ -34,7 +34,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import imagenEnterprice from '../assets/etica-copia (1).png'
 import { getHistorial } from '../api/services/historialService'
 export default {
