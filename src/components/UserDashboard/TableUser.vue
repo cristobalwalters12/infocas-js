@@ -59,6 +59,7 @@ import imagenEnterprice from '../../assets/etica-copia (1).png'
 import AddUser from './AddUser.vue'
 import EditUser from './EditUser.vue'
 import DeleteUser from './DeleteUser.vue'
+import { addUser, deleteUser, editUser, getAllUsers } from '../../api/services/usersService'
 export default {
   name: 'TableUser',
   components: {
@@ -73,26 +74,30 @@ export default {
     }
   },
   methods: {
+    async fetchAllUsers() {
+      try {
+        const data = await getAllUsers()
+        this.data = data
+      } catch (error) {
+        console.error('Error fetching users data:', error)
+      }
+    },
     handleSaveUser(User) {
-      axios.post(`${import.meta.env.VITE_HOST}/usuario`, User).then((response) => {
-        this.data.push(response.data)
-      })
+      addUser(User)
+      this.data.push(User)
     },
     handleSave(editeditem) {
-      axios.patch(`${import.meta.env.VITE_HOST}/usuario/${editeditem.id}`, editeditem).then(() => {
-        this.data = this.data.map((item) => (item.id === editeditem.id ? editeditem : item))
-      })
+      editUser(editeditem)
+      this.data = this.data.map((item) => (item.id === editeditem.id ? editeditem : item))
     },
-    Delete(editeditem) {
-      axios.delete(`${import.meta.env.VITE_HOST}/usuario/${editeditem.id}`).then(() => {
-        this.data = this.data.filter((item) => item.id !== editeditem.id)
-      })
+    Delete(deleteditem) {
+      console.log(deleteditem)
+      deleteUser(deleteditem)
+      this.data = this.data.filter((item) => item.id !== deleteditem.id)
     }
   },
   mounted() {
-    axios.get(`${import.meta.env.VITE_HOST}/usuario`).then((response) => {
-      this.data = response.data
-    })
+    this.fetchAllUsers()
   }
 }
 </script>
