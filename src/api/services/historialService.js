@@ -10,4 +10,13 @@ const getHistorial = async () => {
   }
 }
 
-export { getHistorial }
+const InsertarResponsable = async ({ responsable, fecha, nombre_archivo }) => {
+  try {
+    const response = await api.post(API_PATHS.historial, { responsable, fecha, nombre_archivo })
+    return response.data
+  } catch (error) {
+    return error
+  }
+}
+
+export { getHistorial, InsertarResponsable }
