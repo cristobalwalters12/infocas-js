@@ -10,4 +10,26 @@ const getNombreSensores = async () => {
   }
 }
 
-export { getNombreSensores }
+const getTemperatureInformation = async ({ nombreSensor, startDateTime, endDateTime }) => {
+  try {
+    const response = await api.post(API_PATHS.temperatureInformation, {
+      nombreSensor,
+      startDateTime,
+      endDateTime
+    })
+    return response
+  } catch (error) {
+    return error
+  }
+}
+
+const postRangeInformation = async (data) => {
+  try {
+    const response = await api.post(API_PATHS.rangeInformation, data)
+    return response
+  } catch (error) {
+    return error
+  }
+}
+
+export { getNombreSensores, postRangeInformation, getTemperatureInformation }
