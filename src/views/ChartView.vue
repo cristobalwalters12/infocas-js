@@ -202,9 +202,14 @@ import moment from 'moment'
 import { jsPDF } from 'jspdf'
 import 'jspdf-autotable'
 import { logoBase64 } from '../base64images/logo'
-import { getNombreSensores } from '../api/services/sensoresServices'
+import {
+  getNombreSensores,
+  getTemperatureInformation,
+  postRangeInformation
+} from '../api/services/sensoresServices'
 
 import html2canvas from 'html2canvas'
+import { InsertarResponsable } from '../api/services/historialService'
 export default {
   name: 'ChartView',
   components: {
@@ -285,8 +290,7 @@ export default {
         startDateTime: this.startDateTime,
         endDateTime: this.endDateTime
       }
-      axios
-        .post(`${import.meta.env.VITE_HOST}/sensores/range-information`, data)
+      postRangeInformation(data)
         .then((response) => {
           const labels = response.data.map(
             (item) => moment.utc(item.fecha).format('YYYY-MM-DD') + ' ' + item.hora
@@ -346,20 +350,22 @@ export default {
         })
     },
     getExtremes() {
-      axios
-        .post(`${import.meta.env.VITE_HOST}/sensores/temperature-information`, {
+      try {
+        getTemperatureInformation({
           nombreSensor: this.sensorName,
           startDateTime: this.startDateTime,
           endDateTime: this.endDateTime
         })
-
-        .then((response) => {
-          this.minTemp = response.data[0].minima_temperatura
-          this.maxTemp = response.data[0].maxima_temperatura
-          this.minHum = response.data[0].minima_humedad
-          this.maxHum = response.data[0].maxima_humedad
-        })
-        .catch((error) => console.error(error))
+          .then((response) => {
+            this.minTemp = response.data[0].minima_temperatura
+            this.maxTemp = response.data[0].maxima_temperatura
+            this.minHum = response.data[0].minima_humedad
+            this.maxHum = response.data[0].maxima_humedad
+          })
+          .catch((error) => console.error(error))
+      } catch (error) {
+        console.error(error)
+      }
     },
     generarPdf() {
       const doc = new jsPDF('l', 'pt', 'a4')
@@ -567,11 +573,15 @@ export default {
       this.insertarResponsable()
     },
     insertarResponsable() {
-      axios.post(`${import.meta.env.VITE_HOST}/historial`, {
-        responsable: this.nombrePersonas,
-        fecha: new Date().toISOString().split('T')[0],
-        nombre_archivo: this.selectedSensorName
-      })
+      try {
+        InsertarResponsable({
+          responsable: this.nombrePersonas,
+          fecha: new Date().toISOString().split('T')[0],
+          nombre_archivo: this.selectedSensorName
+        })
+      } catch (error) {
+        console.error('Error al insertar responsable:', error)
+      }
     },
     async fetchSensorNames() {
       try {
