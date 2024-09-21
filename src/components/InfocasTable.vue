@@ -41,6 +41,7 @@
 
 <script>
 import axios from 'axios'
+import { postRangeInformation } from '../api/services/sensoresServices'
 export default {
   name: 'InfocasTable',
   props: ['nombreSensor', 'startDateTime', 'endDateTime'],
@@ -61,8 +62,8 @@ export default {
         startDateTime: this.startDateTime,
         endDateTime: this.endDateTime
       }
-      axios
-        .post(`${import.meta.env.VITE_HOST}/sensores/range-information`, data)
+      const response = postRangeInformation(data)
+      response
         .then((response) => {
           this.items = response.data
         })
@@ -72,16 +73,16 @@ export default {
     },
     getTemperatureStyle(temperature) {
       if (temperature < 18) {
-        return { backgroundColor: 'blue', color: 'white'}
+        return { backgroundColor: 'blue', color: 'white' }
       } else if (temperature > 25) {
-        return { backgroundColor: 'red',color:'white' }
+        return { backgroundColor: 'red', color: 'white' }
       } else {
         return {}
       }
     },
     getHumidityStyle(humidity) {
       if (humidity > 65) {
-        return { backgroundColor: 'red', color: 'white'}
+        return { backgroundColor: 'red', color: 'white' }
       } else {
         return {}
       }
