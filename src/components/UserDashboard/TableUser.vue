@@ -3,6 +3,10 @@
     <div class="d-flex justify-start">
       <img :src="imagenEnterprice" alt="imagenEnterprice" style="width: 210px; height: 110px" />
     </div>
+    <div v-if="loading">
+      <v-progress-linear color="pink" indeterminate></v-progress-linear>
+    </div>
+
     <v-card>
       <v-card-title
         primary-title
@@ -54,7 +58,6 @@
 </template>
 
 <script>
-import axios from 'axios'
 import imagenEnterprice from '../../assets/etica-copia (1).png'
 import AddUser from './AddUser.vue'
 import EditUser from './EditUser.vue'
@@ -70,30 +73,54 @@ export default {
   data() {
     return {
       data: [],
-      imagenEnterprice: imagenEnterprice
+      imagenEnterprice: imagenEnterprice,
+      loading: false
     }
   },
   methods: {
     async fetchAllUsers() {
+      this.loading = true
       try {
         const data = await getAllUsers()
         this.data = data
       } catch (error) {
         console.error('Error fetching users data:', error)
+      } finally {
+        this.loading = false
       }
     },
-    handleSaveUser(User) {
-      addUser(User)
-      this.data.push(User)
+    async handleSaveUser(User) {
+      this.loading = true
+      try {
+        const savedUser = await addUser(User)
+        this.data.push(savedUser)
+      } catch (error) {
+        console.error('Error adding user:', error)
+      } finally {
+        this.loading = false
+      }
     },
-    handleSave(editeditem) {
-      editUser(editeditem)
-      this.data = this.data.map((item) => (item.id === editeditem.id ? editeditem : item))
+    async handleSave(editeditem) {
+      this.loading = true
+      try {
+        await editUser(editeditem)
+        this.data = this.data.map((item) => (item.id === editeditem.id ? editeditem : item))
+      } catch (error) {
+        console.error('Error editing user:', error)
+      } finally {
+        this.loading = false
+      }
     },
-    Delete(deleteditem) {
-      console.log(deleteditem)
-      deleteUser(deleteditem)
-      this.data = this.data.filter((item) => item.id !== deleteditem.id)
+    async Delete(deleteditem) {
+      this.loading = true
+      try {
+        await deleteUser(deleteditem)
+        this.data = this.data.filter((item) => item.id !== deleteditem.id)
+      } catch (error) {
+        console.error('Error deleting user:', error)
+      } finally {
+        this.loading = false
+      }
     }
   },
   mounted() {
