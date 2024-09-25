@@ -33,31 +33,24 @@
   </div>
 </template>
 
-<script>
+<script setup>
+import { ref, onMounted } from 'vue'
 import imagenEnterprice from '../assets/etica-copia (1).png'
 import { getHistorial } from '../api/services/historialService'
-export default {
-  name: 'HistorialTable',
-  data() {
-    return {
-      data: [],
-      imagenEnterprice: imagenEnterprice
-    }
-  },
-  methods: {
-    async fetchHistorialData() {
-      try {
-        const data = await getHistorial()
-        this.data = data
-      } catch (error) {
-        console.error('Error fetching historial data:', error)
-      }
-    }
-  },
-  mounted() {
-    this.fetchHistorialData()
+
+const data = ref([]) 
+
+
+const fetchHistorialData = async () => {
+  try {
+    const historialData = await getHistorial()
+    data.value = historialData
+  } catch (error) {
+    console.error('Error fetching historial data:', error)
   }
 }
+
+onMounted(fetchHistorialData)
 </script>
 
 <style scoped></style>
