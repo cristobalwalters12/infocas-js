@@ -22,7 +22,7 @@
     "jspdf-autotable": "^3.8.1",
     "moment": "^2.29.4",
     "roboto-fontface": "*",
-    "serve": "^14.2.1",
+    "serve": "^6.5.8",
     "vue": "^3.3.2",
     "vue-chartjs": "^5.2.0",
     "vue-router": "^4.2.0",
