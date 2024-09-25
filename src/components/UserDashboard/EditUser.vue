@@ -20,40 +20,32 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'EditUser',
-  props: {
-    item: {
-      type: Object,
-      required: true
-    }
-  },
-  data() {
-    return {
-      dialog: false,
-      editedItem: { ...this.item }
-    }
-  },
-  methods: {
-    openDialog() {
-      this.dialog = true
-    },
-    closeDialog() {
-      this.dialog = false
-    },
-    saveEdit() {
-      this.$emit('save', this.editedItem)
-      this.dialog = false
-    }
-  },
-  watch: {
-    item: {
-      handler(newVal) {
-        this.editedItem = JSON.parse(JSON.stringify(newVal))
-      },
-      deep: true
-    }
+<script setup>
+import { ref, watch } from 'vue'
+const emit = defineEmits(['edit'])
+const props = defineProps({
+  item: {
+    type: Object,
+    required: true
   }
+})
+const dialog = ref(false)
+const editedItem = ref({ ...props.item })
+const openDialog = () => {
+  dialog.value = true
 }
+const closeDialog = () => {
+  dialog.value = false
+}
+const saveEdit = () => {
+  emit('edit', editedItem.value)
+  dialog.value = false
+}
+watch(
+  () => props.item,
+  (newVal) => {
+    editedItem.value = JSON.parse(JSON.stringify(newVal))
+  },
+  { deep: true }
+)
 </script>

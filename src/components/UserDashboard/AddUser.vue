@@ -21,38 +21,33 @@
   </div>
 </template>
 
-<script>
-//TODO hacer las validaciones de los campos del formulario con vee-validate
-export default {
-  name: 'AddUser',
-  data() {
-    return {
-      dialog: false,
-      id: null,
-      nombre: '',
-      correo: '',
-      contraseña: '',
-      rol: ''
-    }
-  },
-  methods: {
-    openDialog() {
-      this.dialog = true
-    },
-    closeDialog() {
-      this.dialog = false
-    },
-    saveUser() {
-      const usuario = {
-        id: Number(this.id),
-        nombre: this.nombre,
-        correo: this.correo,
-        contraseña: this.contraseña,
-        rol: this.rol
-      }
-      this.$emit('save', usuario)
-      this.dialog = false
-    }
-  }
+<script setup>
+import { ref } from 'vue'
+const emit = defineEmits(['save'])
+
+const dialog = ref(false)
+const id = ref(null)
+const nombre = ref('')
+const correo = ref('')
+const contraseña = ref('')
+const rol = ref('')
+
+const openDialog = () => {
+  dialog.value = true
 }
+const closeDialog = () => {
+  dialog.value = false
+}
+const saveUser = () => {
+  const usuario = {
+    id: Number(id.value),
+    nombre: nombre.value,
+    correo: correo.value,
+    contraseña: contraseña.value,
+    rol: rol.value
+  }
+  emit('save', usuario)
+  dialog.value = false
+}
+
 </script>

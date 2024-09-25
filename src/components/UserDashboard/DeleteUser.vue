@@ -17,40 +17,25 @@
   </div>
 </template>
 
-<script>
-export default {
-  name: 'DeleteUser',
-  props: {
-    item: {
-      type: Object,
-      required: true
-    }
-  },
-  data() {
-    return {
-      dialog: false,
-      deletedItem: { ...this.item }
-    }
-  },
-  methods: {
-    openDialog() {
-      this.dialog = true
-    },
-    closeDialog() {
-      this.dialog = false
-    },
-    Delete() {
-      this.$emit('delete', this.deletedItem)
-      this.dialog = false
-    }
-  },
-  watch: {
-    item: {
-      handler(newVal) {
-        this.deletedItem = JSON.parse(JSON.stringify(newVal))
-      },
-      deep: true
-    }
+<script setup>
+import { ref} from 'vue'
+const emit = defineEmits(['delete'])
+const props = defineProps({
+  item: {
+    type: Object,
+    required: true
   }
+})
+
+const dialog = ref(false)
+const openDialog = () => {
+  dialog.value = true
+}
+const closeDialog = () => {
+  dialog.value = false
+}
+const Delete = () => {
+  emit('delete', props.item)
+  dialog.value = false
 }
 </script>

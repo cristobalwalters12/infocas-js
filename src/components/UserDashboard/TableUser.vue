@@ -3,8 +3,6 @@
     <div class="d-flex justify-start">
       <img :src="imagenEnterprice" alt="imagenEnterprice" style="width: 210px; height: 110px" />
     </div>
-
-    <!-- Progreso linear controlado por v-if -->
     <v-progress-linear v-if="loading" color="pink" indeterminate></v-progress-linear>
 
     <v-card>
@@ -44,7 +42,7 @@
             <td>
               <div class="d-flex">
                 <div class="pr-3">
-                  <EditUser :item="item" @save="handleSave" />
+                  <EditUser :item="item" @edit="handleSave" />
                 </div>
                 <div>
                   <DeleteUser :item="item" @delete="Delete" />
