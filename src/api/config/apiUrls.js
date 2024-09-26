@@ -12,7 +12,8 @@ const API_PATHS = {
   nombresSensores: '/nombres-sensores',
   getControladores: '/controladores',
   respaldar: '/controladores/findControladorAndRespaldar',
-  getRespaldos :'/controladores/getControladoresRespaldos'
+  getRespaldos :'/controladores/getControladoresRespaldos',
+  DescargarRespaldos :'/controladores/descargarRespaldo',
   
 }
 
