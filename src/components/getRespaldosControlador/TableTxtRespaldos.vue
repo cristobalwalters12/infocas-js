@@ -25,6 +25,7 @@
             <tr>
               <th class="text-center">Nombre</th>
               <th class="text-left">Tamaño</th>
+              <th class="text-left">Descargar</th>
 
             </tr>
           </thead>
@@ -32,6 +33,11 @@
             <tr v-for="item in data" :key="item.id">
               <td class="text-center">{{ item.name }}</td>
               <td>{{ item.sizeFormatted }}</td>
+                <td>
+                    <div>
+                      <v-btn @click="handleDownload(item.name)">Descargar</v-btn>
+                    </div>
+                </td>
             </tr>
           </tbody>
         </v-table>
@@ -42,7 +48,7 @@
   <script setup>
   import { ref, onMounted } from 'vue'
   import imagenEnterprice from '../../assets/etica-copia (1).png'
-  import {getRespaldosControladores } from '../../api/services/RespaldosService'
+  import {getRespaldosControladores,descargarRespaldo } from '../../api/services/RespaldosService'
   
   const data = ref([])
   const loading = ref(false)
@@ -58,32 +64,28 @@ const fetchControladores = async (controlador) => {
   loading.value = true;
   try {
     const response = await getRespaldosControladores({ controlador });
-    
-    // Validamos que la respuesta sea un array
     if (Array.isArray(response)) {
-      // Invertimos y transformamos los datos
       const processedData = response.reverse().map(item => {
-        // Convertimos el tamaño de bytes a KB, MB o GB según corresponda
         if (item.size) {
-          let sizeInKB = item.size / 1024;  // Convertimos a KB
+          let sizeInKB = item.size / 1024;
           if (sizeInKB >= 1024) {
-            let sizeInMB = sizeInKB / 1024;  // Convertimos a MB si es mayor a 1024 KB
+            let sizeInMB = sizeInKB / 1024;
             if (sizeInMB >= 1024) {
-              let sizeInGB = sizeInMB / 1024;  // Convertimos a GB si es mayor a 1024 MB
+              let sizeInGB = sizeInMB / 1024;
               item.sizeFormatted = sizeInGB.toFixed(2) + ' GB';
             } else {
               item.sizeFormatted = sizeInMB.toFixed(2) + ' MB';
             }
           } else {
-            item.sizeFormatted = sizeInKB.toFixed(2) + ' KB';  // Queda en KB si es menor a 1024 KB
+            item.sizeFormatted = sizeInKB.toFixed(2) + ' KB';
           }
         } else {
-          item.sizeFormatted = 'Tamaño desconocido';  // Si no hay tamaño
+          item.sizeFormatted = 'Tamaño desconocido';
         }
         return item;
       });
       
-      data.value = processedData;  // Asignamos los datos procesados con el tamaño formateado
+      data.value = processedData;
     } else {
       console.error('La respuesta no es un array:', response);
     }
@@ -94,6 +96,23 @@ const fetchControladores = async (controlador) => {
     loading.value = false;
   }
 };
+const handleDownload = async (archivo) => {
+  loading.value = true;
+  const respaldo = {
+    controlador: props.id,
+    archivo
+  };
+  try {
+    await descargarRespaldo(respaldo);
+
+  } catch (error) {
+    console.error('Error al descargar el archivo:', error);
+  }
+  finally {
+    loading.value = false;
+  }
+};
+
 
   
     onMounted(() => fetchControladores(props.id));
