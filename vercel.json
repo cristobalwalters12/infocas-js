@@ -4,6 +4,8 @@
     { "src": "/chart", "dest": "/" },
     { "src": "/historial", "dest": "/" },
     { "src": "/options", "dest": "/" },
-    { "src": "/usuario","dest": "/"}
+    { "src": "/usuario","dest": "/"},
+    { "src": "/respaldos","dest": "/"},
+    { "src": "/txtRespaldos/(.*)", "dest": "/" }  
   ]
 }
