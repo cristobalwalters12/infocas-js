@@ -10,7 +10,10 @@ const API_PATHS = {
   rangeInformation: '/sensores/range-information',
   temperatureInformation: '/sensores/temperature-information',
   nombresSensores: '/nombres-sensores',
-  getRespaldos: '/controladores'
+  getControladores: '/controladores',
+  respaldar: '/controladores/findControladorAndRespaldar',
+  getRespaldos :'/controladores/getControladoresRespaldos'
+  
 }
 
 export { ENDPOINT, API_PATHS }
