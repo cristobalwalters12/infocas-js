@@ -4,6 +4,7 @@ import ChartView from '../views/ChartView.vue'
 import HistorialView from '../views/HistorialView.vue'
 import OptionsChartView from '../views/OptionsCharts.vue'
 import UsersDashboardView from '../views/UsersDashboardView.vue'
+import RespaldoView from '../views/RespaldosView.vue'
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -32,6 +33,11 @@ const router = createRouter({
       path: '/usuario',
       name: 'usuario',
       component: UsersDashboardView
+    },
+    {
+      path: '/respaldos',
+      name: 'respaldos',
+      component: RespaldoView
     }
   ]
 })
