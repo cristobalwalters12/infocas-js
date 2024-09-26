@@ -46,7 +46,7 @@
                   <v-text-field v-model="endDate" type="date" label="Fecha Final"></v-text-field>
                 </div>
                 <div class="ml-2 pt-7">
-                  <v-btn @Click="generarRespaldo(item.controlador)">Generar Respaldos</v-btn>
+                  <v-btn @Click="generarRespaldo({controlador:item.controlador,startDate,endDate})">Generar Respaldos</v-btn>
                 </div>
               </div>
             </td>
@@ -65,18 +65,18 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import imagenEnterprice from '../../assets/etica-copia (1).png'
-import { getRespaldos } from '../../api/services/RespaldosService'
-
+import { getControladores, doResplado } from '../../api/services/RespaldosService'
+import { useRouter } from 'vue-router'
 const data = ref([])
 const loading = ref(false)
 const startDate = ref('')
 const endDate = ref('')
-const item = ref('')
+const router = useRouter()
 
-const fetchResplados = async () => {
+const fetchControladores = async () => {
   loading.value = true
   try {
-    const respaldosData = await getRespaldos()
+    const respaldosData = await getControladores()
     data.value = respaldosData
   } catch (error) {
     console.error('Error fetching respaldos data:', error)
@@ -84,14 +84,30 @@ const fetchResplados = async () => {
     loading.value = false
   }
 }
-const generarRespaldo = async (item) => {
-  console.log('Generar respaldo', item)
-  console.log('Fecha Inicial', startDate.value)
-  console.log('Fecha Final', endDate.value)
+
+const generarRespaldo = async ({ controlador, startDate, endDate }) => {
+  loading.value = true
+
+  try{
+    const body = {
+    controlador,
+    startDateTime: startDate,
+    endDateTime:endDate
+  }
+    console.log('Generar respaldo', body)
+    const respaldo = await doResplado(body)
+    console.log('Respaldos', respaldo)
+  }
+  catch (error) {
+    console.error('Error fetching respaldos data:', error)
+  } finally {
+    loading.value = false
+  }
+
 }
 const verRespaldo = async (item) => {
-  console.log('Ver respaldo', item)
-}
+  await router.push(`/txtRespaldos/${item}`);
+};
 
-onMounted(fetchResplados)
+onMounted(fetchControladores)
 </script>
