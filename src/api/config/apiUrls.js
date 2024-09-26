@@ -9,7 +9,8 @@ const API_PATHS = {
   historial: '/historial',
   rangeInformation: '/sensores/range-information',
   temperatureInformation: '/sensores/temperature-information',
-  nombresSensores: '/nombres-sensores'
+  nombresSensores: '/nombres-sensores',
+  getRespaldos: '/controladores'
 }
 
 export { ENDPOINT, API_PATHS }
