@@ -22,7 +22,7 @@
 <script>
 import HistorialTable from '../components/HistorialTable.vue'
 import Footer from '../components/footer.vue'
-import VersionFooter from '../components/VersionFooter.vue';
+import VersionFooter from '../components/VersionFooter.vue'
 export default {
   name: 'HistorialView',
   components: {
@@ -53,5 +53,4 @@ export default {
   width: 100%;
   text-align: end;
 }
-
 </style>

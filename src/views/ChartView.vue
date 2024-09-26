@@ -162,6 +162,13 @@
                 @click="$router.push('/usuario')"
                 >Ir a Usuarios</v-btn
               >
+              <v-btn
+                v-if="isSuperAdmin"
+                color="pink-darken-4"
+                class="mt-5 ml-4 mb-2"
+                @click="$router.push('/Respaldos')"
+                >Ir a Respaldos</v-btn
+              >
               <div class="text-center">
                 <v-dialog v-model="dialog" :scrim="false" persistent width="auto">
                   <v-card color="pink-darken-4">

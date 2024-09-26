@@ -38,8 +38,7 @@ import { ref, onMounted } from 'vue'
 import imagenEnterprice from '../assets/etica-copia (1).png'
 import { getHistorial } from '../api/services/historialService'
 
-const data = ref([]) 
-
+const data = ref([])
 
 const fetchHistorialData = async () => {
   try {
