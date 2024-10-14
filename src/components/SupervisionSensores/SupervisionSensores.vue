@@ -22,8 +22,12 @@
         Fecha: {{ new Date(sensor.fecha).toLocaleDateString() }} - Hora: {{ sensor.hora }}
       </v-card-subtitle>
       <v-card-text>
-        <div><strong>Temperatura:</strong> {{ sensor.temperatura }} °C</div>
-        <div><strong>Humedad:</strong> {{ sensor.humedad }} %RH</div>
+        <div :class="getTemperatureClass(sensor.temperatura)">
+          <strong>Temperatura:</strong> {{ sensor.temperatura }} °C
+        </div>
+        <div :class="getHumidityClass(sensor.humedad)">
+          <strong>Humedad:</strong> {{ sensor.humedad }} %
+        </div>
       </v-card-text>
     </v-card>
   </div>
@@ -68,6 +72,26 @@ onBeforeUnmount(() => {
     socket.disconnect()
   }
 })
+
+// Función para obtener la clase de temperatura
+const getTemperatureClass = (temperature) => {
+  if (temperature > 25) {
+    return 'bg-red-accent-4'
+  } else if (temperature < 18) {
+    return 'bg-indigo-darken-4'
+  } else {
+    return ''
+  }
+}
+
+// Función para obtener la clase de humedad
+const getHumidityClass = (humidity) => {
+  if (humidity > 65) {
+    return 'bg-red-accent-4'
+  } else {
+    return ''
+  }
+}
 </script>
 
 <style scoped>
@@ -75,5 +99,13 @@ onBeforeUnmount(() => {
   display: flex;
   flex-wrap: wrap;
   justify-content: center;
+}
+
+.red-accent-4 {
+  color: #d50000;
+}
+
+.indigo-darken-4 {
+  color: #1a237e;
 }
 </style>
