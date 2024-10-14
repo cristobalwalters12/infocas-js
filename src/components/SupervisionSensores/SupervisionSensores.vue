@@ -36,11 +36,29 @@
         </div>
       </v-card-text>
     </v-card>
+    <v-alert
+    v-if="sensorsWithWarnings.length > 0"
+    color="red-darken-3"
+
+    prominent
+    :dismissible="false"
+    class="fixed-alert"
+  >
+    <div v-for="sensor in sensorsWithWarnings" :key="sensor.numero_registro">
+      <strong>{{ sensor.nombre_sensor }}</strong> - 
+      <span v-if="sensor.temperatura > 25 || sensor.temperatura < 18">
+        <strong>Temperatura:</strong> {{ sensor.temperatura }}°C
+      </span>
+      <span v-if="sensor.humedad > 65">
+        <strong>Humedad:</strong> {{ sensor.humedad }}%
+      </span>
+    </div>
+  </v-alert>
   </div>
 </template>
 
 <script setup>
-import { ref, onMounted, onBeforeUnmount } from 'vue'
+import { ref,computed, onMounted, onBeforeUnmount } from 'vue'
 import { io } from 'socket.io-client'
 
 const sensorData = ref([]) // Inicializa como array para almacenar los datos de sensores
@@ -98,6 +116,11 @@ const getHumidityClass = (humidity) => {
     return ''
   }
 }
+const sensorsWithWarnings = computed(() => {
+  return sensorData.value.filter(sensor => {
+    return (sensor.temperatura > 25 || sensor.temperatura < 18 || sensor.humedad > 65)
+  })
+})
 </script>
 
 <style scoped>
@@ -113,5 +136,15 @@ const getHumidityClass = (humidity) => {
 
 .indigo-darken-4 {
   color: #1a237e;
+}
+
+.fixed-alert {
+  position: fixed;
+  top: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 9999;
+  width: 35%; /* O ajusta según el diseño que prefieras */
+  max-width: 1200px;
 }
 </style>
