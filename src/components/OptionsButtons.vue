@@ -24,6 +24,11 @@
             >Graficos de presión diferencial
           </v-btn>
         </v-col>
+        <v-col cols="auto" class="d-flex flex-col">
+          <v-btn size="x-large" color="pink-darken-4" @Click="$router.push('/supervisionSensores')"
+            >Dashboard de sensores</v-btn
+          >
+        </v-col>
       </v-row>
     </v-card>
   </v-container>
