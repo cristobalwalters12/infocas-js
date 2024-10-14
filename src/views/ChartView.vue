@@ -20,7 +20,16 @@
             class="text-h4 bg-grey-lighten-4 pa-6 d-flex justify-space-between"
           >
             Gráficos de Temperatura y Humedad
-            <v-btn color="pink-darken-4" @click="cerrarSesion">Cerrar Sesion</v-btn>
+            <div class="d-flex">
+              <div class="mr-4">
+                <v-btn color="pink-darken-4" @click="$router.push('/Options')"
+                  >Volver a al menu</v-btn
+                >
+              </div>
+              <div>
+                <v-btn color="pink-darken-4" @click="cerrarSesion">Cerrar Sesion</v-btn>
+              </div>
+            </div>
           </v-card-title>
           <v-card>
             <v-row class="pt-7">
