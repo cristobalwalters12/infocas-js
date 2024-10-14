@@ -1,12 +1,18 @@
 <template>
   <div class="d-flex flex-wrap justify-center">
-    <v-progress-circular
-      v-if="loading"
+    <div v-if="loading">
+    <div class="d-flex flex-col">
+      <v-progress-circular
       indeterminate
-      color="primary"
+      color="white"
       size="64"
       class="ma-5"
     ></v-progress-circular>
+    </div>
+    <div>
+      <v-alert text="Espere mientras se carga la informacion..." color="white" variant="tonal"></v-alert>
+    </div>
+    </div>
     <v-card
       v-for="sensor in sensorData"
       :key="sensor.numero_registro"
