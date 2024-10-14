@@ -8,7 +8,7 @@
         primary-title
         class="text-h4 bg-grey-lighten-4 pa-6 d-flex justify-space-between"
       >
-        Supervisor de Sensores
+        Dashboard de Sensores
         <div class="d-flex">
           <div>
             <v-btn color="pink-darken-4" @click="$router.push('/Options')">Volver a al menu</v-btn>
