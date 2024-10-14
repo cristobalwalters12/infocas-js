@@ -6,6 +6,7 @@
     { "src": "/options", "dest": "/" },
     { "src": "/usuario","dest": "/"},
     { "src": "/respaldos","dest": "/"},
-    { "src": "/txtRespaldos/(.*)", "dest": "/" }  
+    { "src": "/txtRespaldos/(.*)", "dest": "/" },
+    {"src":"/supervisionSensores","dest":"/"}
   ]
 }

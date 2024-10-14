@@ -25,7 +25,7 @@
         {{ sensor.nombre_sensor }}
       </v-card-title>
       <v-card-subtitle>
-        Fecha: {{ new Date(sensor.fecha).toLocaleDateString() }} - Hora: {{ sensor.hora }}
+        Fecha: {{ new Date(sensor.fecha).toLocaleDateString('es-ES', { timeZone: 'UTC' }) }} - Hora: {{ sensor.hora }}
       </v-card-subtitle>
       <v-card-text>
         <div :class="getTemperatureClass(sensor.temperatura)">
