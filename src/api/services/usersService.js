@@ -6,7 +6,7 @@ const UserLogin = async (user) => {
     const response = await api.post(API_PATHS.login, user)
     return response.data
   } catch (error) {
-    return error
+    throw error 
   }
 }
 
