@@ -42,6 +42,7 @@
               @blur="$v.rol.$touch()"
               dense
             ></v-text-field>
+            <v-card-title class="headline">Acceso a vistas</v-card-title>
 
             <v-row class="mt-2" dense>
               <v-col cols="6">
