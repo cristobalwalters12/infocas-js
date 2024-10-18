@@ -15,19 +15,29 @@
       </div>
       <v-row align="center" justify="center" class="pt-10">
         <v-col cols="auto">
-          <v-btn size="x-large" color="pink-darken-4" @Click="$router.push('/chart')"
-            >Graficos de temperatura-humedad</v-btn
+          <v-btn
+            size="x-large"
+            color="pink-darken-4"
+            :disabled="!canViewSensores"
+            @click="$router.push('/chart')"
           >
-        </v-col>
-        <v-col cols="auto" class="d-flex flex-col">
-          <v-btn size="x-large" color="pink-darken-4" disabled
-            >Graficos de presión diferencial
+            Gráficos de temperatura-humedad
           </v-btn>
         </v-col>
         <v-col cols="auto" class="d-flex flex-col">
-          <v-btn size="x-large" color="pink-darken-4" @Click="$router.push('/supervisionSensores')"
-            >Dashboard de sensores</v-btn
+          <v-btn size="x-large" color="pink-darken-4" :disabled="!canViewPressure">
+            Gráficos de presión diferencial
+          </v-btn>
+        </v-col>
+        <v-col cols="auto" class="d-flex flex-col">
+          <v-btn
+            size="x-large"
+            color="pink-darken-4"
+            :disabled="!canViewDashboard"
+            @click="$router.push('/supervisionSensores')"
           >
+            Dashboard de sensores
+          </v-btn>
         </v-col>
       </v-row>
     </v-card>
@@ -37,10 +47,15 @@
 <script>
 export default {
   name: 'OptionsButtons',
-  components: {},
   data() {
-    return {}
+    return {
+      canViewDashboard: false,
+      canViewSensores: false
+    }
   },
-  methods: {}
+  mounted() {
+    this.canViewSensores = localStorage.getItem('vista_sensores') === 'true'
+    this.canViewDashboard = localStorage.getItem('vista_dashboard') === 'true'
+  }
 }
 </script>

@@ -76,40 +76,42 @@ export default {
     const router = useRouter()
     const alert = ref({ show: false, message: '', type: 'error' })
     const submit = async () => {
-  correoError.value = ''
-  passwordError.value = ''
-  alert.value.show = false
+      correoError.value = ''
+      passwordError.value = ''
+      alert.value.show = false
 
-  if (correo.value && password.value) {
-    try {
-      const response = await UserLogin({
-        correo: btoa(correo.value),
-        contraseña: btoa(password.value)
-      })
+      if (correo.value && password.value) {
+        try {
+          const response = await UserLogin({
+            correo: btoa(correo.value),
+            contraseña: btoa(password.value)
+          })
 
-      // Si no hay error, guardamos los datos en localStorage y redirigimos
-      localStorage.setItem('user-token', response.token)
-      localStorage.setItem('user-id', response.nombre)
-      localStorage.setItem('user-role', response.rol)
-      await router.push('/options')
-    } catch (error) {
-      if (error.response && error.response.status === 401) {
-        alert.value.show = true
-        alert.value.message = 'Correo o contraseña incorrectos'
-        alert.value.type = 'error'
+          // Si no hay error, guardamos los datos en localStorage y redirigimos
+          localStorage.setItem('user-token', response.token)
+          localStorage.setItem('user-id', response.nombre)
+          localStorage.setItem('user-role', response.rol)
+          localStorage.setItem('vista_dashboard', response.vista_dashboard)
+          localStorage.setItem('vista_sensores', response.vista_sensores)
+          await router.push('/options')
+        } catch (error) {
+          if (error.response && error.response.status === 401) {
+            alert.value.show = true
+            alert.value.message = 'Correo o contraseña incorrectos'
+            alert.value.type = 'error'
+          } else {
+            console.error('Error', error.message)
+            alert.value.show = true
+            alert.value.message = 'Error desconocido. Por favor, intente nuevamente.'
+            alert.value.type = 'error'
+          }
+        }
       } else {
-        console.error('Error', error.message)
         alert.value.show = true
-        alert.value.message = 'Error desconocido. Por favor, intente nuevamente.'
+        alert.value.message = 'Por favor rellene todos los campos'
         alert.value.type = 'error'
       }
     }
-  } else {
-    alert.value.show = true
-    alert.value.message = 'Por favor rellene todos los campos'
-    alert.value.type = 'error'
-  }
-}
 
     return {
       correo,
