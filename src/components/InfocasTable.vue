@@ -13,20 +13,24 @@
                 <th>Fecha</th>
                 <th>Hora</th>
                 <th>Temperatura</th>
-                <th>Humedad</th>
+                <th v-if="showHumidityColumn">Humedad</th>
               </tr>
             </thead>
             <tbody>
-              <tr v-for="item in items" :key="item.id">
+              <tr v-for="item in filteredItems" :key="item.id">
                 <td>{{ item.nombre_sensor }}</td>
                 <td>{{ item.fecha.split('T')[0] }}</td>
                 <td>{{ item.hora }}</td>
                 <td :style="getTemperatureStyle(item.temperatura)">
                   {{ item.temperatura }}°C
-                  <span v-if="item.temperatura < 18">¡Alerta! Temperatura Baja</span>
-                  <span v-if="item.temperatura > 25">¡Alerta! Temperatura Alta</span>
+                  <span v-if="shouldShowLowerTempAlert(item.temperatura)">
+                    ¡Alerta! Temperatura Baja
+                  </span>
+                  <span v-if="shouldShowHigherTempAlert(item.temperatura)">
+                    ¡Alerta! Temperatura Alta
+                  </span>
                 </td>
-                <td :style="getHumidityStyle(item.humedad)">
+                <td v-if="item.humedad !== 0" :style="getHumidityStyle(item.humedad)">
                   {{ item.humedad }}%HR
                   <span v-if="item.humedad > 65">¡Alerta! Humedad Alta</span>
                 </td>
@@ -38,16 +42,26 @@
     </v-expansion-panel>
   </v-expansion-panels>
 </template>
-
 <script>
-import axios from 'axios'
 import { postRangeInformation } from '../api/services/sensoresServices'
+
 export default {
   name: 'InfocasTable',
   props: ['nombreSensor', 'startDateTime', 'endDateTime'],
   data() {
     return {
       items: []
+    }
+  },
+  computed: {
+    filteredItems() {
+      return this.items.filter((item) => item.humedad !== 0 || item.temperatura !== undefined)
+    },
+    showHumidityColumn() {
+      return this.items.some((item) => item.humedad !== 0)
+    },
+    hasHumidityData() {
+      return this.items.some((item) => item.humedad !== 0)
     }
   },
   watch: {
@@ -62,8 +76,7 @@ export default {
         startDateTime: this.startDateTime,
         endDateTime: this.endDateTime
       }
-      const response = postRangeInformation(data)
-      response
+      postRangeInformation(data)
         .then((response) => {
           this.items = response.data
         })
@@ -72,20 +85,32 @@ export default {
         })
     },
     getTemperatureStyle(temperature) {
-      if (temperature < 18) {
-        return { backgroundColor: 'blue', color: 'white' }
-      } else if (temperature > 25) {
-        return { backgroundColor: 'red', color: 'white' }
+      if (this.hasHumidityData) {
+        if (temperature < 18) {
+          return { backgroundColor: 'blue', color: 'white' }
+        } else if (temperature > 25) {
+          return { backgroundColor: 'red', color: 'white' }
+        }
       } else {
-        return {}
+        if (temperature < 2) {
+          return { backgroundColor: 'blue', color: 'white' }
+        } else if (temperature > 8) {
+          return { backgroundColor: 'red', color: 'white' }
+        }
       }
+      return {}
+    },
+    shouldShowLowerTempAlert(temperature) {
+      return this.hasHumidityData ? temperature < 18 : temperature < 2
+    },
+    shouldShowHigherTempAlert(temperature) {
+      return this.hasHumidityData ? temperature > 25 : temperature > 8
     },
     getHumidityStyle(humidity) {
       if (humidity > 65) {
         return { backgroundColor: 'red', color: 'white' }
-      } else {
-        return {}
       }
+      return {}
     }
   }
 }

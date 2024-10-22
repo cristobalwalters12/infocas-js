@@ -79,68 +79,96 @@
             </v-row>
             <v-divider></v-divider>
             <v-card-item>
-              <v-card class="bg-grey-lighten-4" v-if="information">
-                <v-card-title primary-title class="large-title pa-3">
-                  <h6>{{ selectedSensorName }}</h6>
-                </v-card-title>
-                <v-card-text>
-                  <v-row>
-                    <v-col cols="3"
-                      ><h3>Temperatura mínima = {{ minTemp }}ºC</h3></v-col
-                    >
-                    <v-col cols="3"
-                      ><h3>Temperatura máxima = {{ maxTemp }}ºC</h3></v-col
-                    >
-                    <v-col cols="3"
-                      ><h3>Humedad mínima = {{ minHum }}%HR</h3></v-col
-                    >
-                    <v-col cols="3"
-                      ><h3>Humedad máxima = {{ maxHum }}%HR</h3></v-col
-                    >
-                  </v-row>
-                </v-card-text>
-              </v-card>
-              <chart-infocas v-if="isChartDataAvailable" class="mb-8" ref="chartComponent1" />
-              <v-divider></v-divider>
-              <v-card class="bg-grey-lighten-4 pt" v-if="information">
-                <v-card-title primary-title class="large-title pa-3">
-                  <h6>{{ selectedSensorName }}</h6>
-                </v-card-title>
-                <v-card-text>
-                  <v-row>
-                    <v-col cols="3"
-                      ><h3>Temperatura mínima = {{ minTemp }}ºC</h3></v-col
-                    >
-                    <v-col cols="3"
-                      ><h3>Temperatura máxima = {{ maxTemp }}ºC</h3></v-col
-                    >
-                  </v-row>
-                </v-card-text>
-              </v-card>
-              <TemperatureChart
-                v-if="isTemperatureDataAvailable"
-                class="mb-8"
-                ref="chartComponent2"
-              />
-
-              <v-divider></v-divider>
-              <v-card class="bg-grey-lighten-4 pt" v-if="information">
-                <v-card-title primary-title class="large-title pa-3">
-                  <h6>{{ selectedSensorName }}</h6>
-                </v-card-title>
-                <v-card-text>
-                  <v-row>
-                    <v-col cols="3"
-                      ><h3>Humedad mínima = {{ minHum }}%HR</h3></v-col
-                    >
-                    <v-col cols="3"
-                      ><h3>Humedad máxima = {{ maxHum }}%HR</h3></v-col
-                    >
-                  </v-row>
-                </v-card-text>
-              </v-card>
-              <HumidityChart v-if="isHumidityDataAvailable" class="mb-8" ref="chartComponent3" />
-              <v-divider></v-divider>
+              <div v-if="hasHumidityData">
+                <v-card class="bg-grey-lighten-4" v-if="information">
+                  <v-card-title primary-title class="large-title pa-3">
+                    <h6>{{ selectedSensorName }}</h6>
+                  </v-card-title>
+                  <v-card-text>
+                    <v-row>
+                      <v-col cols="3"
+                        ><h3>Temperatura mínima = {{ minTemp }}ºC</h3></v-col
+                      >
+                      <v-col cols="3"
+                        ><h3>Temperatura máxima = {{ maxTemp }}ºC</h3></v-col
+                      >
+                      <v-col cols="3"
+                        ><h3>Humedad mínima = {{ minHum }}%HR</h3></v-col
+                      >
+                      <v-col cols="3"
+                        ><h3>Humedad máxima = {{ maxHum }}%HR</h3></v-col
+                      >
+                    </v-row>
+                  </v-card-text>
+                </v-card>
+                <chart-infocas v-if="isChartDataAvailable" class="mb-8" ref="chartComponent1" />
+                <v-divider></v-divider>
+              </div>
+              <div v-if="hasHumidityData">
+                <v-card class="bg-grey-lighten-4 pt" v-if="information">
+                  <v-card-title primary-title class="large-title pa-3">
+                    <h6>{{ selectedSensorName }}</h6>
+                  </v-card-title>
+                  <v-card-text>
+                    <v-row>
+                      <v-col cols="3"
+                        ><h3>Temperatura mínima = {{ minTemp }}ºC</h3></v-col
+                      >
+                      <v-col cols="3"
+                        ><h3>Temperatura máxima = {{ maxTemp }}ºC</h3></v-col
+                      >
+                    </v-row>
+                  </v-card-text>
+                </v-card>
+                <TemperatureChart
+                  v-if="isTemperatureDataAvailable"
+                  class="mb-8"
+                  ref="chartComponent2"
+                />
+                <v-divider></v-divider>
+              </div>
+              <div v-if="showChartTemperatureOnly">
+                <v-card class="bg-grey-lighten-4 pt" v-if="information">
+                  <v-card-title primary-title class="large-title pa-3">
+                    <h6>{{ selectedSensorName }}</h6>
+                  </v-card-title>
+                  <v-card-text>
+                    <v-row>
+                      <v-col cols="3"
+                        ><h3>Temperatura mínima = {{ minTemp }}ºC</h3></v-col
+                      >
+                      <v-col cols="3"
+                        ><h3>Temperatura máxima = {{ maxTemp }}ºC</h3></v-col
+                      >
+                    </v-row>
+                  </v-card-text>
+                </v-card>
+                <OnlyTemperatureChart
+                  v-if="isTemperatureDataAvailable"
+                  class="mb-8"
+                  ref="chartComponent2"
+                />
+                <v-divider></v-divider>
+              </div>
+              <div v-if="hasHumidityData">
+                <v-card class="bg-grey-lighten-4 pt" v-if="information">
+                  <v-card-title primary-title class="large-title pa-3">
+                    <h6>{{ selectedSensorName }}</h6>
+                  </v-card-title>
+                  <v-card-text>
+                    <v-row>
+                      <v-col cols="3"
+                        ><h3>Humedad mínima = {{ minHum }}%HR</h3></v-col
+                      >
+                      <v-col cols="3"
+                        ><h3>Humedad máxima = {{ maxHum }}%HR</h3></v-col
+                      >
+                    </v-row>
+                  </v-card-text>
+                </v-card>
+                <HumidityChart v-if="isHumidityDataAvailable" class="mb-8" ref="chartComponent3" />
+                <v-divider></v-divider>
+              </div>
               <v-card>
                 <InfocasTable
                   :nombreSensor="sensorName"
@@ -226,6 +254,9 @@ import {
 
 import html2canvas from 'html2canvas'
 import { InsertarResponsable } from '../api/services/historialService'
+import { mapState } from 'vuex'
+import OnlyTemperatureChart from '../components/OnlyTemperatureChart.vue'
+
 export default {
   name: 'ChartView',
   components: {
@@ -234,10 +265,19 @@ export default {
     HumidityChart,
     InfocasTable,
     footerComponent,
-    VersionFooter
+    VersionFooter,
+    OnlyTemperatureChart
   },
 
   computed: {
+    ...mapState(['chartData', 'temperatureData', 'humidityData']),
+    hasHumidityData() {
+      return this.minHum > 0 || this.maxHum > 0
+    },
+    showChartTemperatureOnly() {
+      return this.minHum <= 0
+    },
+
     chartData() {
       return this.$store.state.chartData
     },
@@ -390,8 +430,10 @@ export default {
         title: new Date(getDate).toLocaleString('es-ES', { hour12: false }) + ' ' + this.sensorName,
         subject: 'Información del sensor'
       })
+
       let img = new Image()
       img.src = logoBase64
+
       const text = 'Gráficos de Temperatura y Humedad'
       doc.setFontSize(20)
       const pageSize = doc.internal.pageSize
@@ -402,117 +444,110 @@ export default {
       doc.text(
         60,
         80,
-        'Informe emitido por ' +
-          this.nombrePersonas +
-          ' con gráfica de temperatura y humedad relacionadas al sensor '
+        `Informe emitido por ${this.nombrePersonas} con gráfica de temperatura y humedad relacionadas al sensor`
       )
       doc.text(
         60,
         95,
-        this.sensorName +
-          ' con fecha de ' +
-          this.startDate +
-          ' a ' +
-          this.endDate +
-          ' desde las ' +
-          this.startTime +
-          ' hasta las ' +
-          this.endTime +
-          ' horas'
+        `${this.sensorName} con fecha de ${this.startDate} a ${this.endDate} desde las ${this.startTime} hasta las ${this.endTime} horas`
       )
-      doc.text(60, 120, 'Temperatura mínima= ' + this.minTemp + 'ºC')
-      doc.text(240, 120, 'Temperatura máxima= ' + this.maxTemp + 'ºC')
-      doc.text(480, 120, 'Humedad mínima= ' + this.minHum + '%HR')
-      doc.text(660, 120, 'Humedad máxima= ' + this.maxHum + '%HR')
+      if (this.showChartTemperatureOnly) {
+        doc.text(60, 120, `Temperatura mínima= ${this.minTemp}ºC`)
+        doc.text(240, 120, `Temperatura máxima= ${this.maxTemp}ºC`)
+      } else {
+        doc.text(60, 120, `Temperatura mínima= ${this.minTemp}ºC`)
+        doc.text(240, 120, `Temperatura máxima= ${this.maxTemp}ºC`)
+        doc.text(480, 120, `Humedad mínima= ${this.minHum}%HR`)
+        doc.text(660, 120, `Humedad máxima= ${this.maxHum}%HR`)
+      }
+      const canvasPromises = [
+        this.$refs.chartComponent1
+          ? html2canvas(this.$refs.chartComponent1.$el)
+          : Promise.resolve(null),
+        this.$refs.chartComponent2
+          ? html2canvas(this.$refs.chartComponent2.$el)
+          : Promise.resolve(null),
+        this.$refs.chartComponent3
+          ? html2canvas(this.$refs.chartComponent3.$el)
+          : Promise.resolve(null)
+      ]
 
-      Promise.all([
-        html2canvas(this.$refs.chartComponent1.$el),
-        html2canvas(this.$refs.chartComponent2.$el),
-        html2canvas(this.$refs.chartComponent3.$el)
-      ])
+      Promise.all(canvasPromises)
         .then(([canvas1, canvas2, canvas3]) => {
           const imgWidth = 750
           const x = (pageWidth - imgWidth) / 2
-          let imgData = canvas1.toDataURL('image/jpeg')
-          doc.addImage(imgData, 'JPEG', x, 130, imgWidth, 450, undefined) // 'FAST' es un factor de calidad más bajo
-          doc.addPage()
-          doc.text(
-            60,
-            80,
-            'Informe emitido por ' +
-              this.nombrePersonas +
-              ' con gráfica de temperatura relacionada al sensor '
-          )
-          doc.text(
-            60,
-            95,
-            this.sensorName +
-              ' con fecha de ' +
-              this.startDate +
-              ' a ' +
-              this.endDate +
-              ' desde las ' +
-              this.startTime +
-              ' hasta las ' +
-              this.endTime +
-              ' horas'
-          )
-          doc.text(60, 120, 'Temperatura mínima= ' + this.minTemp + 'ºC')
-          doc.text(240, 120, 'Temperatura máxima= ' + this.maxTemp + 'ºC')
+          if (canvas1) {
+            const imgData1 = canvas1.toDataURL('image/jpeg')
+            doc.addImage(imgData1, 'JPEG', x, 130, imgWidth, 450, undefined)
+            doc.addPage()
+          }
 
-          imgData = canvas2.toDataURL('image/jpeg')
-          doc.addImage(imgData, 'JPEG', x, 130, imgWidth, 450, undefined) // 'FAST' es un factor de calidad más bajo
-          doc.addPage()
-          doc.text(
-            60,
-            80,
-            'Informe emitido por ' +
-              this.nombrePersonas +
-              ' con gráfica de humedad relacionada al sensor '
-          )
-          doc.text(
-            60,
-            95,
-            this.sensorName +
-              ' con fecha de ' +
-              this.startDate +
-              ' a ' +
-              this.endDate +
-              ' desde las ' +
-              this.startTime +
-              ' hasta las ' +
-              this.endTime +
-              ' horas'
-          )
-          doc.text(60, 120, 'Humedad mínima= ' + this.minHum + '%HR')
-          doc.text(240, 120, 'Humedad máxima= ' + this.maxHum + '%HR')
+          if (canvas2) {
+            doc.text(
+              60,
+              80,
+              `Informe emitido por ${this.nombrePersonas} con gráfica de temperatura y humedad relacionadas al sensor`
+            )
+            doc.text(
+              60,
+              95,
+              `${this.sensorName} con fecha de ${this.startDate} a ${this.endDate} desde las ${this.startTime} hasta las ${this.endTime} horas`
+            )
+            doc.text(60, 120, `Temperatura mínima= ${this.minTemp}ºC`)
+            doc.text(240, 120, `Temperatura máxima= ${this.maxTemp}ºC`)
+            const imgData2 = canvas2.toDataURL('image/jpeg')
+            doc.addImage(imgData2, 'JPEG', x, 130, imgWidth, 450, undefined)
+            doc.addPage()
+          }
+          if (canvas3) {
+            doc.text(
+              60,
+              80,
+              `Informe emitido por ${this.nombrePersonas} con gráfica de temperatura y humedad relacionadas al sensor`
+            )
+            doc.text(
+              60,
+              95,
+              `${this.sensorName} con fecha de ${this.startDate} a ${this.endDate} desde las ${this.startTime} hasta las ${this.endTime} horas`
+            )
+            doc.text(60, 120, `Humedad mínima= ${this.minHum}%HR`)
+            doc.text(240, 120, `Humedad máxima= ${this.maxHum}%HR`)
+            const imgData3 = canvas3.toDataURL('image/jpeg')
+            doc.addImage(imgData3, 'JPEG', x, 130, imgWidth, 450, undefined)
+            doc.addPage()
+          }
 
-          imgData = canvas3.toDataURL('image/jpeg')
+          if (this.$refs.infocasTable?.items) {
+            // Acceder a la propiedad showHumidityColumn desde la referencia del componente hijo
+            const showHumidityColumn = this.$refs.infocasTable.showHumidityColumn
 
-          doc.addImage(imgData, 'JPEG', x, 130, imgWidth, 450, undefined) // 'FAST' es un factor de calidad más bajo
-          doc.addPage()
-          if (this.$refs.infocasTable.items) {
-            const headers = ['Sensor', 'Fecha', 'Hora', 'Temperatura', 'Humedad']
+            // Configurar las cabeceras dinámicamente
+            const headers = ['Sensor', 'Fecha', 'Hora', 'Temperatura']
+            if (showHumidityColumn) {
+              headers.push('Humedad')
+            }
+
             const data = this.$refs.infocasTable.items.map((item) => {
-              let temperatura = item.temperatura + '°C'
-              if (item.temperatura < 18) {
-                temperatura += ' ¡Alerta! Temperatura Baja'
-              } else if (item.temperatura > 25) {
-                temperatura += ' ¡Alerta! Temperatura Alta'
-              }
-
-              let humedad = item.humedad + '%HR'
-              if (item.humedad > 65) {
-                humedad += ' ¡Alerta! Humedad Alta'
-              }
-
-              return [
+              const row = [
                 item.nombre_sensor,
                 item.fecha.split('T')[0],
                 item.hora,
-                temperatura, // Aquí usamos la variable temperatura
-                humedad // Aquí usamos la variable humedad
+                `${item.temperatura}°C`
               ]
+
+              if (item.temperatura < (showHumidityColumn ? 18 : 2)) {
+                row[3] += ' ¡Alerta! Temperatura Baja'
+              } else if (item.temperatura > (showHumidityColumn ? 25 : 8)) {
+                row[3] += ' ¡Alerta! Temperatura Alta'
+              }
+
+              if (showHumidityColumn) {
+                let humedad = `${item.humedad}%HR`
+                if (item.humedad > 65) humedad += ' ¡Alerta! Humedad Alta'
+                row.push(humedad)
+              }
+
+              return row
             })
 
             doc.autoTable({
@@ -521,34 +556,28 @@ export default {
               body: data,
               didDrawPage: (data) => {
                 doc.text(
-                  'Tabla de datos de las temperatura y humedad relacionadas al sensor ' +
-                    this.sensorName,
+                  `Tabla de datos de las temperatura y humedad relacionadas al sensor ${this.sensorName}`,
                   60,
                   80
                 )
                 doc.text(
-                  'con fecha de ' +
-                    this.startDate +
-                    ' a ' +
-                    this.endDate +
-                    ' desde las ' +
-                    this.startTime +
-                    ' hasta las ' +
-                    this.endTime +
-                    ' horas',
+                  `Con fecha de ${this.startDate} a ${this.endDate} desde las ${this.startTime} hasta las ${this.endTime} horas`,
                   60,
                   95
                 )
               },
               didParseCell: (data) => {
-                if (data.cell.text[0].includes('¡Alerta! Temperatura Baja')) {
+                const text = data.cell.text[0]
+
+                // Aplicar estilos de color según las alertas
+                if (text.includes('¡Alerta! Temperatura Baja')) {
                   data.cell.styles.fillColor = [0, 0, 255] // Azul
                   data.cell.styles.textColor = [255, 255, 255] // Blanco
-                } else if (data.cell.text[0].includes('¡Alerta! Temperatura Alta')) {
+                } else if (text.includes('¡Alerta! Temperatura Alta')) {
                   data.cell.styles.fillColor = [255, 0, 0] // Rojo
                   data.cell.styles.textColor = [255, 255, 255] // Blanco
-                } else if (data.cell.text[0].includes('¡Alerta! Humedad Alta')) {
-                  data.cell.styles.fillColor = [255, 0, 0] // Verde
+                } else if (text.includes('¡Alerta! Humedad Alta')) {
+                  data.cell.styles.fillColor = [255, 0, 0] // Rojo
                   data.cell.styles.textColor = [255, 255, 255] // Blanco
                 }
               }
@@ -557,18 +586,18 @@ export default {
 
           this.addWaterMark(doc, img)
           doc.save(
-            new Date(getDate).toLocaleString('es-ES', { hour12: false }) + ' ' + this.sensorName
+            `${new Date(getDate).toLocaleString('es-ES', { hour12: false })} ${this.sensorName}.pdf`
           )
         })
         .catch((error) => {
           console.error('Error al convertir el componente en imagen:', error)
         })
     },
+
     addWaterMark(pdf, waterMarkImage) {
       let totalPage = pdf.internal.getNumberOfPages()
       let fechaHoy = new Date()
-      let fecha =
-        fechaHoy.getDate() + '-' + (fechaHoy.getMonth() + 1) + '-' + fechaHoy.getFullYear()
+      let fecha = `${fechaHoy.getDate()}-${fechaHoy.getMonth() + 1}-${fechaHoy.getFullYear()}`
       const hora1 = this.startTime
       const hora2 = this.endTime
       for (let i = 1; i <= totalPage; i++) {
@@ -579,6 +608,7 @@ export default {
       }
       return pdf
     },
+
     cerrarSesion() {
       this.$router.push('/')
       localStorage.removeItem('user-token')
