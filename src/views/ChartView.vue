@@ -193,14 +193,14 @@
                 >Ir a historial</v-btn
               >
               <v-btn
-                v-if="isSuperAdmin"
+                v-if="isAdmin || isSuperAdmin"
                 color="pink-darken-4"
                 class="mt-5 ml-4 mb-2"
                 @click="$router.push('/usuario')"
                 >Ir a Usuarios</v-btn
               >
               <v-btn
-                v-if="isSuperAdmin"
+                v-if="isAdmin || isSuperAdmin"
                 color="pink-darken-4"
                 class="mt-5 ml-4 mb-2"
                 @click="$router.push('/Respaldos')"
