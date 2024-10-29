@@ -46,7 +46,10 @@
                   <v-text-field v-model="endDate" type="date" label="Fecha Final"></v-text-field>
                 </div>
                 <div class="ml-2 pt-7">
-                  <v-btn @Click="generarRespaldo({controlador:item.controlador,startDate,endDate})">Generar Respaldos</v-btn>
+                  <v-btn
+                    @Click="generarRespaldo({ controlador: item.controlador, startDate, endDate })"
+                    >Generar Respaldos</v-btn
+                  >
                 </div>
               </div>
             </td>
@@ -59,6 +62,17 @@
         </tbody>
       </v-table>
     </v-card>
+
+    <v-dialog v-model="dialogVisible" max-width="400">
+      <v-card>
+        <v-card-title class="text-h5">Fechas Requeridas</v-card-title>
+        <v-card-text>Debe seleccionar una fecha de inicio y una fecha de fin.</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="pink-darken-4" text @click="dialogVisible = false">Aceptar</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -67,10 +81,12 @@ import { ref, onMounted } from 'vue'
 import imagenEnterprice from '../../assets/etica-copia (1).png'
 import { getControladores, doResplado } from '../../api/services/RespaldosService'
 import { useRouter } from 'vue-router'
+
 const data = ref([])
 const loading = ref(false)
 const startDate = ref('')
 const endDate = ref('')
+const dialogVisible = ref(false)
 const router = useRouter()
 
 const fetchControladores = async () => {
@@ -88,26 +104,29 @@ const fetchControladores = async () => {
 const generarRespaldo = async ({ controlador, startDate, endDate }) => {
   loading.value = true
 
-  try{
+  try {
+    if (!startDate || !endDate) {
+      dialogVisible.value = true
+      return
+    }
     const body = {
-    controlador,
-    startDateTime: startDate,
-    endDateTime:endDate
-  }
+      controlador,
+      startDateTime: startDate,
+      endDateTime: endDate
+    }
     console.log('Generar respaldo', body)
     const respaldo = await doResplado(body)
     console.log('Respaldos', respaldo)
-  }
-  catch (error) {
+  } catch (error) {
     console.error('Error fetching respaldos data:', error)
   } finally {
     loading.value = false
   }
-
 }
+
 const verRespaldo = async (item) => {
-  await router.push(`/txtRespaldos/${item}`);
-};
+  await router.push(`/txtRespaldos/${item}`)
+}
 
 onMounted(fetchControladores)
 </script>
