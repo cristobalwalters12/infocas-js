@@ -53,6 +53,18 @@
         </tbody>
       </v-table>
     </v-card>
+
+    <!-- Diálogo de Confirmación -->
+    <v-dialog v-model="dialogVisible" max-width="400">
+      <v-card>
+        <v-card-title class="text-h5">{{ dialogTitle }}</v-card-title>
+        <v-card-text>{{ dialogMessage }}</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="pink-darken-4" text @click="dialogVisible = false">Aceptar</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -66,6 +78,9 @@ import { addUser, deleteUser, editUser, getAllUsers } from '../../api/services/u
 
 const data = ref([])
 const loading = ref(false)
+const dialogVisible = ref(false) // Controla la visibilidad del diálogo
+const dialogTitle = ref('') // Título dinámico del diálogo
+const dialogMessage = ref('') // Mensaje dinámico del diálogo
 
 const fetchAllUsers = async () => {
   loading.value = true
@@ -73,6 +88,7 @@ const fetchAllUsers = async () => {
     const users = await getAllUsers()
     data.value = users
   } catch (error) {
+    showDialog('Error', 'Error al obtener los usuarios.')
     console.error('Error fetching users data:', error)
   } finally {
     loading.value = false
@@ -84,7 +100,9 @@ const handleSaveUser = async (User) => {
   try {
     const savedUser = await addUser(User)
     data.value.push(savedUser)
+    showDialog('Éxito', 'Usuario guardado correctamente.')
   } catch (error) {
+    showDialog('Error', 'Error al guardar el usuario.')
     console.error('Error adding user:', error)
   } finally {
     loading.value = false
@@ -96,22 +114,33 @@ const handleSave = async (editedItem) => {
   try {
     await editUser(editedItem)
     data.value = data.value.map((item) => (item.id === editedItem.id ? editedItem : item))
+    showDialog('Éxito', 'Usuario modificado correctamente.')
   } catch (error) {
+    showDialog('Error', 'Error al modificar el usuario.')
     console.error('Error editing user:', error)
   } finally {
     loading.value = false
   }
 }
+
 const Delete = async (deletedItem) => {
   loading.value = true
   try {
     await deleteUser(deletedItem)
     data.value = data.value.filter((item) => item.id !== deletedItem.id)
+    showDialog('Éxito', 'Usuario eliminado correctamente.')
   } catch (error) {
+    showDialog('Error', 'Error al eliminar el usuario.')
     console.error('Error deleting user:', error)
   } finally {
     loading.value = false
   }
+}
+
+const showDialog = (title, message) => {
+  dialogTitle.value = title
+  dialogMessage.value = message
+  dialogVisible.value = true
 }
 
 onMounted(fetchAllUsers)
