@@ -1,5 +1,15 @@
 <template>
   <div>
+    <v-dialog v-model="dialogSuccessVisible" max-width="400">
+      <v-card>
+        <v-card-title class="text-h5">Guardado Exitoso</v-card-title>
+        <v-card-text>El respaldo se ha generado con éxito.</v-card-text>
+        <v-card-actions>
+          <v-spacer></v-spacer>
+          <v-btn color="pink-darken-4" text @click="dialogSuccessVisible = false">Aceptar</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
     <div class="d-flex justify-start">
       <img :src="imagenEnterprice" alt="imagenEnterprice" style="width: 210px; height: 110px" />
     </div>
@@ -79,7 +89,7 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import imagenEnterprice from '../../assets/etica-copia (1).png'
-import { getControladores, doResplado } from '../../api/services/RespaldosService'
+import { getControladores, doResplado, doRespaldo2024 } from '../../api/services/RespaldosService'
 import { useRouter } from 'vue-router'
 
 const data = ref([])
@@ -88,6 +98,7 @@ const startDate = ref('')
 const endDate = ref('')
 const dialogVisible = ref(false)
 const router = useRouter()
+const dialogSuccessVisible = ref(false)
 
 const fetchControladores = async () => {
   loading.value = true
@@ -115,8 +126,16 @@ const generarRespaldo = async ({ controlador, startDate, endDate }) => {
       endDateTime: endDate
     }
     console.log('Generar respaldo', body)
-    const respaldo = await doResplado(body)
-    console.log('Respaldos', respaldo)
+
+    if (body.controlador === 'UG65') {
+      const respaldo = await doRespaldo2024(body)
+      console.log('Respaldos', respaldo)
+      dialogSuccessVisible.value = true
+    } else {
+      const respaldo = await doResplado(body)
+      console.log('Respaldos', respaldo)
+      dialogSuccessVisible.value = true
+    }
   } catch (error) {
     console.error('Error fetching respaldos data:', error)
   } finally {
