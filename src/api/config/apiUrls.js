@@ -12,9 +12,9 @@ const API_PATHS = {
   nombresSensores: '/nombres-sensores',
   getControladores: '/controladores',
   respaldar: '/controladores/findControladorAndRespaldar',
-  getRespaldos :'/controladores/getControladoresRespaldos',
-  DescargarRespaldos :'/controladores/descargarRespaldo',
-  
+  respaldarSensores2024: '/controladores/respaldarSensores2024',
+  getRespaldos: '/controladores/getControladoresRespaldos',
+  DescargarRespaldos: '/controladores/descargarRespaldo'
 }
 
 export { ENDPOINT, API_PATHS }
