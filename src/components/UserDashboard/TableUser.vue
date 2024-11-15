@@ -78,9 +78,9 @@ import { addUser, deleteUser, editUser, getAllUsers } from '../../api/services/u
 
 const data = ref([])
 const loading = ref(false)
-const dialogVisible = ref(false) // Controla la visibilidad del diálogo
-const dialogTitle = ref('') // Título dinámico del diálogo
-const dialogMessage = ref('') // Mensaje dinámico del diálogo
+const dialogVisible = ref(false)
+const dialogTitle = ref('')
+const dialogMessage = ref('')
 
 const fetchAllUsers = async () => {
   loading.value = true
