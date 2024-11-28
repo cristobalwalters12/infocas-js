@@ -32,7 +32,13 @@
           <tr v-for="item in data" :key="item.id">
             <td class="text-center">{{ item.name }}</td>
             <td>{{ item.sizeFormatted }}</td>
-            <td>
+
+            <td v-if="controlador(props.id) == 'UG65'">
+              <div>
+                <v-btn @click="handleDownload(item.name)">Ver Respaldos</v-btn>
+              </div>
+            </td>
+            <td v-else>
               <div>
                 <v-btn @click="handleDownload(item.name)">Descargar</v-btn>
               </div>
@@ -110,6 +116,13 @@ const handleDownload = async (archivo) => {
   } finally {
     loading.value = false
   }
+}
+const controlador = (id) => {
+  console.log('id', id)
+  if (id === 'UG65') {
+    return 'UG65'
+  }
+  return id
 }
 
 onMounted(() => fetchControladores(props.id))
