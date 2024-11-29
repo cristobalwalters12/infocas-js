@@ -35,7 +35,7 @@
 
             <td v-if="controlador(props.id) == 'UG65'">
               <div>
-                <v-btn @click="handleDownload(item.name)">Ver Respaldos</v-btn>
+                <v-btn @click="openDialog">Ver Respaldos</v-btn>
               </div>
             </td>
             <td v-else>
@@ -47,6 +47,18 @@
         </tbody>
       </v-table>
     </v-card>
+    <v-dialog v-model="dialog" max-width="500">
+      <v-card>
+        <v-card-title class="text-h5">Página en desarrollo</v-card-title>
+        <v-card-text>
+          Se está trabajando en esta página debido a que este repositorio maneja carpetas de los
+          sensores 2024.
+        </v-card-text>
+        <v-card-actions>
+          <v-btn color="pink-darken-4" text @click="closeDialog">Cerrar</v-btn>
+        </v-card-actions>
+      </v-card>
+    </v-dialog>
   </div>
 </template>
 
@@ -57,7 +69,7 @@ import { getRespaldosControladores, descargarRespaldo } from '../../api/services
 
 const data = ref([])
 const loading = ref(false)
-
+const dialog = ref(false)
 const props = defineProps({
   id: {
     type: String,
@@ -123,6 +135,12 @@ const controlador = (id) => {
     return 'UG65'
   }
   return id
+}
+const openDialog = () => {
+  dialog.value = true
+}
+const closeDialog = () => {
+  dialog.value = false
 }
 
 onMounted(() => fetchControladores(props.id))
