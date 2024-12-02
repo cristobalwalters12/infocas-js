@@ -85,26 +85,30 @@ export default {
         })
     },
     getTemperatureStyle(temperature) {
-      if (this.hasHumidityData) {
-        if (temperature < 18) {
-          return { backgroundColor: 'blue', color: 'white' }
-        } else if (temperature > 25) {
-          return { backgroundColor: 'red', color: 'white' }
-        }
-      } else {
-        if (temperature < 2) {
-          return { backgroundColor: 'blue', color: 'white' }
-        } else if (temperature > 8) {
-          return { backgroundColor: 'red', color: 'white' }
-        }
+      const { low, high } = this.getTemperatureAlerts()
+      if (temperature < low) {
+        return { backgroundColor: 'blue', color: 'white' }
+      } else if (temperature > high) {
+        return { backgroundColor: 'red', color: 'white' }
       }
       return {}
     },
     shouldShowLowerTempAlert(temperature) {
-      return this.hasHumidityData ? temperature < 18 : temperature < 2
+      const { low } = this.getTemperatureAlerts()
+      return temperature < low
     },
     shouldShowHigherTempAlert(temperature) {
-      return this.hasHumidityData ? temperature > 25 : temperature > 8
+      const { high } = this.getTemperatureAlerts()
+      return temperature > high
+    },
+    getTemperatureAlerts() {
+      if (this.nombreSensor === 'CAMARA FRESCA PR-TEM-12') {
+        return { low: 8, high: 15 }
+      }
+      if (this.hasHumidityData) {
+        return { low: 18, high: 25 }
+      }
+      return { low: 2, high: 8 }
     },
     getHumidityStyle(humidity) {
       if (humidity > 65) {

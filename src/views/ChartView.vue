@@ -147,7 +147,13 @@
                   v-if="isTemperatureDataAvailable"
                   class="mb-8"
                   ref="chartComponent2"
+                  :max="chartProps.max"
+                  :yMin1="chartProps.yMin1"
+                  :yMax1="chartProps.yMax1"
+                  :yMin2="chartProps.yMin2"
+                  :yMax2="chartProps.yMax2"
                 />
+
                 <v-divider></v-divider>
               </div>
               <div v-if="hasHumidityData">
@@ -319,7 +325,14 @@ export default {
       info: true,
       imagenEnterprice: imagenEnterprice,
       dialog: false,
-      nombrePersonas: ''
+      nombrePersonas: '',
+      chartProps: {
+        max: 0,
+        yMin1: 0,
+        yMax1: 0,
+        yMin2: 0,
+        yMax2: 0
+      }
     }
   },
 
@@ -339,6 +352,26 @@ export default {
       }
       this.information = true
       this.info = false
+      switch (this.sensorName) {
+        case 'CAMARA FRIA PR-TEM-122':
+          this.chartProps = {
+            max: 13,
+            yMin1: 8,
+            yMax1: 8,
+            yMin2: 2,
+            yMax2: 2
+          }
+          break
+        case 'CAMARA FRESCA PR-TEM-12':
+          this.chartProps = {
+            max: 20,
+            yMin1: 15,
+            yMax1: 15,
+            yMin2: 8,
+            yMax2: 8
+          }
+          break
+      }
     },
     logData() {
       const data = {
@@ -423,6 +456,28 @@ export default {
         console.error(error)
       }
     },
+    getAlertRanges() {
+      if (this.sensorName === 'CAMARA FRESCA PR-TEM-12') {
+        return { low: 8, high: 15 } // Rangos específicos para este sensor
+      } else if (this.sensorName === 'CAMARA FRIA PR-TEM-122') {
+        return { low: 2, high: 8 } // Rangos específicos para otro sensor
+      } else {
+        // Rangos por defecto
+        return this.$refs.infocasTable.showHumidityColumn
+          ? { low: 18, high: 25 }
+          : { low: 2, high: 8 }
+      }
+    },
+    getTemperatureStyle(temperature) {
+      const { low, high } = this.getAlertRanges()
+      if (temperature < low) {
+        return { backgroundColor: 'blue', color: 'white' } // Temperatura Baja
+      } else if (temperature > high) {
+        return { backgroundColor: 'red', color: 'white' } // Temperatura Alta
+      }
+      return {} // Sin alerta
+    },
+
     generarPdf() {
       const doc = new jsPDF('l', 'pt', 'a4')
       const getDate = new Date()
@@ -516,7 +571,6 @@ export default {
             doc.addImage(imgData3, 'JPEG', x, 130, imgWidth, 450, undefined)
             doc.addPage()
           }
-
           if (this.$refs.infocasTable?.items) {
             // Acceder a la propiedad showHumidityColumn desde la referencia del componente hijo
             const showHumidityColumn = this.$refs.infocasTable.showHumidityColumn
@@ -527,7 +581,10 @@ export default {
               headers.push('Humedad')
             }
 
+            // Generar las filas dinámicamente según los datos y rangos
             const data = this.$refs.infocasTable.items.map((item) => {
+              const { low, high } = this.getAlertRanges() // Obtener rangos dinámicos
+
               const row = [
                 item.nombre_sensor,
                 item.fecha.split('T')[0],
@@ -535,12 +592,14 @@ export default {
                 `${item.temperatura}°C`
               ]
 
-              if (item.temperatura < (showHumidityColumn ? 18 : 2)) {
+              // Evaluar alertas de temperatura
+              if (item.temperatura < low) {
                 row[3] += ' ¡Alerta! Temperatura Baja'
-              } else if (item.temperatura > (showHumidityColumn ? 25 : 8)) {
+              } else if (item.temperatura > high) {
                 row[3] += ' ¡Alerta! Temperatura Alta'
               }
 
+              // Evaluar alertas de humedad
               if (showHumidityColumn) {
                 let humedad = `${item.humedad}%HR`
                 if (item.humedad > 65) humedad += ' ¡Alerta! Humedad Alta'
@@ -550,6 +609,7 @@ export default {
               return row
             })
 
+            // Generar la tabla PDF
             doc.autoTable({
               margin: { top: 120 },
               head: [headers],
