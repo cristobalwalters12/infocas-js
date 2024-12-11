@@ -672,6 +672,7 @@ export default {
     cerrarSesion() {
       window.location.href = 'https://www.infocas.cl'
       localStorage.removeItem('user-token')
+      sessionStorage.removeItem('user-token')
     },
     descargarPdf() {
       this.dialog = true
