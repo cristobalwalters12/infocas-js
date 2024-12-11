@@ -89,6 +89,7 @@ export default {
 
           // Si no hay error, guardamos los datos en localStorage y redirigimos
           localStorage.setItem('user-token', response.token)
+          sessionStorage.setItem('user-token', response.token)
           localStorage.setItem('user-id', response.nombre)
           localStorage.setItem('user-role', response.rol)
           localStorage.setItem('vista_dashboard', response.vista_dashboard)
