@@ -57,7 +57,8 @@ router.beforeEach((to, from, next) => {
   const authRequired = !publicPages.includes(to.path)
   const token = localStorage.getItem('user-token')
   if (authRequired && !token) {
-    return next('/')
+    window.location.href = 'https://www.infocas.cl'
+    return
   }
 
   next()

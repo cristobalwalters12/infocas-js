@@ -670,7 +670,7 @@ export default {
     },
 
     cerrarSesion() {
-      this.$router.push('/')
+      window.location.href = 'https://www.infocas.cl/options'
       localStorage.removeItem('user-token')
     },
     descargarPdf() {

@@ -93,7 +93,7 @@ export default {
           localStorage.setItem('user-role', response.rol)
           localStorage.setItem('vista_dashboard', response.vista_dashboard)
           localStorage.setItem('vista_sensores', response.vista_sensores)
-          await router.push('/options')
+          window.location.href = 'https://www.bago.infocas.cl/options'
         } catch (error) {
           if (error.response && error.response.status === 401) {
             alert.value.show = true
