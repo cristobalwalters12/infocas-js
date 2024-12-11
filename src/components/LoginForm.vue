@@ -5,7 +5,7 @@
         <v-card class="mx-auto box custom-card" max-width="700">
           <v-img
             class="myImage"
-            src="/unnamed1.png"
+            src="/Infocas.png"
             id="icon"
             alt="User Icon"
             contain
@@ -147,7 +147,7 @@ export default {
 }
 
 .custom-button {
-  background-color: #9b0c64;
+  background-color: #024bad;
   border: none;
   color: white;
   width: 250px;
