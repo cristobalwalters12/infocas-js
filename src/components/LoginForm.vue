@@ -93,7 +93,9 @@ export default {
           localStorage.setItem('user-role', response.rol)
           localStorage.setItem('vista_dashboard', response.vista_dashboard)
           localStorage.setItem('vista_sensores', response.vista_sensores)
-          window.location.href = 'https://www.bago.infocas.cl/options'
+          setTimeout(() => {
+            window.location.href = 'https://www.bago.infocas.cl/options'
+          }, 100)
         } catch (error) {
           if (error.response && error.response.status === 401) {
             alert.value.show = true
