@@ -11,7 +11,6 @@ api.interceptors.request.use(
     if (token === null) {
       token = cookies['user-token']
     }
-    cookies['user-token']
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
