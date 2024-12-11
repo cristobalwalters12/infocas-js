@@ -670,7 +670,7 @@ export default {
     },
 
     cerrarSesion() {
-      window.location.href = 'https://www.infocas.cl/options'
+      window.location.href = 'https://www.infocas.cl'
       localStorage.removeItem('user-token')
     },
     descargarPdf() {
