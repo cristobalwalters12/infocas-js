@@ -99,9 +99,13 @@ export default {
           document.cookie = `user-role=${response.rol}; path=/; domain=.infocas.cl`
           document.cookie = `vista_dashboard=${response.vista_dashboard}; path=/; domain=.infocas.cl`
           document.cookie = `vista_sensores=${response.vista_sensores}; path=/; domain=.infocas.cl`
-
+          const currentUrl = window.location.href
           setTimeout(() => {
-            window.location.href = 'https://www.bago.infocas.cl/options'
+            if (currentUrl.includes('https://www.infocas.cl')) {
+              window.location.href = 'https://www.bago.infocas.cl/options'
+            } else {
+              router.push('/options')
+            }
           }, 100)
         } catch (error) {
           if (error.response && error.response.status === 401) {
