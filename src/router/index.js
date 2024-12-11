@@ -52,5 +52,14 @@ const router = createRouter({
     }
   ]
 })
+router.beforeEach((to, from, next) => {
+  const token = localStorage.getItem('user-token')
+  if (!token) {
+    window.location.href = 'https://www.infocas.cl'
+    return
+  }
+
+  next()
+})
 
 export default router
