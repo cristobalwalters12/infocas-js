@@ -96,6 +96,9 @@ export default {
           localStorage.setItem('vista_sensores', response.vista_sensores)
           document.cookie = `user-token=${response.token}; path=/; domain=.infocas.cl`
           document.cookie = `user-id=${response.nombre}; path=/; domain=.infocas.cl`
+          document.cookie = `user-role=${response.rol}; path=/; domain=.infocas.cl`
+          document.cookie = `vista_dashboard=${response.vista_dashboard}; path=/; domain=.infocas.cl`
+          document.cookie = `vista_sensores=${response.vista_sensores}; path=/; domain=.infocas.cl`
 
           setTimeout(() => {
             window.location.href = 'https://www.bago.infocas.cl/options'
