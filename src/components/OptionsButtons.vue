@@ -54,11 +54,11 @@ export default {
     }
   },
   mounted() {
-    cookies['user-token'] = localStorage.setItem('user-token')
-    cookies['user-id'] = localStorage.setItem('user-id')
-    cookies['user-role'] = localStorage.setItem('user-role')
-    cookies['vista_dashboard'] = localStorage.setItem('vista_dashboard')
-    cookies['vista_sensores'] = localStorage.setItem('vista_sensores')
+    localStorage.setItem('user-token', cookies['user-token'])
+    localStorage.setItem('user-id', cookies['user-id'])
+    localStorage.setItem('user-role', cookies['user-role'])
+    localStorage.setItem('vista_dashboard', cookies['vista_dashboard'])
+    localStorage.setItem('vista_sensores', cookies['vista_sensores'])
     this.canViewSensores = localStorage.getItem('vista_sensores') === 'true'
     this.canViewDashboard = localStorage.getItem('vista_dashboard') === 'true'
   }
