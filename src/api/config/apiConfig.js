@@ -11,6 +11,7 @@ api.interceptors.request.use(
     if (token === null) {
       token = sessionStorage.getItem('user-token')
     }
+    console.log('token', token)
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
     }
