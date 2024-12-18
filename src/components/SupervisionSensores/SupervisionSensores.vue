@@ -56,6 +56,28 @@ import { io } from 'socket.io-client'
 const sensorData = ref([]) // Datos de los sensores
 const loading = ref(true) // Estado de carga
 let socket
+const excludeList = [
+  'BODEGA SUB N1P4 PR-TGHP-01',
+  'BODEGA SUB N2P13 PR-TGHP-02',
+  'BODEGA SUB N3P23 PR-TGHP-03',
+  'BODEGA SUB N4P33 PR-TGHP-04',
+  'BODEGA SUB N3P27 PR-TGHP-05',
+  'BODEGA SUB N4P37 PR-TGHP-06',
+  'BODEGA SUB N_P_ PR-TGHP-07',
+  'BODEGA SUB N2P15 PR-TGHP-08',
+  'BODEGA SUB N4P35 PR-TGHP-09',
+  'BODEGA SUB N3P20 PR-TGHP-10',
+  'BODEGA SUB N4P30 PR-TGHP-11',
+  'BODEGA SUB N3P24 PR-TGHP-12',
+  'BODEGA SUB N1P2 PR-TGHP-13',
+  'BODEGA SUB N2P11 PR-TGHP-14',
+  'Pasillo 1 Bodega Santa Elena PR-TGHP-45',
+  'Pasillo 2 Bodega Santa Elena PR-TGHP-46',
+  'Pasillo 3 Bodega Santa Elena PR-TGHP-47',
+  'Pasillo 4 Bodega Santa Elena PR-TGHP-48',
+  'Bodega Muestreo PR-TGHP-57',
+  'Pasillo Bodega Muestreo PR-TGHP-58'
+]
 
 onMounted(() => {
   const websocketUrl = `${import.meta.env.VITE_HOST}/SupervisionSensores`
@@ -68,7 +90,9 @@ onMounted(() => {
 
   socket.on('responseSensorData', (data) => {
     console.log('Datos de sensores recibidos:', data)
-    sensorData.value = data
+    const filteredData = data.filter((sensor) => !excludeList.includes(sensor.nombre_sensor))
+    sensorData.value = filteredData
+    console.log('Datos de sensores filtrados:', filteredData)
     loading.value = false
   })
 
