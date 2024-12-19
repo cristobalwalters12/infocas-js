@@ -362,7 +362,7 @@ export default {
             yMax2: 2
           }
           break
-        case 'CAMARA FRESCA PR-TEM-12':
+        case 'CAMARA FRESCA PR-TEM-123':
           this.chartProps = {
             max: 20,
             yMin1: 15,
