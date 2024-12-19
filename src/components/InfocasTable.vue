@@ -102,7 +102,7 @@ export default {
       return temperature > high
     },
     getTemperatureAlerts() {
-      if (this.nombreSensor === 'CAMARA FRESCA PR-TEM-12') {
+      if (this.nombreSensor === 'CAMARA FRESCA PR-TEM-123') {
         return { low: 8, high: 15 }
       }
       if (this.hasHumidityData) {

@@ -457,7 +457,7 @@ export default {
       }
     },
     getAlertRanges() {
-      if (this.sensorName === 'CAMARA FRESCA PR-TEM-12') {
+      if (this.sensorName === 'CAMARA FRESCA PR-TEM-123') {
         return { low: 8, high: 15 } // Rangos específicos para este sensor
       } else if (this.sensorName === 'CAMARA FRIA PR-TEM-122') {
         return { low: 2, high: 8 } // Rangos específicos para otro sensor
