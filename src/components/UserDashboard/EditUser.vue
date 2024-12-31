@@ -21,13 +21,6 @@
               dense
             ></v-text-field>
             <v-text-field
-              v-model="editedItem.contraseña"
-              label="Contraseña"
-              :error-messages="getErrorMessage($v.editedItem.contraseña)"
-              @blur="$v.editedItem.contraseña.$touch()"
-              dense
-            ></v-text-field>
-            <v-text-field
               v-model="editedItem.rol"
               label="Rol"
               :error-messages="getErrorMessage($v.editedItem.rol)"
@@ -88,7 +81,6 @@ const rules = {
   editedItem: {
     nombre: { required, minLength: minLength(3) },
     correo: { required, email },
-    contraseña: { required, minLength: minLength(6) },
     rol: { required }
   }
 }
