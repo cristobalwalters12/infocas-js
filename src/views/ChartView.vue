@@ -255,7 +255,8 @@ import { logoBase64 } from '../base64images/logo'
 import {
   getNombreSensores,
   getTemperatureInformation,
-  postRangeInformation
+  postRangeInformation,
+  procesarDatosYCalcularTCM
 } from '../api/services/sensoresServices'
 
 import html2canvas from 'html2canvas'
@@ -332,7 +333,8 @@ export default {
         yMax1: 0,
         yMin2: 0,
         yMax2: 0
-      }
+      },
+      dataTest: null
     }
   },
 
@@ -379,6 +381,10 @@ export default {
         startDateTime: this.startDateTime,
         endDateTime: this.endDateTime
       }
+      procesarDatosYCalcularTCM(data).then((response) => {
+        this.TCM_Celsius = response.TCM_Celsius.toFixed(2)
+      })
+
       postRangeInformation(data)
         .then((response) => {
           const labels = response.data.map(

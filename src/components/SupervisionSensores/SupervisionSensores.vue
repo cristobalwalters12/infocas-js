@@ -53,8 +53,8 @@
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { io } from 'socket.io-client'
 
-const sensorData = ref([]) // Datos de los sensores
-const loading = ref(true) // Estado de carga
+const sensorData = ref([])
+const loading = ref(true)
 let socket
 const excludeList = [
   'BODEGA SUB N1P4 PR-TGHP-01',
