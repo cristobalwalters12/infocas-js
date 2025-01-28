@@ -87,6 +87,7 @@ export default {
             contraseña: btoa(password.value)
           })
 
+          // Si no hay error, guardamos los datos en localStorage y redirigimos
           localStorage.setItem('user-token', response.token)
           sessionStorage.setItem('user-token', response.token)
           localStorage.setItem('user-id', response.nombre)
