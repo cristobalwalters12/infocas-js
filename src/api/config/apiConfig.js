@@ -7,7 +7,7 @@ const api = axios.create({
 })
 api.interceptors.request.use(
   async (config) => {
-    const token = store.getters.getToken
+    let token = store.getters.getToken
     if (token === null) {
       token = cookies['user-token']
     }
