@@ -1,13 +1,13 @@
 import axios from 'axios'
 import { ENDPOINT } from './apiUrls'
 import { cookies } from './cookies'
-
+import store from '@/store'
 const api = axios.create({
   baseURL: ENDPOINT
 })
 api.interceptors.request.use(
   async (config) => {
-    let token = localStorage.getItem('user-token')
+    const token = store.getters.getToken
     if (token === null) {
       token = cookies['user-token']
     }

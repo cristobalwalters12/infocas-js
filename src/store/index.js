@@ -19,9 +19,20 @@ export default createStore({
       datasets: []
     },
     items: [],
-    personaName: ''
+    personaName: '',
+    token: null
   },
   mutations: {
+    setToken(state, token) {
+      console.log('🔹 Guardando Token en Vuex:', token)
+      state.token = token
+      document.cookie =
+        'user-token=; path=/; domain=.infocas.cl; expires=Thu, 01 Jan 1970 00:00:00 UTC'
+    },
+    clearToken(state) {
+      console.log('🔹 Eliminando Token de Vuex')
+      state.token = null
+    },
     UPDATE_CHART_DATA(state, payload) {
       state.chartData = payload
     },
@@ -42,6 +53,12 @@ export default createStore({
     }
   },
   actions: {
+    login({ commit }, token) {
+      commit('setToken', token)
+    },
+    logout({ commit }) {
+      commit('clearToken')
+    },
     updateChartData({ commit }, data) {
       commit('UPDATE_CHART_DATA', data)
     },
@@ -60,5 +77,8 @@ export default createStore({
     setNombrePersona({ commit }, data) {
       commit('SET_NOMBRE_PERSONA', data)
     }
+  },
+  getters: {
+    getToken: (state) => state.token
   }
 })

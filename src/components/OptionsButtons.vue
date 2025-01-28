@@ -45,6 +45,7 @@
 </template>
 <script>
 import { cookies } from '../api/config/cookies'
+import { mapActions } from 'vuex'
 export default {
   name: 'OptionsButtons',
   data() {
@@ -53,14 +54,24 @@ export default {
       canViewSensores: false
     }
   },
+  methods: {
+    ...mapActions(['login'])
+  },
   mounted() {
-    localStorage.setItem('user-token', cookies['user-token'])
-    localStorage.setItem('user-id', cookies['user-id'])
-    localStorage.setItem('user-role', cookies['user-role'])
-    localStorage.setItem('vista_dashboard', cookies['vista_dashboard'])
-    localStorage.setItem('vista_sensores', cookies['vista_sensores'])
-    this.canViewSensores = localStorage.getItem('vista_sensores') === 'true'
-    this.canViewDashboard = localStorage.getItem('vista_dashboard') === 'true'
+    const entorno = import.meta.env.VITE_ENTORNO
+
+    if (entorno == 'DEV') {
+      this.canViewDashboard = true
+      this.canViewSensores = true
+    } else {
+      this.login(cookies['user-token'])
+      document.cookie =
+        'user-token=; path=/; domain=.infocas.cl; expires=Thu, 01 Jan 1970 00:00:00 UTC'
+      localStorage.setItem('user-id', cookies['user-id'])
+      localStorage.setItem('user-role', cookies['user-role'])
+      localStorage.setItem('vista_dashboard', cookies['vista_dashboard'])
+      localStorage.setItem('vista_sensores', cookies['vista_sensores'])
+    }
   }
 }
 </script>
