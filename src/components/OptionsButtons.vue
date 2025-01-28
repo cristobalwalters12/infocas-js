@@ -61,8 +61,9 @@ export default {
     const entorno = import.meta.env.VITE_ENTORNO
 
     if (entorno == 'DEV') {
-      this.canViewDashboard = true
-      this.canViewSensores = true
+      console.log(entorno)
+      this.canViewSensores = localStorage.getItem('vista_sensores') === 'true'
+      this.canViewDashboard = localStorage.getItem('vista_dashboard') === 'true'
     } else {
       this.login(cookies['user-token'])
       document.cookie =
@@ -71,6 +72,8 @@ export default {
       localStorage.setItem('user-role', cookies['user-role'])
       localStorage.setItem('vista_dashboard', cookies['vista_dashboard'])
       localStorage.setItem('vista_sensores', cookies['vista_sensores'])
+      this.canViewSensores = localStorage.getItem('vista_sensores')
+      this.canViewDashboard = localStorage.getItem('vista_dashboard')
     }
   }
 }

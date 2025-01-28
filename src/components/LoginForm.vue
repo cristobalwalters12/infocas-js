@@ -54,7 +54,6 @@
 import { ref } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
-import { useStore } from 'vuex'
 import { UserLogin } from '../api/services/usersService'
 axios.defaults.withCredentials = true
 
