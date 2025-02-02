@@ -41,7 +41,7 @@
   "rewrites": [
     { "source": "/chart", "destination": "/" },
     { "source": "/historial", "destination": "/" },
-    { "source": "/Options", "destination": "/" },
+    { "source": "/options", "destination": "/" },
     { "source": "/usuario", "destination": "/" },
     { "source": "/Respaldos", "destination": "/" },
     { "source": "/txtRespaldos/(.*)", "destination": "/" },
