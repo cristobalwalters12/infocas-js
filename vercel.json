@@ -21,7 +21,7 @@
         },
         {
           "key": "Content-Security-Policy",
-          "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://infocasbackendjs-production.up.railway.app"
+          "value": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline' https://fonts.googleapis.com; font-src 'self' https://fonts.gstatic.com; img-src 'self' data:; connect-src 'self' https://infocasbackendjs-production.up.railway.app wss://infocasbackendjs-production.up.railway.app"
         },
         {
           "key": "Referrer-Policy",
@@ -41,9 +41,9 @@
   "rewrites": [
     { "source": "/chart", "destination": "/" },
     { "source": "/historial", "destination": "/" },
-    { "source": "/options", "destination": "/" },
+    { "source": "/Options", "destination": "/" },
     { "source": "/usuario", "destination": "/" },
-    { "source": "/respaldos", "destination": "/" },
+    { "source": "/Respaldos", "destination": "/" },
     { "source": "/txtRespaldos/(.*)", "destination": "/" },
     { "source": "/supervisionSensores", "destination": "/" }
   ]
