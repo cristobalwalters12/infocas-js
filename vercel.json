@@ -9,10 +9,15 @@
     { "src": "/txtRespaldos/(.*)", "dest": "/" },
     { "src": "/supervisionSensores", "dest": "/" }
   ],
+
   "headers": [
     {
-      "source": "/",
+      "source": "/(.*)",
       "headers": [
+        {
+          "key": "Cache-Control",
+          "value": "no-store"
+        },
         {
           "key": "X-XSS-Protection",
           "value": "1; mode=block"
