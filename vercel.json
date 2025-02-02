@@ -1,15 +1,13 @@
 {
-  "routes": [
-    { "src": "/", "dest": "/" },
-    { "src": "/chart", "dest": "/" },
-    { "src": "/historial", "dest": "/" },
-    { "src": "/options", "dest": "/" },
-    { "src": "/usuario", "dest": "/" },
-    { "src": "/respaldos", "dest": "/" },
-    { "src": "/txtRespaldos/(.*)", "dest": "/" },
-    { "src": "/supervisionSensores", "dest": "/" }
+  "rewrites": [
+    { "source": "/chart", "destination": "/" },
+    { "source": "/historial", "destination": "/" },
+    { "source": "/options", "destination": "/" },
+    { "source": "/usuario", "destination": "/" },
+    { "source": "/respaldos", "destination": "/" },
+    { "source": "/txtRespaldos/(.*)", "destination": "/" },
+    { "source": "/supervisionSensores", "destination": "/" }
   ],
-
   "headers": [
     {
       "source": "/(.*)",
