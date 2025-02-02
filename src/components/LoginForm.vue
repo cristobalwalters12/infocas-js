@@ -85,19 +85,17 @@ export default {
             correo: btoa(correo.value),
             contraseña: btoa(password.value)
           })
-
-          // Si no hay error, guardamos los datos en localStorage y redirigimos
           localStorage.setItem('user-token', response.token)
           sessionStorage.setItem('user-token', response.token)
           localStorage.setItem('user-id', response.nombre)
           localStorage.setItem('user-role', response.rol)
           localStorage.setItem('vista_dashboard', response.vista_dashboard)
           localStorage.setItem('vista_sensores', response.vista_sensores)
-          document.cookie = `user-token=${response.token}; path=/; domain=.infocas.cl`
-          document.cookie = `user-id=${response.nombre}; path=/; domain=.infocas.cl`
-          document.cookie = `user-role=${response.rol}; path=/; domain=.infocas.cl`
-          document.cookie = `vista_dashboard=${response.vista_dashboard}; path=/; domain=.infocas.cl`
-          document.cookie = `vista_sensores=${response.vista_sensores}; path=/; domain=.infocas.cl`
+          document.cookie = `user-token=${response.token}; path=/; domain=.infocas.cl; Secure; SameSite=Strict`
+          document.cookie = `user-id=${response.nombre}; path=/; domain=.infocas.cl; Secure; SameSite=Strict`
+          document.cookie = `user-role=${response.rol}; path=/; domain=.infocas.cl; Secure; SameSite=Strict`
+          document.cookie = `vista_dashboard=${response.vista_dashboard}; path=/; domain=.infocas.cl; Secure; SameSite=Strict`
+          document.cookie = `vista_sensores=${response.vista_sensores}; path=/; domain=.infocas.cl; Secure; SameSite=Strict`
           const currentUrl = window.location.href
           setTimeout(() => {
             if (currentUrl.includes('https://www.infocas.cl')) {
