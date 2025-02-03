@@ -89,10 +89,10 @@ onMounted(() => {
   loading.value = true
 
   socket.on('responseSensorData', (data) => {
-    console.log('Datos de sensores recibidos:', data)
+
     const filteredData = data.filter((sensor) => !excludeList.includes(sensor.nombre_sensor))
     sensorData.value = filteredData
-    console.log('Datos de sensores filtrados:', filteredData)
+
     loading.value = false
   })
 

@@ -125,15 +125,14 @@ const generarRespaldo = async ({ controlador, startDate, endDate }) => {
       startDateTime: startDate,
       endDateTime: endDate
     }
-    console.log('Generar respaldo', body)
+
 
     if (body.controlador === 'UG65') {
       const respaldo = await doRespaldo2024(body)
-      console.log('Respaldos', respaldo)
       dialogSuccessVisible.value = true
     } else {
       const respaldo = await doResplado(body)
-      console.log('Respaldos', respaldo)
+     
       dialogSuccessVisible.value = true
     }
   } catch (error) {

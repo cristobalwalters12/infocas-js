@@ -24,13 +24,12 @@ export default createStore({
   },
   mutations: {
     setToken(state, token) {
-      console.log('🔹 Guardando Token en Vuex:', token)
       state.token = token
       document.cookie =
         'user-token=; path=/; domain=.infocas.cl; expires=Thu, 01 Jan 1970 00:00:00 UTC'
     },
     clearToken(state) {
-      console.log('🔹 Eliminando Token de Vuex')
+
       state.token = null
     },
     UPDATE_CHART_DATA(state, payload) {

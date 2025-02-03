@@ -50,15 +50,14 @@ export default {
   },
 
   setup(props) {
-    // Ver props en la consola para depuración
-    console.log('Props recibidos:', props)
+
 
     const store = useStore()
 
-    // Computed para datos del gráfico
+
     const chartData = computed(() => store.state.temperatureData)
 
-    // Opciones del gráfico
+
     const chartOptions = computed(() => ({
       responsive: true,
       scales: {
