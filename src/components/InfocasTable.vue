@@ -105,6 +105,9 @@ export default {
       if (this.nombreSensor === 'CAMARA FRESCA PR-TEM-123') {
         return { low: 8, high: 15 }
       }
+      if (this.nombreSensor === 'CAMARA FRIA CASINO PR-TGHP-65') {
+        return { low: 0, high: 5 }
+      }
       if (this.hasHumidityData) {
         return { low: 18, high: 25 }
       }

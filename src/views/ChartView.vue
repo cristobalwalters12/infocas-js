@@ -148,6 +148,7 @@
                   class="mb-8"
                   ref="chartComponent2"
                   :max="chartProps.max"
+                  :min="chartProps.min"
                   :yMin1="chartProps.yMin1"
                   :yMax1="chartProps.yMax1"
                   :yMin2="chartProps.yMin2"
@@ -282,7 +283,7 @@ export default {
       return this.minHum > 0 || this.maxHum > 0
     },
     showChartTemperatureOnly() {
-      return this.minHum <= 0
+      return this.minHum === 0
     },
 
     chartData() {
@@ -329,6 +330,7 @@ export default {
       nombrePersonas: '',
       chartProps: {
         max: 0,
+        min: 0,
         yMin1: 0,
         yMax1: 0,
         yMin2: 0,
@@ -358,6 +360,7 @@ export default {
         case 'CAMARA FRIA PR-TEM-122':
           this.chartProps = {
             max: 13,
+            min: 0,
             yMin1: 8,
             yMax1: 8,
             yMin2: 2,
@@ -367,10 +370,21 @@ export default {
         case 'CAMARA FRESCA PR-TEM-123':
           this.chartProps = {
             max: 20,
+            min: 0,
             yMin1: 15,
             yMax1: 15,
             yMin2: 8,
             yMax2: 8
+          }
+          break
+        case 'CAMARA FRIA CASINO PR-TGHP-65':
+          this.chartProps = {
+            max: 12,
+            min: -5,
+            yMin1: 5,
+            yMax1: 5,
+            yMin2: 0,
+            yMax2: 0
           }
           break
       }
@@ -464,9 +478,11 @@ export default {
     },
     getAlertRanges() {
       if (this.sensorName === 'CAMARA FRESCA PR-TEM-123') {
-        return { low: 8, high: 15 } // Rangos específicos para este sensor
+        return { low: 8, high: 15 }
       } else if (this.sensorName === 'CAMARA FRIA PR-TEM-122') {
-        return { low: 2, high: 8 } // Rangos específicos para otro sensor
+        return { low: 2, high: 8 }
+      } else if (this.sensorName === 'CAMARA FRIA CASINO PR-TGHP-65') {
+        return { low: 0, high: 5 }
       } else {
         // Rangos por defecto
         return this.$refs.infocasTable.showHumidityColumn

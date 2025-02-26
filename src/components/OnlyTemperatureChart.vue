@@ -31,6 +31,10 @@ export default {
       type: Number,
       required: true
     },
+    min: {
+      type: Number,
+      required: true
+    },
     yMin1: {
       type: Number,
       required: true
@@ -50,13 +54,9 @@ export default {
   },
 
   setup(props) {
-
-
     const store = useStore()
 
-
     const chartData = computed(() => store.state.temperatureData)
-
 
     const chartOptions = computed(() => ({
       responsive: true,
@@ -65,7 +65,7 @@ export default {
           id: 'y',
           type: 'linear',
           position: 'left',
-          min: 0,
+          min: props.min,
           max: props.max
         }
       },
