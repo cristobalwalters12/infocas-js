@@ -30,13 +30,14 @@
       </v-card-text>
     </v-card>
 
+    <!-- Alerta de advertencia con botón de cierre -->
     <v-alert
-      v-if="sensorsWithWarnings.length > 0"
+      v-if="showAlert && sensorsWithWarnings.length > 0"
       color="red-darken-3"
       prominent
-      :dismissible="false"
       class="fixed-alert"
     >
+      <v-btn icon="mdi-close" variant="text" @click="closeAlert" class="close-btn" />
       <div v-for="sensor in sensorsWithWarnings" :key="sensor.numero_registro">
         <strong>{{ sensor.nombre_sensor }}</strong> -
         <span v-if="shouldShowTemperatureAlert(sensor)">
@@ -49,13 +50,16 @@
     </v-alert>
   </div>
 </template>
+
 <script setup>
 import { ref, computed, onMounted, onBeforeUnmount } from 'vue'
 import { io } from 'socket.io-client'
 
 const sensorData = ref([])
 const loading = ref(true)
+const showAlert = ref(true) // Estado para controlar la visibilidad de la alerta
 let socket
+
 const excludeList = [
   'BODEGA SUB N1P4 PR-TGHP-01',
   'BODEGA SUB N2P13 PR-TGHP-02',
@@ -89,10 +93,8 @@ onMounted(() => {
   loading.value = true
 
   socket.on('responseSensorData', (data) => {
-
     const filteredData = data.filter((sensor) => !excludeList.includes(sensor.nombre_sensor))
     sensorData.value = filteredData
-
     loading.value = false
   })
 
@@ -107,6 +109,10 @@ onBeforeUnmount(() => {
     socket.disconnect()
   }
 })
+
+const closeAlert = () => {
+  showAlert.value = false
+}
 
 // Formatea la humedad para mostrar "Sin registro" si es 0
 const formatHumidity = (humidity) => {
@@ -153,6 +159,7 @@ const sensorsWithWarnings = computed(() => {
   )
 })
 </script>
+
 <style scoped>
 .d-flex {
   display: flex;
@@ -176,5 +183,13 @@ const sensorsWithWarnings = computed(() => {
   z-index: 9999;
   width: 35%;
   max-width: 1200px;
+  padding-right: 40px;
+}
+
+.close-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  color: white;
 }
 </style>
