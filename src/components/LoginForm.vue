@@ -86,7 +86,6 @@ export default {
             sitekey: siteKey,
             callback: (response) => {
               token.value = response
-              console.log('Token de Turnstile recibido:', token.value)
             },
             'error-callback': () => {
               alert.value.show = true
