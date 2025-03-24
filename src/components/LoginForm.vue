@@ -38,6 +38,8 @@
                 :modelValue="password"
                 @update:modelValue="(newVal) => (password = newVal)"
               ></v-text-field>
+
+              <div id="turnstile-container"></div>
             </v-form>
           </v-card-text>
           <v-card-actions class="justify-center">
@@ -51,7 +53,7 @@
 </template>
 
 <script>
-import { ref } from 'vue'
+import { onMounted, nextTick, ref } from 'vue'
 import axios from 'axios'
 import { useRouter } from 'vue-router'
 import { UserLogin } from '../api/services/usersService'
@@ -74,6 +76,39 @@ export default {
     const show = ref(false)
     const router = useRouter()
     const alert = ref({ show: false, message: '', type: 'error' })
+    const token = ref('')
+    const siteKey = '0x4AAAAAAA_dZBPyHCUkbKz4' // Tu clave de Turnstile
+
+    onMounted(() => {
+      const initTurnstile = () => {
+        if (window.turnstile) {
+          window.turnstile.render('#turnstile-container', {
+            sitekey: siteKey,
+            callback: (response) => {
+              token.value = response
+              console.log('Token de Turnstile recibido:', token.value)
+            },
+            'error-callback': () => {
+              alert.value.show = true
+              alert.value.message = 'Error en el captcha'
+              alert.value.type = 'error'
+            },
+            'expired-callback': () => {
+              alert.value.show = true
+              alert.value.message = 'El captcha ha expirado. Se está regenerando...'
+              alert.value.type = 'warning'
+              window.turnstile.reset()
+            }
+          })
+        } else {
+          console.warn('Cloudflare Turnstile aún no está disponible. Reintentando...')
+          setTimeout(initTurnstile, 500) // Reintenta en 500ms hasta que Turnstile esté listo
+        }
+      }
+
+      initTurnstile()
+    })
+
     const submit = async () => {
       correoError.value = ''
       passwordError.value = ''
@@ -83,7 +118,8 @@ export default {
         try {
           const response = await UserLogin({
             correo: btoa(correo.value),
-            contraseña: btoa(password.value)
+            contraseña: btoa(password.value),
+            turnstileToken: token.value
           })
           localStorage.setItem('user-token', response.token)
           sessionStorage.setItem('user-token', response.token)
@@ -130,7 +166,8 @@ export default {
       passwordError,
       show,
       submit,
-      alert
+      alert,
+      token
     }
   }
 }
@@ -165,7 +202,7 @@ export default {
 
 .myImage {
   height: 300px;
-  width: px;
+  width: 500px;
 }
 .box {
   padding: 50px;
