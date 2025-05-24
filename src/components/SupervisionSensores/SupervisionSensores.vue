@@ -80,7 +80,9 @@ const excludeList = [
   'Pasillo 3 Bodega Santa Elena PR-TGHP-47',
   'Pasillo 4 Bodega Santa Elena PR-TGHP-48',
   'Bodega Muestreo PR-TGHP-57',
-  'Pasillo Bodega Muestreo PR-TGHP-58'
+  'Pasillo Bodega Muestreo PR-TGHP-58',
+  'BODEGA PULMÓN PR-TGHP-60',
+  'BODEGA PULMÓN FONDO PR-TGHP-61'
 ]
 
 onMounted(() => {
