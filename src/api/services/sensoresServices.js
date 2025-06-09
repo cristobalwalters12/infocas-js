@@ -82,8 +82,6 @@ const procesarDatosYCalcularTCM = async (range) => {
           TCM_Kelvin: TCM,
           TCM_Celsius: TCM - 273.15
         }
-        console.log('TCM en Kelvin:', resultado.TCM_Kelvin)
-        console.log('TCM en Celsius:', resultado.TCM_Celsius)
         return resultado
       }
     } else {

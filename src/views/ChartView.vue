@@ -86,18 +86,28 @@
                   </v-card-title>
                   <v-card-text>
                     <v-row>
-                      <v-col cols="3"
+                      <v-col cols="2"
                         ><h3>Temperatura mínima = {{ minTemp }}ºC</h3></v-col
                       >
-                      <v-col cols="3"
+                      <v-col cols="2"
                         ><h3>Temperatura máxima = {{ maxTemp }}ºC</h3></v-col
                       >
-                      <v-col cols="3"
+                      <v-col cols="2"
                         ><h3>Humedad mínima = {{ minHum }}%HR</h3></v-col
                       >
-                      <v-col cols="3"
+                      <v-col cols="2"
                         ><h3>Humedad máxima = {{ maxHum }}%HR</h3></v-col
                       >
+                      <v-col
+                        cols="2"
+                        v-if="
+                          (sensorName === 'CAMARA FRIA PR-TEM-122' ||
+                            sensorName === 'VALOR MEDIO SUBTERRÁNEO') &&
+                          TCM_Celsius
+                        "
+                      >
+                        <h3>TCM = {{ TCM_Celsius }}ºC</h3>
+                      </v-col>
                     </v-row>
                   </v-card-text>
                 </v-card>
@@ -117,6 +127,16 @@
                       <v-col cols="3"
                         ><h3>Temperatura máxima = {{ maxTemp }}ºC</h3></v-col
                       >
+                      <v-col
+                        cols="3"
+                        v-if="
+                          (sensorName === 'CAMARA FRIA PR-TEM-122' ||
+                            sensorName === 'VALOR MEDIO SUBTERRÁNEO') &&
+                          TCM_Celsius
+                        "
+                      >
+                        <h3>TCM = {{ TCM_Celsius }}ºC</h3>
+                      </v-col>
                     </v-row>
                   </v-card-text>
                 </v-card>
@@ -140,6 +160,16 @@
                       <v-col cols="3"
                         ><h3>Temperatura máxima = {{ maxTemp }}ºC</h3></v-col
                       >
+                      <v-col
+                        cols="3"
+                        v-if="
+                          (sensorName === 'CAMARA FRIA PR-TEM-122' ||
+                            sensorName === 'VALOR MEDIO SUBTERRÁNEO') &&
+                          TCM_Celsius
+                        "
+                      >
+                        <h3>TCM = {{ TCM_Celsius }}ºC</h3>
+                      </v-col>
                     </v-row>
                   </v-card-text>
                 </v-card>
@@ -241,7 +271,6 @@
   </v-container>
 </template>
 <script>
-import axios from 'axios'
 import ChartInfocas from '../components/ChartInfocas.vue'
 import imagenEnterprice from '../assets/etica-copia (1).png'
 import footerComponent from '../components/footer.vue'
@@ -328,6 +357,7 @@ export default {
       imagenEnterprice: imagenEnterprice,
       dialog: false,
       nombrePersonas: '',
+      TCM_Celsius: null,
       chartProps: {
         max: 0,
         min: 0,
@@ -342,7 +372,11 @@ export default {
 
   methods: {
     generateGraphs() {
+      this.TCM_Celsius = null
       this.selectedSensorName = this.sensorName
+      this.startDateTime = this.startDate + ' ' + this.startTime
+      this.endDateTime = this.endDate + ' ' + this.endTime
+
       this.logData()
       this.getExtremes()
       if (this.chartData) {
@@ -528,9 +562,19 @@ export default {
         95,
         `${this.sensorName} con fecha de ${this.startDate} a ${this.endDate} desde las ${this.startTime} hasta las ${this.endTime} horas`
       )
-      if (this.showChartTemperatureOnly) {
+      if (this.showChartTemperatureOnly && this.TCM_Celsius) {
         doc.text(60, 120, `Temperatura mínima= ${this.minTemp}ºC`)
         doc.text(240, 120, `Temperatura máxima= ${this.maxTemp}ºC`)
+        doc.text(480, 120, `TCM= ${this.TCM_Celsius}ºC`)
+      } else if (this.showChartTemperatureOnly) {
+        doc.text(60, 120, `Temperatura mínima= ${this.minTemp}ºC`)
+        doc.text(240, 120, `Temperatura máxima= ${this.maxTemp}ºC`)
+      } else if (this.TCM_Celsius) {
+        doc.text(20, 120, `Temperatura mínima= ${this.minTemp}ºC`)
+        doc.text(190, 120, `Temperatura máxima= ${this.maxTemp}ºC`)
+        doc.text(360, 120, `Humedad mínima= ${this.minHum}%HR`)
+        doc.text(540, 120, `Humedad máxima= ${this.maxHum}%HR`)
+        doc.text(720, 120, `TCM= ${this.TCM_Celsius}ºC`)
       } else {
         doc.text(60, 120, `Temperatura mínima= ${this.minTemp}ºC`)
         doc.text(240, 120, `Temperatura máxima= ${this.maxTemp}ºC`)
@@ -570,8 +614,15 @@ export default {
               95,
               `${this.sensorName} con fecha de ${this.startDate} a ${this.endDate} desde las ${this.startTime} hasta las ${this.endTime} horas`
             )
-            doc.text(60, 120, `Temperatura mínima= ${this.minTemp}ºC`)
-            doc.text(240, 120, `Temperatura máxima= ${this.maxTemp}ºC`)
+            if (this.TCM_Celsius) {
+              doc.text(60, 120, `Temperatura mínima= ${this.minTemp}ºC`)
+              doc.text(240, 120, `Temperatura máxima= ${this.maxTemp}ºC`)
+              doc.text(480, 120, `TCM= ${this.TCM_Celsius}ºC`)
+            } else {
+              doc.text(60, 120, `Temperatura mínima= ${this.minTemp}ºC`)
+              doc.text(240, 120, `Temperatura máxima= ${this.maxTemp}ºC`)
+            }
+
             const imgData2 = canvas2.toDataURL('image/jpeg')
             doc.addImage(imgData2, 'JPEG', x, 130, imgWidth, 450, undefined)
             doc.addPage()
@@ -587,8 +638,15 @@ export default {
               95,
               `${this.sensorName} con fecha de ${this.startDate} a ${this.endDate} desde las ${this.startTime} hasta las ${this.endTime} horas`
             )
-            doc.text(60, 120, `Humedad mínima= ${this.minHum}%HR`)
-            doc.text(240, 120, `Humedad máxima= ${this.maxHum}%HR`)
+            if (this.TCM_Celsius) {
+              doc.text(60, 120, `Humedad mínima= ${this.minHum}%HR`)
+              doc.text(240, 120, `Humedad máxima= ${this.maxHum}%HR`)
+              doc.text(480, 120, `TCM= ${this.TCM_Celsius}ºC`)
+            } else {
+              doc.text(60, 120, `Humedad mínima= ${this.minHum}%HR`)
+              doc.text(240, 120, `Humedad máxima= ${this.maxHum}%HR`)
+            }
+
             const imgData3 = canvas3.toDataURL('image/jpeg')
             doc.addImage(imgData3, 'JPEG', x, 130, imgWidth, 450, undefined)
             doc.addPage()
@@ -747,18 +805,6 @@ export default {
     }
   },
   watch: {
-    startDate: function (newVal, oldVal) {
-      this.startDateTime = this.startDate + ' ' + this.startTime
-    },
-    endDate: function (newVal, oldVal) {
-      this.endDateTime = this.endDate + ' ' + this.endTime
-    },
-    startTime: function (newVal, oldVal) {
-      this.startDateTime = this.startDate + ' ' + this.startTime
-    },
-    endTime: function (newVal, oldVal) {
-      this.endDateTime = this.endDate + ' ' + this.endTime
-    },
     dialog(val) {
       if (!val) return
       setTimeout(() => (this.dialog = false), 2500)
