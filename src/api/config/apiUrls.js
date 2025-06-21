@@ -14,7 +14,9 @@ const API_PATHS = {
   respaldar: '/controladores/findControladorAndRespaldar',
   respaldarSensores2024: '/controladores/respaldarSensores2024',
   getRespaldos: '/controladores/getControladoresRespaldos',
-  DescargarRespaldos: '/controladores/descargarRespaldo'
+  getArchivosGateway: '/controladores/findArchivoControlador',
+  DescargarRespaldos: '/controladores/descargarRespaldo',
+  descargatxtGateway: '/controladores/downloadGateway'
 }
 
 export { ENDPOINT, API_PATHS }
