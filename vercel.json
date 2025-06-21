@@ -46,6 +46,7 @@
     { "source": "/usuario", "destination": "/" },
     { "source": "/Respaldos", "destination": "/" },
     { "source": "/txtRespaldos/(.*)", "destination": "/" },
-    { "source": "/supervisionSensores", "destination": "/" }
+    { "source": "/supervisionSensores", "destination": "/" },
+    { "source": "/ArchivoGateway/(.*)", "destination": "/" }
   ]
 }
