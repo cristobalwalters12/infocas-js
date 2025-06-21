@@ -33,9 +33,15 @@
             <td class="text-center">{{ item.name }}</td>
             <td>{{ item.sizeFormatted }}</td>
 
-            <td v-if="controlador(props.id) == 'UG65'">
+            <td
+              v-if="
+                ['UG65', 'UG65P1', 'UG65P2', 'CAMIONES', 'UG65 PESAJE', 'UG65SUB'].includes(
+                  controlador(props.id)
+                )
+              "
+            >
               <div>
-                <v-btn @click="openDialog">Ver Respaldos</v-btn>
+                <v-btn @click="verRespaldo(item.name)">Ver Respaldo</v-btn>
               </div>
             </td>
             <td v-else>
@@ -51,8 +57,8 @@
       <v-card>
         <v-card-title class="text-h5">Página en desarrollo</v-card-title>
         <v-card-text>
-          Se está trabajando en esta página debido a que este repositorio maneja carpetas de los
-          sensores 2024.
+          Se está trabajando en esta página debido a que se se cambiaron los controladores por
+          Gateway Lorawan.
         </v-card-text>
         <v-card-actions>
           <v-btn color="pink-darken-4" text @click="closeDialog">Cerrar</v-btn>
@@ -66,7 +72,8 @@
 import { ref, onMounted } from 'vue'
 import imagenEnterprice from '../../assets/etica-copia (1).png'
 import { getRespaldosControladores, descargarRespaldo } from '../../api/services/RespaldosService'
-
+import { useRouter } from 'vue-router'
+const router = useRouter()
 const data = ref([])
 const loading = ref(false)
 const dialog = ref(false)
@@ -81,7 +88,7 @@ const fetchControladores = async (controlador) => {
   loading.value = true
   try {
     if (controlador === 'UG65') {
-      controlador = '2024'
+      controlador = 'UG65P1'
     }
     const response = await getRespaldosControladores({ controlador })
     if (Array.isArray(response)) {
@@ -141,6 +148,10 @@ const openDialog = () => {
 }
 const closeDialog = () => {
   dialog.value = false
+}
+
+const verRespaldo = async (item) => {
+  await router.push(`/ArchivoGateway/${props.id}/${item}`)
 }
 
 onMounted(() => fetchControladores(props.id))
