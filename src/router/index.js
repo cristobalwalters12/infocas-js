@@ -7,6 +7,7 @@ import UsersDashboardView from '../views/UsersDashboardView.vue'
 import RespaldoView from '../views/RespaldosView.vue'
 import ControladoresRespaldo from '../views/ControladoresRespaldo.vue'
 import SupervisionSensores from '../views/SupervisionSensoresView.vue'
+import ArchivoGatewayview from '../views/ArchivoGatewayview.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -44,6 +45,11 @@ const router = createRouter({
       path: '/txtRespaldos/:id',
       name: 'txtRespaldos',
       component: ControladoresRespaldo
+    },
+    {
+      path: '/ArchivoGateway/:id/:item',
+      name: 'ArchivoGateway',
+      component: ArchivoGatewayview
     },
     {
       path: '/supervisionSensores',
