@@ -101,7 +101,7 @@ export default {
           })
         } else {
           console.warn('Cloudflare Turnstile aún no está disponible. Reintentando...')
-          setTimeout(initTurnstile, 500) // Reintenta en 500ms hasta que Turnstile esté listo
+          setTimeout(initTurnstile, 500)
         }
       }
 
