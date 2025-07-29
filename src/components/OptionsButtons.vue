@@ -81,6 +81,10 @@ export default {
       console.log(entorno)
       this.canViewSensores = localStorage.getItem('vista_sensores') === 'true'
       this.canViewDashboard = localStorage.getItem('vista_dashboard') === 'true'
+      this.canViewSensoresPresionDiferencial =
+        localStorage.getItem('vista_sensores_presion_diferencial') === 'true'
+      this.canViewDashboardPresionDiferencial =
+        localStorage.getItem('vista_dashboard_presion_diferencial') === 'true'
     } else {
       this.login(cookies['user-token'])
       document.cookie =
@@ -94,8 +98,8 @@ export default {
         cookies['vista_sensores_presion_diferencial']
       )
       localStorage.setItem(
-        'vista_historial_presion_diferencial',
-        cookies['vista_historial_presion_diferencial']
+        'vista_dashboard_presion_diferencial',
+        cookies['vista_dashboard_presion_diferencial']
       )
       this.canViewSensores = localStorage.getItem('vista_sensores')
       this.canViewDashboard = localStorage.getItem('vista_dashboard')
