@@ -109,18 +109,27 @@ export default {
       this.canViewDashboardPresionDiferencial = localStorage.getItem(
         'vista_dashboard_presion_diferencial'
       )
-      console.log('Entorno de producción, cookies:', cookies)
-      console.log('Entorno de producción, localStorage:', localStorage)
-      console.log('Entorno de producción, canViewSensores:', this.canViewSensores)
-      console.log('Entorno de producción, canViewDashboard:', this.canViewDashboard)
-      console.log(
-        'Entorno de producción, canViewSensoresPresionDiferencial:',
-        this.canViewSensoresPresionDiferencial
-      )
-      console.log(
-        'Entorno de producción, canViewDashboardPresionDiferencial:',
-        this.canViewDashboardPresionDiferencial
-      )
+
+      if (this.canViewSensores === 'true') {
+        this.canViewSensores = true
+      } else {
+        this.canViewSensores = false
+      }
+      if (this.canViewDashboard === 'true') {
+        this.canViewDashboard = true
+      } else {
+        this.canViewDashboard = false
+      }
+      if (this.canViewSensoresPresionDiferencial === 'true') {
+        this.canViewSensoresPresionDiferencial = true
+      } else {
+        this.canViewSensoresPresionDiferencial = false
+      }
+      if (this.canViewDashboardPresionDiferencial === 'true') {
+        this.canViewDashboardPresionDiferencial = true
+      } else {
+        this.canViewDashboardPresionDiferencial = false
+      }
     }
   }
 }
