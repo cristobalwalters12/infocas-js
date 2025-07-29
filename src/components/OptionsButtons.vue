@@ -28,6 +28,7 @@
           <v-btn
             size="x-large"
             color="pink-darken-4"
+            :disabled="!canViewSensoresPresionDiferencial"
             @click="$router.push('/DiferentialPressureView')"
           >
             Gráficos de presión diferencial
@@ -47,6 +48,7 @@
           <v-btn
             size="x-large"
             color="pink-darken-4"
+            :disabled="!canViewDashboardPresionDiferencial"
             @click="$router.push('/supervisionSensorespresionDiferencial')"
           >
             Dashboard de Sensores de presión
