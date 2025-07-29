@@ -234,7 +234,6 @@ const informacionTable = ref(null)
 
 const isAdmin = computed(() => {
   const userRole = localStorage.getItem('user-role')
-  console.log('User role:', userRole)
   return userRole === 'Administrador' || userRole === 'Supervisor'
 })
 
