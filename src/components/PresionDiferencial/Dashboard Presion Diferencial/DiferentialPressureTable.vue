@@ -38,7 +38,6 @@ import moment from 'moment'
 const store = useStore()
 const props = defineProps(['nombreSensor'])
 const items = computed(() => store.state.differentialPressureRawData)
-console.log('items', items.value)
 
 const formatDate = (isoString) => {
   if (!isoString) return ''
