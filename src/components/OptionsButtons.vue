@@ -109,6 +109,18 @@ export default {
       this.canViewDashboardPresionDiferencial = localStorage.getItem(
         'vista_dashboard_presion_diferencial'
       )
+      console.log('Entorno de producción, cookies:', cookies)
+      console.log('Entorno de producción, localStorage:', localStorage)
+      console.log('Entorno de producción, canViewSensores:', this.canViewSensores)
+      console.log('Entorno de producción, canViewDashboard:', this.canViewDashboard)
+      console.log(
+        'Entorno de producción, canViewSensoresPresionDiferencial:',
+        this.canViewSensoresPresionDiferencial
+      )
+      console.log(
+        'Entorno de producción, canViewDashboardPresionDiferencial:',
+        this.canViewDashboardPresionDiferencial
+      )
     }
   }
 }
