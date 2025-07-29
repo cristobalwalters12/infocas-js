@@ -812,6 +812,9 @@ export default {
   },
   mounted() {
     this.fetchSensorNames(), (this.nombrePersonas = localStorage.getItem('user-id'))
+  },
+  unmounted() {
+    this.$store.dispatch('resetChartDataTempHum')
   }
 }
 </script>

@@ -25,7 +25,11 @@
           </v-btn>
         </v-col>
         <v-col cols="auto" class="d-flex flex-col">
-          <v-btn size="x-large" color="pink-darken-4" :disabled="!canViewPressure">
+          <v-btn
+            size="x-large"
+            color="pink-darken-4"
+            @click="$router.push('/DiferentialPressureView')"
+          >
             Gráficos de presión diferencial
           </v-btn>
         </v-col>
@@ -43,8 +47,7 @@
           <v-btn
             size="x-large"
             color="pink-darken-4"
-            :disabled="!canViewPressure"
-            @click="$router.push('/supervisionSensores')"
+            @click="$router.push('/supervisionSensorespresionDiferencial')"
           >
             Dashboard de Sensores de presión
           </v-btn>
