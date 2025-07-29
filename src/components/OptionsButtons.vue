@@ -64,7 +64,9 @@ export default {
   data() {
     return {
       canViewDashboard: false,
-      canViewSensores: false
+      canViewSensores: false,
+      canViewSensoresPresionDiferencial: false,
+      canViewDashboardPresionDiferencial: false
     }
   },
   methods: {
@@ -85,8 +87,22 @@ export default {
       localStorage.setItem('user-role', cookies['user-role'])
       localStorage.setItem('vista_dashboard', cookies['vista_dashboard'])
       localStorage.setItem('vista_sensores', cookies['vista_sensores'])
+      localStorage.setItem(
+        'vista_sensores_presion_diferencial',
+        cookies['vista_sensores_presion_diferencial']
+      )
+      localStorage.setItem(
+        'vista_historial_presion_diferencial',
+        cookies['vista_historial_presion_diferencial']
+      )
       this.canViewSensores = localStorage.getItem('vista_sensores')
       this.canViewDashboard = localStorage.getItem('vista_dashboard')
+      this.canViewSensoresPresionDiferencial = localStorage.getItem(
+        'vista_sensores_presion_diferencial'
+      )
+      this.canViewDashboardPresionDiferencial = localStorage.getItem(
+        'vista_dashboard_presion_diferencial'
+      )
     }
   }
 }

@@ -126,11 +126,21 @@ export default {
           localStorage.setItem('user-role', response.rol)
           localStorage.setItem('vista_dashboard', response.vista_dashboard)
           localStorage.setItem('vista_sensores', response.vista_sensores)
+          localStorage.setItem(
+            'vista_sensores_presion_diferencial',
+            response.vista_sensores_presion_diferencial
+          )
+          localStorage.setItem(
+            'vista_historial_presion_diferencial',
+            response.vista_dashboard_presion_diferencial
+          )
           document.cookie = `user-token=${response.token}; path=/; domain=.infocas.cl; Secure; SameSite=Strict`
           document.cookie = `user-id=${response.nombre}; path=/; domain=.infocas.cl; Secure; SameSite=Strict`
           document.cookie = `user-role=${response.rol}; path=/; domain=.infocas.cl; Secure; SameSite=Strict`
           document.cookie = `vista_dashboard=${response.vista_dashboard}; path=/; domain=.infocas.cl; Secure; SameSite=Strict`
           document.cookie = `vista_sensores=${response.vista_sensores}; path=/; domain=.infocas.cl; Secure; SameSite=Strict`
+          document.cookie = `vista_sensores_presion_diferencial=${response.vista_sensores_presion_diferencial}; path=/; domain=.infocas.cl; Secure; SameSite=Strict`
+          document.cookie = `vista_dashboard_presion_diferencial=${response.vista_dashboard_presion_diferencial}; path=/; domain=.infocas.cl; Secure; SameSite=Strict`
           const currentUrl = window.location.href
           setTimeout(() => {
             if (currentUrl.includes('https://www.infocas.cl')) {

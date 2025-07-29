@@ -112,17 +112,12 @@ const getHistorialSensoresPredif = async () => {
 }
 const postHistorialSensoresPredif = async ({ responsable, fecha, nombre_archivo }) => {
   try {
-    console.log('postHistorialSensoresPredif', {
-      responsable,
-      fecha,
-      nombre_archivo
-    })
     const response = await api.post(API_PATHS.postHistorialSensoresPredif, {
       responsable,
       fecha,
       nombre_archivo
     })
-    console.log('Response from postHistorialSensoresPredif:', response.data)
+
     return response.data
   } catch (error) {
     return error

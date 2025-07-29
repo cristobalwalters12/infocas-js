@@ -162,17 +162,29 @@
             >Descargar PDF</v-btn
           >
           <v-btn
+            v-if="isAdmin || isSuperAdmin"
             color="pink-darken-4"
             class="mt-5 ml-4 mb-4"
             @click="$router.push('/historialPresionDiferencial')"
             >Ir a historial</v-btn
           >
           <v-btn
+            v-if="isAdmin || isSuperAdmin"
             color="pink-darken-4"
             class="mt-5 ml-4 mb-4"
             @click="$router.push('/usuarioPresionDiferencial')"
             >Ir a Usuarios</v-btn
           >
+          <div class="text-center">
+            <v-dialog v-model="dialog" :scrim="false" persistent width="auto">
+              <v-card color="pink-darken-4">
+                <v-card-text>
+                  Se esta generando y descargando el archivo, por favor espere...
+                  <v-progress-linear indeterminate color="white" class="mb-0"></v-progress-linear>
+                </v-card-text>
+              </v-card>
+            </v-dialog>
+          </div>
         </v-card>
       </v-card>
     </v-col>
@@ -209,6 +221,7 @@ const endDate = ref('')
 const startTime = ref('')
 const endTime = ref('')
 const info = ref(true)
+const dialog = ref(false)
 const maxima_presion_diferencial_ch1 = ref(0)
 const minima_presion_diferencial_ch1 = ref(0)
 const maxima_presion_diferencial_ch2 = ref(0)
@@ -218,6 +231,17 @@ const chartComponent1 = ref(null)
 const chartComponent2 = ref(null)
 const chartComponent3 = ref(null)
 const informacionTable = ref(null)
+
+const isAdmin = computed(() => {
+  const userRole = localStorage.getItem('user-role')
+  console.log('User role:', userRole)
+  return userRole === 'Administrador' || userRole === 'Supervisor'
+})
+
+const isSuperAdmin = computed(() => {
+  const userRole = localStorage.getItem('user-role')
+  return userRole === 'Superadmin'
+})
 
 const cerrarSesion = () => {
   localStorage.removeItem('token')
@@ -253,8 +277,10 @@ const generateGraphs = async () => {
   }
 }
 const descargarPdf = () => {
+  dialog.value = true
   generarPdf()
   postHistorial()
+  setTimeout(() => (dialog.value = false), 2500)
 }
 const postHistorial = async () => {
   const responsable = nombrePersonas.value
@@ -262,15 +288,8 @@ const postHistorial = async () => {
   const fechaFormateada = getDate.toISOString().slice(0, 10)
   const nombre_archivo = sensorName.value
 
-  console.log('esto es lo que se va a enviar:', {
-    responsable,
-    fecha: fechaFormateada,
-    nombre_archivo
-  })
-
   try {
     await postHistorialSensoresPredif({ responsable, fecha: fechaFormateada, nombre_archivo })
-    console.log('Historial enviado con éxito')
   } catch (error) {
     console.error('Error enviando historial:', error)
   }
