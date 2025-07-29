@@ -222,7 +222,7 @@ const informacionTable = ref(null)
 const cerrarSesion = () => {
   localStorage.removeItem('token')
   localStorage.removeItem('user-id')
-  window.location.href = '/login'
+  window.location.href = '/'
 }
 
 const generateGraphs = async () => {

@@ -47,6 +47,9 @@
     { "source": "/Respaldos", "destination": "/" },
     { "source": "/txtRespaldos/(.*)", "destination": "/" },
     { "source": "/supervisionSensores", "destination": "/" },
-    { "source": "/ArchivoGateway/(.*)", "destination": "/" }
+    { "source": "/ArchivoGateway/(.*)", "destination": "/" },
+    { "source": "/DiferentialPressureView", "destination": "/" },
+    { "source": "/historialPresionDiferencial", "destination": "/" },
+    { "source": "/usuarioPresionDiferencial", "destination": "/" }
   ]
 }
