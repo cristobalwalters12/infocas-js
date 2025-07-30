@@ -83,22 +83,22 @@
                 <v-row>
                   <v-col cols="3"
                     ><h3>
-                      Máxima presión diferencial ch1 = {{ maxima_presion_diferencial_ch1 }}
+                      Máxima presión diferencial ch1 = {{ maxima_presion_diferencial_ch1 }} mmWC
                     </h3></v-col
                   >
                   <v-col cols="3"
                     ><h3>
-                      Máxima presión diferencial ch1 = {{ minima_presion_diferencial_ch1 }}
+                      Máxima presión diferencial ch1 = {{ minima_presion_diferencial_ch1 }} mmWC
                     </h3></v-col
                   >
                   <v-col cols="3"
                     ><h3>
-                      Mínima presión diferencial ch2 = {{ maxima_presion_diferencial_ch2 }}
+                      Mínima presión diferencial ch2 = {{ maxima_presion_diferencial_ch2 }} mmWC
                     </h3></v-col
                   >
                   <v-col cols="3"
                     ><h3>
-                      Mínima presión diferencial ch2 = {{ minima_presion_diferencial_ch2 }}
+                      Mínima presión diferencial ch2 = {{ minima_presion_diferencial_ch2 }} mmWC
                     </h3></v-col
                   >
                 </v-row>
@@ -114,12 +114,12 @@
                 <v-row>
                   <v-col cols="3"
                     ><h3>
-                      Máxima presión diferencial ch1 = {{ maxima_presion_diferencial_ch1 }}
+                      Máxima presión diferencial ch1 = {{ maxima_presion_diferencial_ch1 }} mmWC
                     </h3></v-col
                   >
                   <v-col cols="3"
                     ><h3>
-                      Máxima presión diferencial ch1 = {{ minima_presion_diferencial_ch1 }}
+                      Máxima presión diferencial ch1 = {{ minima_presion_diferencial_ch1 }} mmWC
                     </h3></v-col
                   >
                 </v-row>
@@ -135,12 +135,12 @@
                 <v-row>
                   <v-col cols="3"
                     ><h3>
-                      Mínima presión diferencial ch2 = {{ maxima_presion_diferencial_ch2 }}
+                      Mínima presión diferencial ch2 = {{ maxima_presion_diferencial_ch2 }} mmWC
                     </h3></v-col
                   >
                   <v-col cols="3"
                     ><h3>
-                      Mínima presión diferencial ch2 = {{ minima_presion_diferencial_ch2 }}
+                      Mínima presión diferencial ch2 = {{ minima_presion_diferencial_ch2 }} mmWC
                     </h3></v-col
                   >
                 </v-row>
@@ -321,10 +321,10 @@ const generarPdf = () => {
     95,
     `${sensorName.value} con fecha de ${startDate.value} a ${endDate.value} desde las ${startTime.value} hasta las ${endTime.value} horas`
   )
-  doc.text(40, 120, `Presión mínima Ch1 = ${minima_presion_diferencial_ch1.value}`)
-  doc.text(220, 120, `Presión máxima Ch1 = ${maxima_presion_diferencial_ch1.value}`)
-  doc.text(460, 120, `Presión mínima Ch2 = ${minima_presion_diferencial_ch2.value}`)
-  doc.text(640, 120, `Presión máxima Ch2 = ${maxima_presion_diferencial_ch2.value}`)
+  doc.text(40, 120, `Presión mínima Ch1 = ${minima_presion_diferencial_ch1.value}mmWC`)
+  doc.text(220, 120, `Presión máxima Ch1 = ${maxima_presion_diferencial_ch1.value}mmWC`)
+  doc.text(440, 120, `Presión mínima Ch2 = ${minima_presion_diferencial_ch2.value}mmWC`)
+  doc.text(640, 120, `Presión máxima Ch2 = ${maxima_presion_diferencial_ch2.value}mmWC`)
   const canvasPromises = [
     chartComponent1.value ? html2canvas(chartComponent1.value.$el) : Promise.resolve(null),
     chartComponent2.value ? html2canvas(chartComponent2.value.$el) : Promise.resolve(null),
@@ -350,8 +350,8 @@ const generarPdf = () => {
         95,
         `${sensorName.value} con fecha de ${startDate.value} a ${endDate.value} desde las ${startTime.value} hasta las ${endTime.value} horas`
       )
-      doc.text(60, 120, `Presión mínima Ch1 = ${minima_presion_diferencial_ch1.value}`)
-      doc.text(240, 120, `Presión máxima Ch1 = ${maxima_presion_diferencial_ch1.value}`)
+      doc.text(60, 120, `Presión mínima Ch1 = ${minima_presion_diferencial_ch1.value}mmWC`)
+      doc.text(240, 120, `Presión máxima Ch1 = ${maxima_presion_diferencial_ch1.value}mmWC`)
 
       const imgData2 = canvas2.toDataURL('image/jpeg')
       doc.addImage(imgData2, 'JPEG', x, 130, imgWidth, 450, undefined)
@@ -368,8 +368,8 @@ const generarPdf = () => {
         95,
         `${sensorName.value} con fecha de ${startDate.value} a ${endDate.value} desde las ${startTime.value} hasta las ${endTime.value} horas`
       )
-      doc.text(60, 120, `Presión mínima Ch2 = ${minima_presion_diferencial_ch2.value}`)
-      doc.text(240, 120, `Presión máxima Ch2 = ${maxima_presion_diferencial_ch2.value}`)
+      doc.text(60, 120, `Presión mínima Ch2 = ${minima_presion_diferencial_ch2.value}mmWC`)
+      doc.text(240, 120, `Presión máxima Ch2 = ${maxima_presion_diferencial_ch2.value}mmWC`)
 
       const imgData3 = canvas3.toDataURL('image/jpeg')
       doc.addImage(imgData3, 'JPEG', x, 130, imgWidth, 450, undefined)
@@ -388,8 +388,8 @@ const generarPdf = () => {
         item.nombre_sensor_pre_dif,
         (item.fecha ?? '').split('T')[0],
         item.hora,
-        `${item.Dif_Ch1}`,
-        `${item.Dif_Ch2}`
+        `${item.Dif_Ch1} mmWC`,
+        `${item.Dif_Ch2} mmWC`
       ])
 
       doc.autoTable({

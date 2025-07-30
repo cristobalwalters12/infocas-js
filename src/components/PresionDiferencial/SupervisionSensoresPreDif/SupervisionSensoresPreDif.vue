@@ -22,10 +22,10 @@
       </v-card-subtitle>
       <v-card-text>
         <div>
-          <strong>{{ sensor.nombre_sensor_pre_dif }} Ch1: </strong> {{ sensor.Dif_Ch1 }}
+          <strong>{{ sensor.nombre_sensor_pre_dif }} Ch1: </strong> {{ sensor.Dif_Ch1 }} mmWC
         </div>
         <div>
-          <strong>{{ sensor.nombre_sensor_pre_dif }} Ch2: </strong> {{ sensor.Dif_Ch2 }}
+          <strong>{{ sensor.nombre_sensor_pre_dif }} Ch2: </strong> {{ sensor.Dif_Ch2 }} mmWC
         </div>
       </v-card-text>
     </v-card>

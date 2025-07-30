@@ -21,8 +21,8 @@
                 <td>{{ item.nombre_sensor_pre_dif }}</td>
                 <td>{{ formatDate(item.fecha) }}</td>
                 <td>{{ item.hora }}</td>
-                <td>{{ item.Dif_Ch1 }}</td>
-                <td>{{ item.Dif_Ch2 }}</td>
+                <td>{{ item.Dif_Ch1 }} mmWC</td>
+                <td>{{ item.Dif_Ch2 }} mmWC</td>
               </tr>
             </tbody>
           </v-table>
