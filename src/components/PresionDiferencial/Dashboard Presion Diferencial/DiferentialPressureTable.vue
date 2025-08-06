@@ -18,7 +18,7 @@
             </thead>
             <tbody>
               <tr v-for="item in items" :key="item.id">
-                <td>{{ item.nombre_sensor_pre_dif }}</td>
+                <td>{{ props.nombreSensor }}</td>
                 <td>{{ formatDate(item.fecha) }}</td>
                 <td>{{ item.hora }}</td>
                 <td>{{ item.Dif_Ch1 }} mmWC</td>

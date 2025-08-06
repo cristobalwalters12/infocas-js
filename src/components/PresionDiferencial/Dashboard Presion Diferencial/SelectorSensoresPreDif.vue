@@ -175,6 +175,14 @@
             @click="$router.push('/usuarioPresionDiferencial')"
             >Ir a Usuarios</v-btn
           >
+          <v-btn
+            v-if="isAdmin || isSuperAdmin"
+            color="pink-darken-4"
+            class="mt-5 ml-4 mb-4"
+            :disabled="true"
+            @click="$router.push('/respaldosPresionDiferencial')"
+            >Ir a los respaldos</v-btn
+          >
           <div class="text-center">
             <v-dialog v-model="dialog" :scrim="false" persistent width="auto">
               <v-card color="pink-darken-4">
@@ -231,6 +239,7 @@ const chartComponent1 = ref(null)
 const chartComponent2 = ref(null)
 const chartComponent3 = ref(null)
 const informacionTable = ref(null)
+const nombre_sensor_pre_dif = ref('')
 
 const isAdmin = computed(() => {
   const userRole = localStorage.getItem('user-role')
@@ -270,7 +279,8 @@ const generateGraphs = async () => {
     maxima_presion_diferencial_ch2.value = reponseMaxMin[0].maxima_presion_diferencial_ch2
     minima_presion_diferencial_ch2.value = reponseMaxMin[0].minima_presion_diferencial_ch2
     // Despacha acción del store para procesar y setear chartData
-    store.dispatch('processAndSetChartData', response)
+    store.dispatch('processAndSetChartData', response.result)
+    nombre_sensor_pre_dif.value = response.nombre_sensor_pre_dif
   } catch (error) {
     console.error('Error obteniendo datos de rango:', error)
   }
@@ -321,7 +331,7 @@ const generarPdf = () => {
     95,
     `${sensorName.value} con fecha de ${startDate.value} a ${endDate.value} desde las ${startTime.value} hasta las ${endTime.value} horas`
   )
-  doc.text(40, 120, `Presión mínima Ch1 = ${minima_presion_diferencial_ch1.value}mmWC`)
+  doc.text(30, 120, `Presión mínima Ch1 = ${minima_presion_diferencial_ch1.value}mmWC`)
   doc.text(220, 120, `Presión máxima Ch1 = ${maxima_presion_diferencial_ch1.value}mmWC`)
   doc.text(440, 120, `Presión mínima Ch2 = ${minima_presion_diferencial_ch2.value}mmWC`)
   doc.text(640, 120, `Presión máxima Ch2 = ${maxima_presion_diferencial_ch2.value}mmWC`)
@@ -385,7 +395,7 @@ const generarPdf = () => {
       ]
 
       const data = differentialPressureRawData.value.map((item) => [
-        item.nombre_sensor_pre_dif,
+        sensorName.value,
         (item.fecha ?? '').split('T')[0],
         item.hora,
         `${item.Dif_Ch1} mmWC`,
