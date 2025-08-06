@@ -361,7 +361,7 @@ const generarPdf = () => {
         `${sensorName.value} con fecha de ${startDate.value} a ${endDate.value} desde las ${startTime.value} hasta las ${endTime.value} horas`
       )
       doc.text(60, 120, `Presión mínima Ch1 = ${minima_presion_diferencial_ch1.value}mmWC`)
-      doc.text(240, 120, `Presión máxima Ch1 = ${maxima_presion_diferencial_ch1.value}mmWC`)
+      doc.text(250, 120, `Presión máxima Ch1 = ${maxima_presion_diferencial_ch1.value}mmWC`)
 
       const imgData2 = canvas2.toDataURL('image/jpeg')
       doc.addImage(imgData2, 'JPEG', x, 130, imgWidth, 450, undefined)
@@ -379,7 +379,7 @@ const generarPdf = () => {
         `${sensorName.value} con fecha de ${startDate.value} a ${endDate.value} desde las ${startTime.value} hasta las ${endTime.value} horas`
       )
       doc.text(60, 120, `Presión mínima Ch2 = ${minima_presion_diferencial_ch2.value}mmWC`)
-      doc.text(240, 120, `Presión máxima Ch2 = ${maxima_presion_diferencial_ch2.value}mmWC`)
+      doc.text(250, 120, `Presión máxima Ch2 = ${maxima_presion_diferencial_ch2.value}mmWC`)
 
       const imgData3 = canvas3.toDataURL('image/jpeg')
       doc.addImage(imgData3, 'JPEG', x, 130, imgWidth, 450, undefined)
