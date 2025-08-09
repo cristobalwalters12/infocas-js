@@ -89,7 +89,10 @@
 <script setup>
 import { ref, onMounted } from 'vue'
 import imagenEnterprice from '../../../assets/etica-copia (1).png'
-import { getAllControladoresPredif } from '../../../api/services/sensoresPreDifServices'
+import {
+  getAllControladoresPredif,
+  respaldarSensoresPredif
+} from '../../../api/services/sensoresPreDifServices'
 import { useRouter } from 'vue-router'
 
 const data = ref([])
@@ -120,20 +123,16 @@ const generarRespaldo = async ({ controlador, startDate, endDate }) => {
       dialogVisible.value = true
       return
     }
-    const body = {
+    console.log('Generando respaldo para:', controlador, startDate, endDate)
+    const response = await respaldarSensoresPredif({
       controlador,
       startDateTime: startDate,
       endDateTime: endDate
-    }
+    })
+    //console.log('Respuesta de generarRespaldo:', response)
+    dialogSuccessVisible.value = true
 
-    if (body.controlador === 'UG65') {
-      const respaldo = await doRespaldo2024(body)
-      dialogSuccessVisible.value = true
-    } else {
-      const respaldo = await doResplado(body)
-
-      dialogSuccessVisible.value = true
-    }
+    return response
   } catch (error) {
     console.error('Error fetching respaldos data:', error)
   } finally {

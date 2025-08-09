@@ -35,6 +35,7 @@ const getArchivosControladorPredif = async ({ controlador, carpeta }) => {
   }
 }
 const respaldarSensoresPredif = async ({ controlador, startDateTime, endDateTime }) => {
+  console.log('respaldarSensoresPredif', controlador, startDateTime, endDateTime)
   try {
     const response = await api.post(API_PATHS.respaldarSensoresPredif, {
       controlador,
