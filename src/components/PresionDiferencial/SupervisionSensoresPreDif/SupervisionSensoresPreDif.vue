@@ -51,7 +51,6 @@ onMounted(() => {
   loading.value = true
 
   socket.on('responseSensorData', (data) => {
-    console.log('Datos recibidos del servidor:', data)
     sensorData.value = data
     loading.value = false
   })
