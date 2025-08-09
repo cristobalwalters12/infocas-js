@@ -2,6 +2,7 @@ import { API_PATHS } from '../config/apiUrls'
 import { api } from '../config/apiConfig'
 
 //SENSORES PREDIF CONTROLADORES
+//getAllControladoresPredif: '/controladores_presion_diferencial', //get
 //getControladoresPredif: '/controladores_presion_diferencial/getControladoresRespaldo', //post con solo el controlador, le pega al SFTP
 //getArchivosControladorPredif: '/controladores_presion_diferencial/getArchivosControlador', //post con controlador y carpeta, le pega al SFTP
 //respaldarSensoresPredif: '/controladores_presion_diferencial/respaldarSensoresPreDif', //post con controlador y startDateTime y endDateTime
@@ -28,7 +29,7 @@ const getArchivosControladorPredif = async ({ controlador, carpeta }) => {
       controlador,
       carpeta
     })
-    return response.data
+    return response.data.sort((a, b) => b.date - a.date)
   } catch (error) {
     return error
   }
@@ -123,6 +124,33 @@ const postHistorialSensoresPredif = async ({ responsable, fecha, nombre_archivo 
     return error
   }
 }
+const getAllControladoresPredif = async () => {
+  try {
+    const response = await api.get(API_PATHS.getAllControladoresPredif)
+    return response.data
+  } catch (error) {
+    return error
+  }
+}
+
+const descargatxtGatewayPredif = async (controlador) => {
+  try {
+    const response = await api.post(API_PATHS.descargatxtGatewayPredif, controlador, {
+      responseType: 'blob'
+    })
+    const url = window.URL.createObjectURL(new Blob([response.data]))
+    const link = document.createElement('a')
+    link.href = url
+    link.setAttribute('download', controlador.archivo)
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    return response.data
+  } catch (error) {
+    console.error('Error al descargar el archivo del gateway:', error)
+    throw error
+  }
+}
 
 export {
   getControladoresPredif,
@@ -134,5 +162,7 @@ export {
   getRangeInformationPredif,
   getRangeMaxMinPredif,
   getHistorialSensoresPredif,
-  postHistorialSensoresPredif
+  postHistorialSensoresPredif,
+  getAllControladoresPredif,
+  descargatxtGatewayPredif
 }

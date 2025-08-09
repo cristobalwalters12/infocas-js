@@ -4,7 +4,7 @@
     <v-container fluid>
       <v-row class="d-flex flex-column justify-center align-center">
         <v-col cols="10">
-          <TableTxtRespaldos :id="id" />
+          <TableRespaldosDiferencialPresion />
         </v-col>
         <v-card class="d-flex flex justify-center mt-8" flat>
           <Footer />
@@ -17,12 +17,17 @@
   </div>
 </template>
 
-<script setup>
+<script>
 import Footer from '../components/footer.vue'
-import TableTxtRespaldos from '../components/getRespaldosControlador/TableTxtRespaldos.vue'
+import TableRespaldosDiferencialPresion from '../components/PresionDiferencial/Respaldos Presion Diferencial/TableRespaldosDiferencialPresion.vue'
 import VersionFooter from '../components/VersionFooter.vue'
-import { useRoute } from 'vue-router'
-import { ref } from 'vue'
-const route = useRoute()
-const id = ref(route.params.id)
+
+export default {
+  name: 'RespaldosView',
+  components: { TableRespaldosDiferencialPresion, Footer, VersionFooter },
+  data() {
+    return {}
+  },
+  methods: {}
+}
 </script>

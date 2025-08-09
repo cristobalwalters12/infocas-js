@@ -179,7 +179,6 @@
             v-if="isAdmin || isSuperAdmin"
             color="pink-darken-4"
             class="mt-5 ml-4 mb-4"
-            :disabled="true"
             @click="$router.push('/respaldosPresionDiferencial')"
             >Ir a los respaldos</v-btn
           >

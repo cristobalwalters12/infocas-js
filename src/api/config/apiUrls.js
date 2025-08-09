@@ -18,9 +18,11 @@ const API_PATHS = {
   DescargarRespaldos: '/controladores/descargarRespaldo',
   descargatxtGateway: '/controladores/downloadGateway',
   //SENSORES PREDIF CONTROLADORES
+  getAllControladoresPredif: '/controladores_presion_diferencial', //get
   getControladoresPredif: '/controladores_presion_diferencial/getControladoresRespaldo', //post con solo el controlador, le pega al SFTP
   getArchivosControladorPredif: '/controladores_presion_diferencial/getArchivosControlador', //post con controlador y carpeta, le pega al SFTP
   respaldarSensoresPredif: '/controladores_presion_diferencial/respaldarSensoresPreDif', //post con controlador y startDateTime y endDateTime
+  descargatxtGatewayPredif: '/controladores_presion_diferencial/downloadGateway',
   //SENSORES PREDIF NOMBRE DE LOS SENSORES
   getIdsPosibles: '/nombre_sensores_presion_diferencial/idspresiondiferencialPosibles', // get sin parametros
   getSensoresControladorPredif:

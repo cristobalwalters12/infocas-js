@@ -12,7 +12,9 @@ import SupervisionSensores from '../views/SupervisionSensoresView.vue'
 import SupervisionSensoresPreDif from '../views/SupervisionSensoresPreDifView.vue'
 import ArchivoGatewayview from '../views/ArchivoGatewayview.vue'
 import DiferentialPressureView from '../views/DiferentialPressureView.vue'
-
+import RespaldosDiferencialView from '../views/RespaldosDiferencialView.vue'
+import ControladoresRespaldoPreDif from '../views/ControladoresRespaldoPreDif.vue'
+import ArchivosGatewayPreDifView from '../views/ArchivosGatewayPreDifView.vue'
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
   routes: [
@@ -57,15 +59,31 @@ const router = createRouter({
       component: RespaldoView
     },
     {
+      path: '/respaldosPresionDiferencial',
+      name: 'respaldosPresionDiferencial',
+      component: RespaldosDiferencialView
+    },
+    {
       path: '/txtRespaldos/:id',
       name: 'txtRespaldos',
       component: ControladoresRespaldo
+    },
+    {
+      path: '/txtRespaldosPreDif/:id',
+      name: 'txtRespaldosPreDif',
+      component: ControladoresRespaldoPreDif
     },
     {
       path: '/ArchivoGateway/:id/:item',
       name: 'ArchivoGateway',
       component: ArchivoGatewayview
     },
+    {
+      path: '/ArchivoGatewayPreDif/:id/:item',
+      name: 'ArchivoGatewayPreDif',
+      component: ArchivosGatewayPreDifView
+    },
+
     {
       path: '/supervisionSensores',
       name: 'supervisionSensores',
