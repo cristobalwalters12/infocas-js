@@ -50,6 +50,10 @@
     { "source": "/ArchivoGateway/(.*)", "destination": "/" },
     { "source": "/DiferentialPressureView", "destination": "/" },
     { "source": "/historialPresionDiferencial", "destination": "/" },
-    { "source": "/usuarioPresionDiferencial", "destination": "/" }
+    { "source": "/usuarioPresionDiferencial", "destination": "/" },
+    { "source": "/respaldosPresionDiferencial", "destination": "/" },
+    { "source": "/txtRespaldosPreDif/(.*)", "destination": "/" },
+    { "source": "/ArchivoGatewayPreDif/(.*)", "destination": "/" },
+    { "source": "/supervisionSensorespresionDiferencial", "destination": "/" }
   ]
 }
